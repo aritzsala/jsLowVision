@@ -1,0 +1,22 @@
+{
+  "name": "A browser action with a popup that changes the page color",
+  "description": "Change the current page color",
+  "version": "1.0",
+  "permissions": [
+    "activeTab","https://drive.google.com/file/d/1O-6rjs_3KVP6yEC54813qaVXpZHrHL6J/view?usp=sharing"
+  ],
+  "browser_action": {
+      "default_title": "Low Vision APP.",
+      "default_icon": "icon.png",
+      "default_popup": "popup.html"
+  },
+
+	"content_scripts": [
+	  {
+	    "js":      ["jquery-2.1.4.min.js", "jquery.visible.min.js", "popup.js"],
+      "matches": ["<all_urls>"],
+	    "run_at":  "document_start"
+	  }
+	],
+  "manifest_version": 2
+}
