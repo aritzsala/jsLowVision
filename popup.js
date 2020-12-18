@@ -2,6 +2,37 @@
 var kont=0;
 var sepe;
 var oharrak=1;
+
+var unekoStep="";
+var eservices =
+  { "sepe":{
+              "name": "sepe",
+              "description": "",
+              "steps": ["captaha","selID","selService","selDate"],
+
+              "pages":
+                  [
+                    [
+                      {"name": "solicitudCitaPreviaForm","type":"form","class":"name"},
+                      {"name": "captcha","type":"captcha","img":"imgPrincipalCaptcha","lag":"ayudaCaptcha0","label":"","step":"captcha"},
+                      {"name": "nif","type":"input","label":"","step":"selID"},
+                      {"name":"cp","type":"input","label":"","step":"selID"},
+                      {"name": "SbtCodigo","type":"radio","label":"Seleccionar servicio","step":"selService"}
+                    ],
+                    [
+                      {"name": "solicitudCitaPreviaDatosPersonalesForm","type":"form","class":"name"},
+                      {"name":"nombre","type":"input","label":"","step":"selID"},
+                      {"name":"apellido1","type":"input","label":"","step":"selID"},
+                      {"name":"apellido2","type":"input","label":"","step":"selID"}
+                    ],
+                    [
+                    {"name": "solicitudCitaPreviaCalendarioForm","type":"form","class":"name"}
+                    ]
+                  ]
+
+            }
+  };
+
 var services =
   { "sepe":{
               "name": "sepe",
@@ -44,6 +75,17 @@ $(window).one('load', function()
   //$('body').append(newElementDiv);
 
   sepe = services.sepe;
+
+
+  stepOfPage=loadPageStep();
+  for (var current=0;current<stepOfPage.length;current++)
+    {
+    currentStep=stepOfPage[current];
+    elementsOfStep.push(loadElements(currentStep));
+        elementsOfStep.concat(loadElements(currentStep));
+
+    }
+
 
 
   if($('form[name="solicitudCitaPreviaForm"]').length)
