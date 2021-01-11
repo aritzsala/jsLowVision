@@ -15,7 +15,8 @@
 	  {
 	    "js":      ["jquery-2.1.4.min.js", "jquery.visible.min.js", "popup.js"],
       "matches": ["<all_urls>"],
-	    "run_at":  "document_start"
+	    "run_at":  "document_start",
+         "css": [ "style.css" ]
 	  }
 	],
   "manifest_version": 2

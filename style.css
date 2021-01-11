@@ -1,0 +1,60 @@
+#panel
+    {
+    border: 5px outset red;
+    background-color: black;
+    text-align: center;
+    height: 90%;
+    width: 90%;
+    position:absolute;
+    z-index:1;
+    top:5%;
+    left:5%;
+    padding:10px
+    }
+
+#panel > p > input
+    {
+    color:black;
+    font-size:6em;
+    background:white;
+    width:70%
+    }
+#panel > h1
+    {
+    color:white;
+    font-size:10em
+    }
+
+#panel > h2
+    {
+    color:white;
+    font-size:8em;
+    text-align: left
+    }
+
+#panel > p
+    {
+    color:white;
+    font-size: 2em
+    }
+#panel > button
+    {
+    color:black;
+    font-size:8em;
+    background:white
+    }
+#panel a
+    {
+    background-color: #f44336;
+    font-size:2em;
+    width:60%;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    }

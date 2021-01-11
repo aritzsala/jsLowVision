@@ -1,6 +1,7 @@
 //annotstions
 var kont=0;
 var sepe;
+var eservice;
 var oharrak=1;
 
 var unekoStep="";
@@ -8,7 +9,7 @@ var eservices =
   { "sepe":{
               "name": "sepe",
               "description": "",
-              "steps": ["captaha","selID","selService","selDate"],
+              "steps": ["captcha","selID","selService","selDate"],
 
               "pages":
                   [
@@ -33,131 +34,70 @@ var eservices =
             }
   };
 
-var services =
-  { "sepe":{
-              "name": "sepe",
-              "page": "",
-              "data": 
-                [
-                  {"name": "captcha","type":"captcha","img":"imgPrincipalCaptcha","lag":
-                  "ayudaCaptcha0","title":"Captacha"},
-                  {"name": "nif","type":"input","title":"Datu pertsonalak"},
-                  {"name":"nombre","type":"input","title":"Datu pertsonalak"},
-                  {"name":"apellido1","type":"input","title":"Datu pertsonalak"},
-                  {"name":"apellido2","type":"input","title":"Datu pertsonalak"},
-                  {"name":"cp","type":"input","title":"Datu pertsonalak"},
-                  {"name": "SbtCodigo","type":"radio","title":"Seleccionar servicio"}
-                ]
-              
-            },
-  "segSocial":{
-                "name": "segSocial",
-                "data": 
-                  [
-                    {"name": "","type":"captcha","info":""},
-                    {"name": "nombre","type":"input"},
-                    {"name":"tipo","type":"select"},
-                    {"name":"documento","type":"input"},
-                    {"name":"telefono","type":"input"},
-                    {"name":"email","type":"input"}
-                  ]
-                }
-  }
+
 //end annontations
 var panelVisible=0;
+
+var eService;
+var currentStep;
+var currentIndexOfSteps;
+var numberOfSteps;
+var currentStep;
+var pages;
+var CurrentPage;
+ var componentList;
+function searchCurrentPage()
+  {
+  pages=eService.pages;
+  return(eService.pages[0]);
+  }
+function navigationMenu()
+  {
+  currentIndexOfSteps=eService.steps.indexOf(currentStep)+1;
+  numberOfSteps=eService.steps.length;
+
+  $("#navigationMenu").text("Step of " +currentStep+" is "+currentIndexOfSteps+" of "+numberOfSteps);
+  }
+
+function addNewComponent(name)
+  {
+  var newElementBox = document.createElement('input');
+  var newElementText = document.createElement('label');
+  newElementBox.id = name;
+  newElementBox.type = 'text';
+  newElementText.id = name+'Label';
+  newElementText.innerHTML = name;
+  $('#p1').append(newElementText);
+  $('#p2').append(newElementBox);
+  $("#"+name+"Label").attr('for', name);
+  $('#'+name).val(sessionStorage.getItem(name));
+
+  }
+
 // Everything has loaded!
 $(window).one('load', function()
   {
-  var newElementDiv = document.createElement('div');
-  newElementDiv.id = 'panel';
 
-  //$('form[name="solicitudCitaPreviaForm"]').append(newElementDiv);
-  //$('body').append(newElementDiv);
+  eService=eservices.sepe;
+  createPanel();
+  //Egoera Step Kargatu
+  currentStep=sessionStorage.getItem("currentStepSession");
 
-  sepe = services.sepe;
-
-
-  stepOfPage=loadPageStep();
-  for (var current=0;current<stepOfPage.length;current++)
+  if (currentStep===null)
     {
-    currentStep=stepOfPage[current];
-    elementsOfStep.push(loadElements(currentStep));
-        elementsOfStep.concat(loadElements(currentStep));
-
+    currentStep=eService.steps[0];
     }
 
+  //stepOfPage=loadPageStep();
+  //for (var current=0;current<eService.step.length;current++)
+  //  {
+  //  currentStep=stepOfPage[current];
+  //  elementsOfStep.push(loadElements(currentStep));
+  //  elementsOfStep.concat(loadElements(currentStep));
 
-
-  if($('form[name="solicitudCitaPreviaForm"]').length)
-    {
-    
-    $('body').append(newElementDiv);
-
-    var newElementBox = document.createElement('input');
-    var newElementText = document.createElement('label');
-    newElementBox.id = 'nombre';
-    newElementBox.type = 'text';
-    newElementText.id = 'nombreLabel';
-    newElementText.innerHTML = 'Nombre:';
-    $('form[name="solicitudCitaPreviaForm"]').append(newElementText)
-    $('form[name="solicitudCitaPreviaForm"]').append(newElementBox)
-    $("#nombreLabel").attr('for', 'nombre');
-
-    var newElementBox = document.createElement('input');
-    var newElementText = document.createElement('label');
-    newElementBox.id = 'apellido1';
-    newElementBox.type = 'text';
-    newElementText.id = 'apellido1Label';
-    newElementText.innerHTML = 'Primer apellido:';
-    $('form[name="solicitudCitaPreviaForm"]').append(newElementText)
-    $('form[name="solicitudCitaPreviaForm"]').append(newElementBox)
-    $("#apellido1Label").attr('for', 'apellido1');
-
-
-    var newElementBox = document.createElement('input');
-    var newElementText = document.createElement('label');
-    newElementBox.id = 'apellido2';
-    newElementBox.type = 'text';
-    newElementText.id = 'apellido2Label';
-    newElementText.innerHTML = 'Segundo apellido:';
-    $('form[name="solicitudCitaPreviaForm"]').append(newElementText)
-    $('form[name="solicitudCitaPreviaForm"]').append(newElementBox)
-    $("#apellido2Label").attr('for', 'apellido2');
-
-    $('#apellido2').attr("idNew","froga");
-
-
-    createPanel();
-
-    show();
-
-
-    }
-  else if($('form[name="solicitudCitaPreviaDatosPersonalesForm"]').length)
-      { 
-      $('#nombre').val(sessionStorage.getItem("nombre"));
-      $('#apellido1').val(sessionStorage.getItem("primerapellido"));
-      $('#apellido2').val(sessionStorage.getItem("segundoapellido"));
-      $('form[name="solicitudCitaPreviaDatosPersonalesForm"]').submit();
-      }
-      else if($('form[name="solicitudCitaPreviaCalendarioForm"]').length)
-        {
-        $('body').append(newElementDiv);
-        createPanel();
-        if ($("a[href='solicitudCitaPreviaCalendarioNo.do']").length)
-            {
-            $("a[href='solicitudCitaPreviaCalendarioNo.do']").attr("id","moreDays");
-            document.getElementById("moreDays").click();
-            }
-        $("#next").remove();
-        showCalendar();
-        }
-
-
-  //createPanel();
-
-
-  
+  //  }
+  currentPage=searchCurrentPage();
+  show();
   });
 
 $(document).ready(function()
@@ -187,12 +127,15 @@ function hideShowPanel()
 
 function createPanel()
   {
-  panelVisible=1;
+  panelVisible=0;
+  var newElementDiv = document.createElement('div');
+  newElementDiv.id = 'panel';
+  $('body').append(newElementDiv);
 
   
 
   var newElementH1 = document.createElement('h1');
-  newElementH1.id="titlePanel";
+  newElementH1.id="navigationMenu"; // lehen titlePanel
   panel.append(newElementH1);
     
   var newElementP1 = document.createElement('p');
@@ -218,51 +161,15 @@ function createPanel()
   newElementNext.innerHTML="Next";
   panel.append(newElementNext);
   $('#next').on("click",changePanel);
-
-  
-
-
-  //Panelerako css style
-  $("input").css({'color':'black','font-size':'6em','background':'white','width':'70%'});
-  $("h1").css({'color':'white','font-size':'10em'});
-    $("h2").css({'color':'white','font-size':'8em','text-align': 'left'});
-
-  $("p").css({'color':'white','font-size':'2em'});
-
-  $("button").css({'color':'black','font-size':'8em','background':'white'});
-  $("#panel").css({ 'border': '5px outset red',
-    'background-color': 'black',
-    'text-align': 'center',
-    'height': '90%',
-    'width': '90%',
-    'position':'absolute',
-    'z-index':'1',
-    'top':'5%',
-    'left':'5%',
-    'padding':'10px'});
-     $("div a").css({
-  'background-color': '#f44336',
-  'font-size':'2em',
-  'width':'60%',
-  'color': 'white',
-  'padding': '14px 25px',
-  'text-align': 'center',
-  'text-decoration': 'none',
-  'display': 'inline-block',
-  'margin-left': '1em',
-  'margin-right': '1em',
-  'margin-top': '1em',
-  'margin-bottom': '1em',
-  });
   }
 function hide()
   {  
-  if (sepe.data[kont].type==="captcha")
+  if (componentList[kont].type==="captcha")
     {
     $('#captchaHelp').hide();
 
-    $('#'+sepe.data[kont].img).appendTo('form[name="solicitudCitaPreviaForm"]');
-    $('#'+sepe.data[kont].name).appendTo('form[name="solicitudCitaPreviaForm"]');
+    $('#'+componentList[kont].img).appendTo('form[name="solicitudCitaPreviaForm"]');
+    $('#'+componentList[kont].name).appendTo('form[name="solicitudCitaPreviaForm"]');
     }
   else
     {
@@ -274,14 +181,13 @@ function hide()
     else
       {
       $('label[for=\"'+sepe.data[kont].name+'\"]').appendTo('form[name="solicitudCitaPreviaForm"]');;
-      $('#'+sepe.data[kont].name).appendTo('form[name="solicitudCitaPreviaForm"]');    
+      $('#'+componentList[kont].name).appendTo('form[name="solicitudCitaPreviaForm"]');
       }
     }
   }
 function sendForm(formName)
   {
   $('form[name=\"'+formName+'\"]').submit();
-
   }
 
 function showCalendar()
@@ -425,23 +331,39 @@ function checkEgin(event)
   sessionStorage.setItem("segundoapellido",$('#apellido2').val());
   $('form[name="solicitudCitaPreviaForm"]').submit();
   }
+
+function createListOfStep()
+  {
+  var listOfStep=[];
+  for (var index=0;index<currentPage.length;index++)
+    {
+    if (currentPage[index].type===currentStep)
+      {
+      listOfStep.push(currentPage[index]);
+      }
+    }
+  return(listOfStep);
+  }
 function show()
   {
-  $("#titlePanel").text(sepe.data[kont].title);
+  hideShowPanel();
+  navigationMenu();
+  componentList=createListOfStep();
+//alert(componentList[kont].type);
   //$('#next').show();
-  if (sepe.data[kont].type==="captcha")
+  if (componentList[kont].type==="captcha")
     {
-    $('#'+sepe.data[kont].img).appendTo('#p1');
-    //$("img")
-    $('#'+sepe.data[kont].img).css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
+      alert(componentList[kont].img);
+    $('#'+componentList[kont].img).appendTo('#p1');
+    $('#'+componentList[kont].img).css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
 
-    $('div[class=\"'+sepe.data[kont].lag+'\"]').appendTo('#p2');
-    $('div[class=\"'+sepe.data[kont].lag+'\"]').attr("id","captchaHelp");
+    $('div[class=\"'+componentList[kont].lag+'\"]').appendTo('#p2');
+    $('div[class=\"'+componentList[kont].lag+'\"]').attr("id","captchaHelp");
 
-        $('div[class=\"'+sepe.data[kont].lag+'\"]').removeClass(sepe.data[kont].lag);
+        $('div[class=\"'+componentList[kont].lag+'\"]').removeClass(componentList[kont].lag);
 
 
-    $('#'+sepe.data[kont].name).appendTo('#p3');
+    $('#'+componentList[kont].name).appendTo('#p3');
 
     //$("img").css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
     $("#captchaUsuarios").css({ 'width': '85%'});
@@ -449,15 +371,15 @@ function show()
     }
   else
     {
-    if (sepe.data[kont].type==="radio")
+    if (componentList[kont].type==="radio")
       {
       createListA();
       //createTable();
       }
     else
       {
-      $('label[for=\"'+sepe.data[kont].name+'\"]').appendTo('#subtitle');
-      $('#'+sepe.data[kont].name).appendTo('#p2');
+      $('label[for=\"'+currenPage[kont].name+'\"]').appendTo('#subtitle');
+      $('#'+componentList[kont].name).appendTo('#p2');
 
       }
   
@@ -484,6 +406,14 @@ function changePanel()
   hide();
   //alertNotification();
   kont++;
+
+  if (componentList.length<=kont)
+    {
+    kont=0;
+    if (eService.steps.length > (eService.steps.indexOf(currentStep)+1))
+      currentStep=eService.steps[eService.steps.indexOf(currentStep)+1];
+    }
+
   show();
   }
 
@@ -552,19 +482,6 @@ function createListA()
         });
      $("p").css({
        'font-size':'1em'}) 
-     $("a").css({
-      'background-color': '#f44336',
-       'font-size':'2em',
-      'width':'60%',
-      'color': 'white',
-      'padding': '14px 25px',
-      'text-align': 'center',
-      'text-decoration': 'none',
-      'display': 'inline-block',
-      'margin-left': '1em',
-      'margin-right': '1em',
-      'margin-top': '0.5em',
-      'margin-bottom': '0.5em',
-      });
+
   }
 // End
