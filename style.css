@@ -12,24 +12,24 @@
     padding:10px
     }
 
-#panel > p > input
+#panel input
     {
     color:black;
     font-size:6em;
     background:white;
     width:70%
     }
-#panel > h1
+#panel h1
     {
     color:white;
-    font-size:10em
+    font-size:8em
     }
 
-#panel > h2
+#panel h2
     {
     color:white;
-    font-size:8em;
-    text-align: left
+    font-size:2em;
+    text-align: center
     }
 
 #panel > p
@@ -37,13 +37,8 @@
     color:white;
     font-size: 2em
     }
-#panel > button
-    {
-    color:black;
-    font-size:8em;
-    background:white
-    }
-#panel a
+
+*#panel a
     {
     background-color: #f44336;
     font-size:2em;
@@ -51,6 +46,21 @@
     color: white;
     padding: 14px 25px;
     text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    }
+*[id="next"]
+{
+    background-color: green;
+    font-size:4em;
+    width:40%;
+    color: white;
+    padding: 14px 25px;
+    text-align: right;
     text-decoration: none;
     display: inline-block;
     margin-left: 1em;

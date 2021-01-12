@@ -9,25 +9,43 @@ var eservices =
   { "sepe":{
               "name": "sepe",
               "description": "",
-              "steps": ["captcha","selID","selService","selDate"],
+              "steps": ["Pregunta de seguridad","Identificacion de usuario","Seleccion de servicio","Seleccion de fecha"],
 
               "pages":
                   [
                     [
                       {"name": "solicitudCitaPreviaForm","type":"form","class":"name"},
-                      {"name": "captcha","type":"captcha","img":"imgPrincipalCaptcha","lag":"ayudaCaptcha0","label":"","step":"captcha"},
-                      {"name": "nif","type":"input","label":"","step":"selID"},
-                      {"name":"cp","type":"input","label":"","step":"selID"},
-                      {"name": "SbtCodigo","type":"radio","label":"Seleccionar servicio","step":"selService"}
+                      {"name":"imgPrincipalCaptcha" ,"type":"captcha","class":"src","img":"ImageCaptcha.png","lag":"ayudaCaptcha0","label":"","step":"Pregunta de seguridad"},
+                      {"name": "nif","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
+                      {"name":"cp","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
+                      {"name": "SbtCodigo","type":"radio","class":"name","label":"Seleccionar servicio","step":"Seleccion de servicio"}
                     ],
                     [
                       {"name": "solicitudCitaPreviaDatosPersonalesForm","type":"form","class":"name"},
-                      {"name":"nombre","type":"input","label":"","step":"selID"},
-                      {"name":"apellido1","type":"input","label":"","step":"selID"},
-                      {"name":"apellido2","type":"input","label":"","step":"selID"}
+                      {"name":"nombre","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
+                      {"name":"apellido1","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
+                      {"name":"apellido2","type":"input","class":"id","label":"","step":"Identificacion de usuario"}
                     ],
                     [
                     {"name": "solicitudCitaPreviaCalendarioForm","type":"form","class":"name"}
+                    ]
+                  ]
+
+            },
+    "dni":{
+              "name": "dni",
+              "description": "",
+              "steps": ["Pregunta de seguridad","Identificacion de usuario","Seleccion de servicio","Seleccion de localidad","Seleccion de fecha"],
+
+              "pages":
+                  [
+                    [
+                      {"name": "formulario","type":"form","class":"name"},
+                      {"name": "captcha","type":"captcha","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
+                      {"name": "numDocumento","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
+                      {"name": "letraDocumento","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
+                      {"name":"codEquipo","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
+                      {"name": "fechaValidez","type":"input","class":"name","label":"Identificacion","step":"Identificacion de usuario"}
                     ]
                   ]
 
@@ -42,7 +60,6 @@ var eService;
 var currentStep;
 var currentIndexOfSteps;
 var numberOfSteps;
-var currentStep;
 var pages;
 var CurrentPage;
  var componentList;
@@ -56,7 +73,7 @@ function navigationMenu()
   currentIndexOfSteps=eService.steps.indexOf(currentStep)+1;
   numberOfSteps=eService.steps.length;
 
-  $("#navigationMenu").text("Step of " +currentStep+" is "+currentIndexOfSteps+" of "+numberOfSteps);
+  $("#navigationMenu").text(currentStep+" "+currentIndexOfSteps+" / "+numberOfSteps);
   }
 
 function addNewComponent(name)
@@ -78,7 +95,7 @@ function addNewComponent(name)
 $(window).one('load', function()
   {
 
-  eService=eservices.sepe;
+  eService=eservices.dni;
   createPanel();
   //Egoera Step Kargatu
   currentStep=sessionStorage.getItem("currentStepSession");
@@ -157,31 +174,30 @@ function createPanel()
 
   var newElementNext = document.createElement('a');
   newElementNext.id="next";
-  //newElementNext.on("click",changePanel);
-  newElementNext.innerHTML="Next";
+  newElementNext.className="button";
+  newElementNext.innerHTML="Siguente";
   panel.append(newElementNext);
   $('#next').on("click",changePanel);
   }
 function hide()
   {  
-  if (componentList[kont].type==="captcha")
-    {
+  if (componentList[kont].type==="captcha") {
     $('#captchaHelp').hide();
 
-    $('#'+componentList[kont].img).appendTo('form[name="solicitudCitaPreviaForm"]');
-    $('#'+componentList[kont].name).appendTo('form[name="solicitudCitaPreviaForm"]');
-    }
+    $('img[src=\"'+componentList[kont].img+'\"]').appendTo('form[name=\"' + currentPage[0].name + '\"]');
+    $('#' + componentList[kont].name).appendTo('form[name=\"' + currentPage[0].name + '\"]');
+  }
   else
     {
-    if (sepe.data[kont].type==="radio")
+    if (componentList[kont].type==="radio")
       {
-      //$('#'+sepe.data[kont].name).appendTo('form[name="solicitudCitaPreviaForm"]'); 
+      //$('#'+sepe.data[kont].name).appendTo('form[name=\"'+currentPage[0].name+'\"]');
       $("#panel").hide();
       }
     else
       {
-      $('label[for=\"'+sepe.data[kont].name+'\"]').appendTo('form[name="solicitudCitaPreviaForm"]');;
-      $('#'+componentList[kont].name).appendTo('form[name="solicitudCitaPreviaForm"]');
+      $('label[for=\"'+componentList[kont].name+'\"]').appendTo('form[name=\"'+currentPage[0].name+'\"]');
+      $('#'+componentList[kont].name).appendTo('form[name=\"'+currentPage[0].name+'\"]');
       }
     }
   }
@@ -337,7 +353,8 @@ function createListOfStep()
   var listOfStep=[];
   for (var index=0;index<currentPage.length;index++)
     {
-    if (currentPage[index].type===currentStep)
+      //alert(currentPage[index].type+" "+currentStep);
+    if (currentPage[index].step===currentStep)
       {
       listOfStep.push(currentPage[index]);
       }
@@ -346,25 +363,27 @@ function createListOfStep()
   }
 function show()
   {
-  hideShowPanel();
+  //hideShowPanel();
   navigationMenu();
+  //alert("show"+kont)
+  if (kont ===0)
+  {
   componentList=createListOfStep();
-//alert(componentList[kont].type);
+  }
+  //#alert("show "+componentList[kont].type);
   //$('#next').show();
   if (componentList[kont].type==="captcha")
     {
-      alert(componentList[kont].img);
-    $('#'+componentList[kont].img).appendTo('#p1');
-    $('#'+componentList[kont].img).css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
+    $('img[src=\"'+componentList[kont].img+'\"]').appendTo('#p1');
+    $('img[src=\"'+componentList[kont].img+'\"]').css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
 
     $('div[class=\"'+componentList[kont].lag+'\"]').appendTo('#p2');
     $('div[class=\"'+componentList[kont].lag+'\"]').attr("id","captchaHelp");
 
-        $('div[class=\"'+componentList[kont].lag+'\"]').removeClass(componentList[kont].lag);
-
+    $('div[class=\"'+componentList[kont].lag+'\"]').removeClass(componentList[kont].lag);
 
     $('#'+componentList[kont].name).appendTo('#p3');
-
+//
     //$("img").css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
     $("#captchaUsuarios").css({ 'width': '85%'});
 
@@ -378,7 +397,8 @@ function show()
       }
     else
       {
-      $('label[for=\"'+currenPage[kont].name+'\"]').appendTo('#subtitle');
+        //alert(componentList[kont].name);
+      $('label[for=\"'+componentList[kont].name+'\"]').appendTo('#subtitle');
       $('#'+componentList[kont].name).appendTo('#p2');
 
       }
@@ -386,7 +406,7 @@ function show()
     }
   }
 function alertNotification()
-  {
+  {// erroreak erakusteko
   var elenmentAlert =document.createElement('p');
   elementAlert.id="alert";
 
@@ -410,10 +430,13 @@ function changePanel()
   if (componentList.length<=kont)
     {
     kont=0;
-    if (eService.steps.length > (eService.steps.indexOf(currentStep)+1))
+    //alert(eService.steps.length);
+    //alert(eService.steps.indexOf(currentStep));
+    //if (eService.steps.length > (eService.steps.indexOf(currentStep)+1))
       currentStep=eService.steps[eService.steps.indexOf(currentStep)+1];
+    //  alert("Click "+currentStep);
     }
-
+//alert("click"+kont);
   show();
   }
 
@@ -460,7 +483,7 @@ function createTable()
 function createListA()
   {
 
-  $('input[name=\"'+sepe.data[kont].name+'\"]').each(function (index) 
+  $('input[name=\"'+componentList[kont].name+'\"]').each(function (index)
         {  
         
         
