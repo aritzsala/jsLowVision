@@ -49,6 +49,26 @@ var eservices =
                     ]
                   ]
 
+            },
+    "segSocial":{
+              "name": "seguridadSocial",
+              "description": "",
+              "steps": ["Pregunta de seguridad","Identificacion de usuario","Seleccion de servicio","Seleccion de localidad","Seleccion de fecha"],
+
+              "pages":
+                  [
+                    [
+                      {"name": "formulario","type":"form","class":"name"},
+                      {"name": "codSeguridad","type":"captcha","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
+                      {"name": "nombre","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
+                      {"name": "tipo","type":"select","class":"id","label":"","step":"Identificacion de usuario"},
+                      {"name":"ipfnumero","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
+                      {"name":"telefono","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
+                      {"name":"email","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
+                      {"name": "fechaValidez","type":"input","class":"name","label":"Identificacion","step":"Identificacion de usuario"}
+                    ]
+                  ]
+
             }
   };
 
@@ -560,7 +580,7 @@ function createListA()
         var listRadioSepe = $(this).parent().text().split("  ");
 
         var newElementA = document.createElement('a');
-        //ar newElementh3 = document.createElement('h3');
+        //var newElementh3 = document.createElement('h3');
         //newElementh3.id="h3Radio";
 
         newElementA.innerHTML=$(this).val()+listRadioSepe[index];
@@ -570,6 +590,39 @@ function createListA()
         newElementA.id="A"+index;
         $("#p1").append(newElementA);
         //$("#"+"A"+index).append(newElementh3);
+        $("#p1").append("<br>");
+
+
+        $( "#A"+index ).on("click",{value:$(this).val()},checkEgin);
+        $('#next').remove();
+
+        });
+
+
+     $("p").css({
+       'font-size':'1em','coloe':'black'}) ;
+
+  }
+
+function createListAOfSelect()
+  {
+
+  $('#'+componentList[kont].name).each(function (index)
+        {
+
+        var valueOption=$(this).parent().text();
+        alert(valueOption);//.split("  ");
+
+        var newElementA = document.createElement('a');
+        //var newElementh3 = document.createElement('h3');
+        //newElementh3.id="h3Radio";
+
+        newElementA.innerHTML=$(this).val()+valueOption;
+
+
+
+        newElementA.id="A"+index;
+        $("#p1").append(newElementA);
         $("#p1").append("<br>");
 
 
