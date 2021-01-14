@@ -59,14 +59,26 @@ var eservices =
                   [
                     [
                       {"name": "formulario","type":"form","class":"name"},
-                      {"name": "codSeguridad","type":"captcha","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
+                      {"name": "ARQ.CAPTCHA","type":"captcha","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
                       {"name": "nombre","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name": "tipo","type":"select","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name":"ipfnumero","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name":"telefono","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name":"email","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name": "fechaValidez","type":"input","class":"name","label":"Identificacion","step":"Identificacion de usuario"}
-                    ]
+                    ],
+                       [
+                      {"name": "formDatos","type":"form","class":"id"},
+                      {"name": "servicioSeleccionado","type":"radio","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
+                      ],
+                       [
+                      {"name": "formulario","type":"form","class":"name"},
+                      {"name": "ARQ.CAPTCHA","type":"captcha","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
+                      ],
+                       [
+                      {"name": "formulario","type":"form","class":"name"},
+                      {"name": "ARQ.CAPTCHA","type":"captcha","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
+                      ]
                   ]
 
             }
