@@ -15,7 +15,7 @@ var eservices =
                   [
                     [
                       {"name": "solicitudCitaPreviaForm","type":"form","class":"name"},
-                      {"name":"imgPrincipalCaptcha" ,"type":"captcha","class":"src","img":"ImageCaptcha.png","lag":"ayudaCaptcha0","label":"","step":"Pregunta de seguridad"},
+                      {"name":"captcha" ,"type":"captcha","class":"class","img":"ImageCaptcha.png","lag":"ayudaCaptcha0","label":"","step":"Pregunta de seguridad"},
                       {"name": "nif","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name":"cp","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name": "SbtCodigo","type":"radio","class":"name","label":"Seleccionar servicio","step":"Seleccion de servicio"}
@@ -41,7 +41,7 @@ var eservices =
                   [
                     [
                       {"name": "formulario","type":"form","class":"name"},
-                      {"name": "captcha","type":"captcha","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
+                      {"name": "codSeguridad","type":"captcha","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
                       {"name": "numDocumento","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name": "letraDocumento","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name":"codEquipo","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
@@ -73,7 +73,52 @@ function navigationMenu()
   currentIndexOfSteps=eService.steps.indexOf(currentStep)+1;
   numberOfSteps=eService.steps.length;
 
-  $("#navigationMenu").text(currentStep+" "+currentIndexOfSteps+" / "+numberOfSteps);
+  $("#menu1").remove();
+  var newElementMenu = document.createElement('div');
+    newElementMenu.id="menu1";
+    $("#panel").append(newElementMenu);
+    $("#menu1").css(   {
+    'background-color': 'black',
+    'text-align': 'center'
+
+    });
+  //$("#menu").remove();
+
+  //$("#navigationMenu").text(currentStep+" "+currentIndexOfSteps+" / "+numberOfSteps);
+  $("#navigationMenu").text(currentStep);
+  var nav="";
+  var paso=0;
+  for(var index=0;index<eService.steps.indexOf(currentStep);index++)
+    {
+    var newElementh3 = document.createElement('h3');
+    newElementh3.id="nav1h3";
+    newElementh3.innerText=eService.steps[index];
+    $("#menu1").append(newElementh3);
+
+    paso=index+1;
+    nav=nav+" "+paso+" "+eService.steps[index]+" (Completado) > ";
+    }
+  nav=nav+" "+eService.steps.indexOf(currentStep)+" "+currentStep+" (Realizando) > ";
+
+  var newElementh2 = document.createElement('h2');
+  newElementh2.id="navh2";
+  newElementh2.innerText=currentStep;
+
+  $("#menu1").append(newElementh2);
+  for(var index=(eService.steps.indexOf(currentStep)+1);index<eService.steps.length;index++)
+    {
+    var newElementh3 = document.createElement('h3');
+    newElementh3.id="nav2h3";
+    newElementh3.innerText=eService.steps[index];
+    $("#menu1").append(newElementh3);
+    paso=index+1;
+    nav=nav+" "+paso+" "+eService.steps[index]+" (Pendiente) > ";
+
+    }
+  $("#navigationMenu2").text("Paso "+currentIndexOfSteps+" / "+numberOfSteps);
+  $("#navigationMenu1").text(nav);
+
+
   }
 
 function addNewComponent(name)
@@ -95,7 +140,12 @@ function addNewComponent(name)
 $(window).one('load', function()
   {
 
-  eService=eservices.dni;
+  $("#cabecera").remove();
+  if (window.location.href.indexOf("sede.sepe.gob.es") > -1)
+    eService=eservices.sepe;
+  if (window.location.href.indexOf(".citapreviadnie.es") > -1)
+    eService=eservices.dni;//kargatu pausua froga egiteko
+
   createPanel();
   //Egoera Step Kargatu
   currentStep=sessionStorage.getItem("currentStepSession");
@@ -149,7 +199,15 @@ function createPanel()
   newElementDiv.id = 'panel';
   $('body').append(newElementDiv);
 
-  
+
+var newElementH3 = document.createElement('h3');
+var newElementH3 = document.createElement('h3');
+  newElementH3.id="navigationMenu2"; // lehen titlePanel
+  panel.append(newElementH3);
+var newElementH3 = document.createElement('h3');
+  newElementH3.id="navigationMenu1"; // lehen titlePanel
+  panel.append(newElementH3);
+
 
   var newElementH1 = document.createElement('h1');
   newElementH1.id="navigationMenu"; // lehen titlePanel
@@ -175,17 +233,28 @@ function createPanel()
   var newElementNext = document.createElement('a');
   newElementNext.id="next";
   newElementNext.className="button";
-  newElementNext.innerHTML="Siguente";
+  //newElementNext.innerHTML="Siguente";
   panel.append(newElementNext);
+  var newElementH2Button = document.createElement('h2');
+  newElementH2Button.id="buttonTitle";
+    newElementH2Button.innerText="Siguiente";
+  next.append(newElementH2Button);
   $('#next').on("click",changePanel);
+   $("#buttonTitle").css({
+       'color':'black'})
+
+
+
   }
 function hide()
   {  
   if (componentList[kont].type==="captcha") {
-    $('#captchaHelp').hide();
+        $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').appendTo('form[name=\"' + currentPage[0].name + '\"]');
 
     $('img[src=\"'+componentList[kont].img+'\"]').appendTo('form[name=\"' + currentPage[0].name + '\"]');
     $('#' + componentList[kont].name).appendTo('form[name=\"' + currentPage[0].name + '\"]');
+    $('#captchaHelp').appendTo('form[name=\"' + currentPage[0].name + '\"]');
+
   }
   else
     {
@@ -377,15 +446,16 @@ function show()
     $('img[src=\"'+componentList[kont].img+'\"]').appendTo('#p1');
     $('img[src=\"'+componentList[kont].img+'\"]').css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
 
-    $('div[class=\"'+componentList[kont].lag+'\"]').appendTo('#p2');
-    $('div[class=\"'+componentList[kont].lag+'\"]').attr("id","captchaHelp");
+    $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').appendTo('#p2');
+    $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').attr("id","captchaHelp");
+    $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').removeClass("ayudaCaptcha0");
 
-    $('div[class=\"'+componentList[kont].lag+'\"]').removeClass(componentList[kont].lag);
+    //$('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').addClass("captchaHelp");
 
     $('#'+componentList[kont].name).appendTo('#p3');
 //
     //$("img").css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
-    $("#captchaUsuarios").css({ 'width': '85%'});
+    //$("#captchaUsuarios").css({ 'width': '85%'});
 
     }
   else
@@ -490,12 +560,16 @@ function createListA()
         var listRadioSepe = $(this).parent().text().split("  ");
 
         var newElementA = document.createElement('a');
+        //ar newElementh3 = document.createElement('h3');
+        //newElementh3.id="h3Radio";
+
         newElementA.innerHTML=$(this).val()+listRadioSepe[index];
         
         
 
         newElementA.id="A"+index;
         $("#p1").append(newElementA);
+        //$("#"+"A"+index).append(newElementh3);
         $("#p1").append("<br>");
 
 
@@ -503,8 +577,10 @@ function createListA()
         $('#next').remove();
 
         });
+
+
      $("p").css({
-       'font-size':'1em'}) 
+       'font-size':'1em','coloe':'black'}) ;
 
   }
 // End

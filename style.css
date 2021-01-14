@@ -31,6 +31,12 @@
     font-size:2em;
     text-align: center
     }
+#panel h3
+    {
+    color:white;
+    font-size:1em;
+    text-align: center
+    }
 
 #panel > p
     {
@@ -40,10 +46,10 @@
 
 *#panel a
     {
-    background-color: #f44336;
+    background-color: silver;
     font-size:2em;
     width:60%;
-    color: white;
+    color: black;
     padding: 14px 25px;
     text-align: center;
     text-decoration: none;
@@ -55,10 +61,10 @@
     }
 *[id="next"]
 {
-    background-color: green;
-    font-size:4em;
+    font-size:20px;
+    background-color: silver;
     width:40%;
-    color: white;
+    color: black;
     padding: 14px 25px;
     text-align: right;
     text-decoration: none;
@@ -68,3 +74,21 @@
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     }
+a:link {
+  color: black;
+}
+
+/* visited link */
+a:visited {
+  color: black;
+}
+
+/* mouse over link */
+a:hover {
+  color: red;
+}
+
+/* selected link */
+a:active {
+  color: black;
+}
