@@ -9,16 +9,16 @@ var eservices =
   { "sepe":{
               "name": "sepe",
               "description": "",
-              "steps": ["Pregunta de seguridad","Identificacion de usuario","Seleccion de servicio","Seleccion de fecha"],
+              "steps": ["Pregunta de seguridad","Identificación de usuario","Selección de servicio","Seleccion de fecha"],
 
               "pages":
                   [
                     [
                       {"name": "solicitudCitaPreviaForm","type":"form","class":"name"},
-                      {"name":"captcha" ,"type":"captcha","class":"class","img":"ImageCaptcha.png","lag":"ayudaCaptcha0","label":"","step":"Pregunta de seguridad"},
-                      {"name": "nif","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
-                      {"name":"cp","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
-                      {"name": "SbtCodigo","type":"radio","class":"name","label":"Seleccionar servicio","step":"Seleccion de servicio"}
+                      {"name":"captcha" ,"type":"captcha","class":"class","captchaType":"img","img":"ImageCaptcha.png","lag":"ayudaCaptcha0","label":"","step":"Pregunta de seguridad"},
+                      {"name": "nif","type":"input","class":"id","label":"","step":"Identificación de usuario"},
+                      {"name":"cp","type":"input","class":"id","label":"","step":"Identificación de usuario"},
+                      {"name": "SbtCodigo","type":"radio","class":"name","label":"Selección servicio","step":"Selección de servicio"}
                     ],
                     [
                       {"name": "solicitudCitaPreviaDatosPersonalesForm","type":"form","class":"name"},
@@ -41,12 +41,16 @@ var eservices =
                   [
                     [
                       {"name": "formulario","type":"form","class":"name"},
-                      {"name": "codSeguridad","type":"captcha","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
+                      {"name": "codSeguridad","type":"captcha","class":"id","captchaType":"img","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
                       {"name": "numDocumento","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name": "letraDocumento","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name":"codEquipo","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name": "fechaValidez","type":"input","class":"name","label":"Identificacion","step":"Identificacion de usuario"}
-                    ]
+                    ],
+                                 [
+                      {"name": "ObtenerFechaCita","type":"page","class":"name"},
+                      {"name": "listaSin","type":"calendar","class":"class","label":"","step":"Seleccion de fecha"}
+                      ]
                   ]
 
             },
@@ -59,7 +63,7 @@ var eservices =
                   [
                     [
                       {"name": "formulario","type":"form","class":"name"},
-                      {"name": "ARQ.CAPTCHA","type":"captcha","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
+                      {"name": "ARQ.CAPTCHA","type":"captcha","class":"class","captchaType":"class","img":"p1","lag":"p0","label":"","step":"Pregunta de seguridad"},
                       {"name": "nombre","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name": "tipo","type":"select","class":"id","label":"","step":"Identificacion de usuario"},
                       {"name":"ipfnumero","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
@@ -105,10 +109,15 @@ function navigationMenu()
   currentIndexOfSteps=eService.steps.indexOf(currentStep)+1;
   numberOfSteps=eService.steps.length;
 
+
+
   $("#menu1").remove();
   var newElementMenu = document.createElement('div');
     newElementMenu.id="menu1";
+
     $("#panel").append(newElementMenu);
+    $("#menu1").append("<h3><u>Pasos del servicio</u></h3>");
+
     $("#menu1").css(   {
     'background-color': 'black',
     'text-align': 'center'
@@ -121,34 +130,34 @@ function navigationMenu()
   var nav="";
   var paso=0;
   for(var index=0;index<eService.steps.indexOf(currentStep);index++)
-    {
+    {paso=index+1;
     var newElementh3 = document.createElement('h3');
     newElementh3.id="nav1h3";
-    newElementh3.innerText=eService.steps[index];
+    newElementh3.innerText=paso+" "+eService.steps[index];
     $("#menu1").append(newElementh3);
 
     paso=index+1;
     nav=nav+" "+paso+" "+eService.steps[index]+" (Completado) > ";
     }
   nav=nav+" "+eService.steps.indexOf(currentStep)+" "+currentStep+" (Realizando) > ";
-
+paso++;
   var newElementh2 = document.createElement('h2');
   newElementh2.id="navh2";
-  newElementh2.innerText=currentStep;
+  newElementh2.innerText=paso+" "+currentStep;
 
   $("#menu1").append(newElementh2);
   for(var index=(eService.steps.indexOf(currentStep)+1);index<eService.steps.length;index++)
-    {
+    {paso++;
     var newElementh3 = document.createElement('h3');
     newElementh3.id="nav2h3";
-    newElementh3.innerText=eService.steps[index];
+    newElementh3.innerText=paso+" "+eService.steps[index];
     $("#menu1").append(newElementh3);
-    paso=index+1;
+    //paso=index+1;
     nav=nav+" "+paso+" "+eService.steps[index]+" (Pendiente) > ";
 
     }
-  $("#navigationMenu2").text("Paso "+currentIndexOfSteps+" / "+numberOfSteps);
-  $("#navigationMenu1").text(nav);
+  //$("#navigationMenu2").text("Paso "+currentIndexOfSteps+" / "+numberOfSteps);
+  //$("#navigationMenu1").text(nav);
 
 
   }
@@ -173,10 +182,13 @@ $(window).one('load', function()
   {
 
   $("#cabecera").remove();
+
   if (window.location.href.indexOf("sede.sepe.gob.es") > -1)
     eService=eservices.sepe;
   if (window.location.href.indexOf(".citapreviadnie.es") > -1)
     eService=eservices.dni;//kargatu pausua froga egiteko
+  if (window.location.href.indexOf("w6.seg-social.es") > -1)
+    eService=eservices.segSocial;
 
   createPanel();
   //Egoera Step Kargatu
@@ -196,6 +208,11 @@ $(window).one('load', function()
 
   //  }
   currentPage=searchCurrentPage();
+  if (window.location.href.indexOf("ObtenerFechaCita") > -1) {
+    currentPage = eService.pages[1];
+  currentStep="Seleccion de fecha";
+  }
+
   show();
   });
 
@@ -286,7 +303,15 @@ function hide()
     $('img[src=\"'+componentList[kont].img+'\"]').appendTo('form[name=\"' + currentPage[0].name + '\"]');
     $('#' + componentList[kont].name).appendTo('form[name=\"' + currentPage[0].name + '\"]');
     $('#captchaHelp').appendTo('form[name=\"' + currentPage[0].name + '\"]');
+    if (window.location.href.indexOf("w6.seg-social.es") > -1)
+      {
+      $('p[class="p2"').appendTo('form[name=\"' + currentPage[0].name + '\"]');
+      $('p[class="p0"').appendTo('form[name=\"' + currentPage[0].name + '\"]');
 
+
+    $('#ARQ\\.CAPTCHA').appendTo('#p3');
+
+      }
   }
   else
     {
@@ -417,7 +442,9 @@ function viewHours(date)
 document.onkeydown=function(e)
 
   {
-  if(e.which === 17) hideShowPanel();
+  if(e.keyCode === 27) hideShowPanel();
+  if(e.keyCode === 17) createCalendar();
+
   }
 
 function clickHour(event)
@@ -475,15 +502,33 @@ function show()
   //$('#next').show();
   if (componentList[kont].type==="captcha")
     {
-    $('img[src=\"'+componentList[kont].img+'\"]').appendTo('#p1');
-    $('img[src=\"'+componentList[kont].img+'\"]').css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
+    if (window.location.href.indexOf("w6.seg-social.es") > -1)
+      {
+      $('p[class="p2"').appendTo('#p1');
+      $('p[class="p0"').appendTo('#p2');
 
-    $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').appendTo('#p2');
-    $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').attr("id","captchaHelp");
-    $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').removeClass("ayudaCaptcha0");
+      $('p[class="p2"').removeClass("p2");
+      $('p[class="p0"').removeClass("p0");
+        $("#p1").css({'font-size':'1em','color':'white'});
+        $("#p2").css({'font-size':'2em','color':'white'});
+
+    $('#ARQ\\.CAPTCHA').appendTo('#p3');
+
+      }
+    else
+      {
+      $('img[src=\"'+componentList[kont].img+'\"]').appendTo('#p1');
+      $('img[src=\"'+componentList[kont].img+'\"]').css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
+      $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').appendTo('#p2');
+      $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').attr("id","captchaHelp");
+      $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').removeClass("ayudaCaptcha0");
+      $('#'+componentList[kont].name).appendTo('#p3');
+
+      }
+
+
 
     //$('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').addClass("captchaHelp");
-
     $('#'+componentList[kont].name).appendTo('#p3');
 //
     //$("img").css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
@@ -499,9 +544,27 @@ function show()
       }
     else
       {
-        //alert(componentList[kont].name);
-      $('label[for=\"'+componentList[kont].name+'\"]').appendTo('#subtitle');
-      $('#'+componentList[kont].name).appendTo('#p2');
+            if (componentList[kont].type==="select")
+
+            {
+              //alert("select");
+              createListAOfSelect();
+            }
+        else
+        {
+          if (componentList[kont].type==="calendar")
+
+            {
+              //alert("select");
+              createCalendar();
+            }
+        else {
+            //alert(componentList[kont].name);
+            $('label[for=\"' + componentList[kont].name + '\"]').appendTo('#subtitle');
+            $('#' + componentList[kont].name).appendTo('#p2');
+          }
+        }
+
 
       }
   
@@ -611,41 +674,36 @@ function createListA()
         });
 
 
-     $("p").css({
-       'font-size':'1em','coloe':'black'}) ;
+     $("p").css({'font-size':'1em','color':'black'}) ;
 
   }
 
-function createListAOfSelect()
-  {
-
-  $('#'+componentList[kont].name).each(function (index)
-        {
-
-        var valueOption=$(this).parent().text();
-        alert(valueOption);//.split("  ");
-
-        var newElementA = document.createElement('a');
-        //var newElementh3 = document.createElement('h3');
-        //newElementh3.id="h3Radio";
-
-        newElementA.innerHTML=$(this).val()+valueOption;
+function createListAOfSelect() {
+//'#'+componentList[kont].name
+  $('#tipo option').each(function () {
+    alert($('option[value=\"' + $(this).val() + '\"]').parent().text());
+  });
 
 
+}
+function createCalendar()
+{
+  //  if (window.location.href.indexOf("ObtenerFechaCita") > -1) {
+          $("#p1").append("<h2>Meses disponibles</h2>");
+        $("#p2").append("<h2>Días disponibles</h2>");
+        $("#p3").append("<h2>Horas disponibles</h2>");
 
-        newElementA.id="A"+index;
-        $("#p1").append(newElementA);
-        $("#p1").append("<br>");
+  $('a').each(function (){
 
+   // alert($(this));
+    if ($(this).attr("href").indexOf("numMes")>-1)
+    $(this).appendTo("#p1");
+        if ($(this).attr("href").indexOf("numDia")>-1)
+    $(this).appendTo("#p2");
+             if ($(this).attr("href").indexOf("ConfigurarCita")>-1)
+    $(this).appendTo("#p3");
+  });
+  //$('div[class="listaSin"]').appendTo("#p1");
 
-        $( "#A"+index ).on("click",{value:$(this).val()},checkEgin);
-        $('#next').remove();
-
-        });
-
-
-     $("p").css({
-       'font-size':'1em','coloe':'black'}) ;
-
-  }
+}
 // End

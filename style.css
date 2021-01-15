@@ -11,7 +11,20 @@
     left:5%;
     padding:10px
     }
+#menu1
+    {
+    border: 5px outset white;
+    background-color: black;
+    text-align: center;
+   // height: 40%;
+    width: 40%;
 
+    margin-left: 570px;
+
+    z-index:1;
+
+    padding:10px
+    }
 #panel input
     {
     color:black;
@@ -43,7 +56,11 @@
     color:white;
     font-size: 2em
     }
-
+#panel label
+    {
+    color:white;
+    font-size: 2em
+    }
 *#panel a
     {
     background-color: silver;
