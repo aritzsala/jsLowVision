@@ -290,7 +290,9 @@ var newElementH3 = document.createElement('h3');
   next.append(newElementH2Button);
   $('#next').on("click",changePanel);
    $("#buttonTitle").css({
-       'color':'black'})
+       'color':'black'});
+     panel.append("<br>");
+
 
 
 
@@ -523,6 +525,7 @@ function show()
       $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').attr("id","captchaHelp");
       $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').removeClass("ayudaCaptcha0");
       $('#'+componentList[kont].name).appendTo('#p3');
+      //$('#captchaHelp').css({'width':'5%','align':'center','margin-left':'15%','margin-right':'15%'});
 
       }
 
@@ -655,17 +658,21 @@ function createListA()
         var listRadioSepe = $(this).parent().text().split("  ");
 
         var newElementA = document.createElement('a');
-        //var newElementh3 = document.createElement('h3');
+        var newElementh3 = document.createElement('font');
         //newElementh3.id="h3Radio";
 
-        newElementA.innerHTML=$(this).val()+listRadioSepe[index];
+        newElementh3.innerHTML=listRadioSepe[index];//$(this).val()+
         
-        
+        //newElementh3.css({'color':'black'});
 
         newElementA.id="A"+index;
+
         $("#p1").append(newElementA);
-        //$("#"+"A"+index).append(newElementh3);
+        $("#p1").css({'font-size':'18px'});
+        $("#"+"A"+index).append(newElementh3);
         $("#p1").append("<br>");
+                $('#A'+index).addClass="radio";
+
 
 
         $( "#A"+index ).on("click",{value:$(this).val()},checkEgin);
@@ -674,7 +681,7 @@ function createListA()
         });
 
 
-     $("p").css({'font-size':'1em','color':'black'}) ;
+     $("p").css({'font-size':'2em','color':'black'}) ;
 
   }
 

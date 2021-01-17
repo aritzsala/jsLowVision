@@ -3,11 +3,11 @@
     border: 5px outset red;
     background-color: black;
     text-align: center;
-    height: 90%;
+    height: 96%;
     width: 90%;
     position:absolute;
     z-index:1;
-    top:5%;
+    top:3%;
     left:5%;
     padding:10px
     }
@@ -79,7 +79,7 @@
 *[id="next"]
 {
     font-size:20px;
-    background-color: silver;
+    background-color: #202020;
     width:40%;
     color: black;
     padding: 14px 25px;
@@ -91,6 +91,11 @@
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     }
+#panel font
+    {
+    font-size:28px;
+
+    }
 a:link {
   color: black;
 }
@@ -98,6 +103,12 @@ a:link {
 /* visited link */
 a:visited {
   color: black;
+}
+#captchaHelp img
+{
+    width:5%;
+        text-align: center;
+
 }
 
 /* mouse over link */
