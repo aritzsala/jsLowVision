@@ -11,13 +11,13 @@
     left:5%;
     padding:10px
     }
-#menu1
+#navigationStepProgress
     {
     border: 5px outset white;
     background-color: black;
     text-align: center;
-   // height: 40%;
     width: 40%;
+    left: 30%;
 
     margin-left: 570px;
 

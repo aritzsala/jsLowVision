@@ -9,7 +9,7 @@ var eservices =
   { "sepe":{
               "name": "sepe",
               "description": "",
-              "steps": ["Pregunta de seguridad","Identificación de usuario","Selección de servicio","Seleccion de fecha"],
+              "steps": ["Pregunta de seguridad","Identificación de usuario","Selección de servicio","Selección de fecha"],
 
               "pages":
                   [
@@ -22,12 +22,14 @@ var eservices =
                     ],
                     [
                       {"name": "solicitudCitaPreviaDatosPersonalesForm","type":"form","class":"name"},
-                      {"name":"nombre","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
-                      {"name":"apellido1","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
-                      {"name":"apellido2","type":"input","class":"id","label":"","step":"Identificacion de usuario"}
+                      {"name":"nombre","type":"input","class":"id","label":"","step":"Identificación de usuario"},
+                      {"name":"apellido1","type":"input","class":"id","label":"","step":"Identificación de usuario"},
+                      {"name":"apellido2","type":"input","class":"id","label":"","step":"Identificación de usuario"}
                     ],
                     [
-                    {"name": "solicitudCitaPreviaCalendarioForm","type":"form","class":"name"}
+                      {"name": "solicitudCitaPreviaCalendarioForm","type":"form","class":"name"},
+                      {"name": "eguna","type":"a","class":"name","step":"selección de fecha"}
+
                     ]
                   ]
 
@@ -98,68 +100,63 @@ var currentIndexOfSteps;
 var numberOfSteps;
 var pages;
 var CurrentPage;
- var componentList;
+var componentList;
 function searchCurrentPage()
   {
-  pages=eService.pages;
-  return(eService.pages[0]);
+  var page=[];
+  for (var index=0;index<eService.pages.length;index++)
+    {
+    if (eService.pages[index][0].type==="form")
+      {
+      if ($('form['+eService.pages[index][0].class+'=\"'+eService.pages[index][0].name+'\"]').length)
+        page=eService.pages[index];
+      }
+    if (eService.pages[index][0].type==="page")
+      {
+      alert("page");
+      }
+    }
+  if(page.length===0)
+    return(-1);
+  else
+    return(page);
   }
 function navigationMenu()
   {
   currentIndexOfSteps=eService.steps.indexOf(currentStep)+1;
   numberOfSteps=eService.steps.length;
-
-
-
-  $("#menu1").remove();
+  $("#navigationStepProgress").remove();
   var newElementMenu = document.createElement('div');
-    newElementMenu.id="menu1";
+  newElementMenu.id="navigationStepProgress";
 
-    $("#panel").append(newElementMenu);
-    $("#menu1").append("<h3><u>Pasos del servicio</u></h3>");
+  $("#panel").append(newElementMenu);
+  $("#navigationStepProgress").append("<h3><u>Pasos del servicio</u></h3>");
+  $("#navigationStepProgress").css(   {'background-color': 'black','text-align': 'center'});
 
-    $("#menu1").css(   {
-    'background-color': 'black',
-    'text-align': 'center'
-
-    });
-  //$("#menu").remove();
-
-  //$("#navigationMenu").text(currentStep+" "+currentIndexOfSteps+" / "+numberOfSteps);
   $("#navigationMenu").text(currentStep);
   var nav="";
   var paso=0;
   for(var index=0;index<eService.steps.indexOf(currentStep);index++)
-    {paso=index+1;
+    {
+    paso=index+1;
     var newElementh3 = document.createElement('h3');
     newElementh3.id="nav1h3";
     newElementh3.innerText=paso+" "+eService.steps[index];
-    $("#menu1").append(newElementh3);
-
-    paso=index+1;
-    nav=nav+" "+paso+" "+eService.steps[index]+" (Completado) > ";
+    $("#navigationStepProgress").append(newElementh3);
     }
-  nav=nav+" "+eService.steps.indexOf(currentStep)+" "+currentStep+" (Realizando) > ";
-paso++;
+  paso++;
   var newElementh2 = document.createElement('h2');
   newElementh2.id="navh2";
   newElementh2.innerText=paso+" "+currentStep;
 
-  $("#menu1").append(newElementh2);
+  $("#navigationStepProgress").append(newElementh2);
   for(var index=(eService.steps.indexOf(currentStep)+1);index<eService.steps.length;index++)
     {paso++;
     var newElementh3 = document.createElement('h3');
     newElementh3.id="nav2h3";
     newElementh3.innerText=paso+" "+eService.steps[index];
-    $("#menu1").append(newElementh3);
-    //paso=index+1;
-    nav=nav+" "+paso+" "+eService.steps[index]+" (Pendiente) > ";
-
+    $("#navigationStepProgress").append(newElementh3);
     }
-  //$("#navigationMenu2").text("Paso "+currentIndexOfSteps+" / "+numberOfSteps);
-  //$("#navigationMenu1").text(nav);
-
-
   }
 
 function addNewComponent(name)
@@ -170,10 +167,10 @@ function addNewComponent(name)
   newElementBox.type = 'text';
   newElementText.id = name+'Label';
   newElementText.innerHTML = name;
-  $('#p1').append(newElementText);
-  $('#p2').append(newElementBox);
+  $('form['+currentPage[0].class+'=\"'+currentPage[0].name+'\"]').append(newElementText);
+  $('form['+currentPage[0].class+'=\"'+currentPage[0].name+'\"]').append(newElementBox);
   $("#"+name+"Label").attr('for', name);
-  $('#'+name).val(sessionStorage.getItem(name));
+  $("#"+name).attr('save', "yes");
 
   }
 
@@ -212,8 +209,9 @@ $(window).one('load', function()
     currentPage = eService.pages[1];
   currentStep="Seleccion de fecha";
   }
-
+alert(currentStep);
   show();
+
   });
 
 $(document).ready(function()
@@ -329,8 +327,14 @@ function hide()
       }
     }
   }
-function sendForm(formName)
+function sendForm()
   {
+  $('input[save="yes"]').css({'background':'red'});
+  $('input[save="yes"]').each(function(index)
+    {
+    alert($(this).attr('id'));
+    });
+  sessionStorage.setItem("currentStep",currentStep);
   $('form[name=\"'+formName+'\"]').submit();
   }
 
@@ -442,11 +446,9 @@ function viewHours(date)
   });
   }
 document.onkeydown=function(e)
-
   {
   if(e.keyCode === 27) hideShowPanel();
   if(e.keyCode === 17) createCalendar();
-
   }
 
 function clickHour(event)
@@ -472,23 +474,49 @@ function clickEgin(event)
 function checkEgin(event)
   {
   $(':radio[value="' + event.data.value + '"]').attr('checked', 'checked');
-  sessionStorage.setItem("nombre", $('#nombre').val()); 
-  sessionStorage.setItem("primerapellido",$('#apellido1').val());
-  sessionStorage.setItem("segundoapellido",$('#apellido2').val());
-  $('form[name="solicitudCitaPreviaForm"]').submit();
+  changePanel()
+  //sessionStorage.setItem("nombre", $('#nombre').val());
+  //sessionStorage.setItem("primerapellido",$('#apellido1').val());
+  //sessionStorage.setItem("segundoapellido",$('#apellido2').val());
+  //$('form[name="solicitudCitaPreviaForm"]').submit();
   }
 
 function createListOfStep()
   {
   var listOfStep=[];
-  for (var index=0;index<currentPage.length;index++)
-    {
-      //alert(currentPage[index].type+" "+currentStep);
-    if (currentPage[index].step===currentStep)
+  var send=true;
+  for (var indexPage=0;indexPage<eService.pages.indexOf(currentPage);indexPage++)
+     {
+    for (var indexComponent=0;indexComponent<eService.pages.length;indexComponent++)
       {
-      listOfStep.push(currentPage[index]);
+      if (eService.pages[indexPage][indexComponent].step===currentStep)
+        {
+        //listOfStep.push(eservice.pages[indexPage][indexComponent]);
+        }
       }
     }
+
+  for (var indexPage=eService.pages.indexOf(currentPage);indexPage<eService.pages.length;indexPage++)
+    {
+    for (var indexComponent=0;indexComponent<eService.pages[indexPage].length;indexComponent++)
+      {
+      if (eService.pages[indexPage][indexComponent].step===currentStep)
+        {
+        listOfStep.push(eService.pages[indexPage][indexComponent]);
+
+        if (indexPage>eService.pages.indexOf(currentPage))
+          {
+          addNewComponent(eService.pages[indexPage][indexComponent].name);
+          }
+        else
+          {
+          send = false;
+          }
+        }
+      }
+    }
+  //alert(currentStep);
+  if (send) sendForm();
   return(listOfStep);
   }
 function show()
