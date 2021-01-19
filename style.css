@@ -11,6 +11,21 @@
     left:5%;
     padding:10px
     }
+#panel a.calendarAPP
+    {
+    background-color: red;
+    font-size:2em;
+    width:60%;
+    color: black;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    }
 #navigationStepProgress
     {
     border: 5px outset white;
@@ -61,7 +76,7 @@
     color:white;
     font-size: 2em
     }
-*#panel a
+#panel a
     {
     background-color: silver;
     font-size:2em;
@@ -120,3 +135,4 @@ a:hover {
 a:active {
   color: black;
 }
+

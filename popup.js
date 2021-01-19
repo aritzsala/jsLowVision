@@ -9,6 +9,7 @@ var eservices =
   { "sepe":{
               "name": "sepe",
               "description": "",
+              "url":"https://sede.sepe.gob.es/citaprevia/solicitudCitaPrevia.do",
               "steps": ["Pregunta de seguridad","Identificación de usuario","Selección de servicio","Selección de fecha"],
 
               "pages":
@@ -28,8 +29,7 @@ var eservices =
                     ],
                     [
                       {"name": "solicitudCitaPreviaCalendarioForm","type":"form","class":"name"},
-                      {"name": "eguna","type":"a","class":"name","step":"selección de fecha"}
-
+                      {"name": "eguna","type":"calendar","class":"name","step":"Selección de fecha"}
                     ]
                   ]
 
@@ -161,6 +161,7 @@ function navigationMenu()
 
 function addNewComponent(name)
   {
+  //begiratu localStorage
   var newElementBox = document.createElement('input');
   var newElementText = document.createElement('label');
   newElementBox.id = name;
@@ -174,44 +175,40 @@ function addNewComponent(name)
 
   }
 
+function loadStorage()
+  {
+  for (var x=0;x<localStorage.length;x++)
+    {
+    $('#'+localStorage.key(x)).val(localStorage.getItem(localStorage.key(x)));
+    }
+  }
 // Everything has loaded!
 $(window).one('load', function()
   {
-
+  //cabecera sepen agertzen den menua gure panelan gainean, berez ez litzake kendu behar, baizkit eta gainean egon beharko luke
   $("#cabecera").remove();
-
-  if (window.location.href.indexOf("sede.sepe.gob.es") > -1)
+  loadStorage();
+  if (window.location.href.indexOf("sede.sepe.gob.es/citaprevia") > -1)
     eService=eservices.sepe;
   if (window.location.href.indexOf(".citapreviadnie.es") > -1)
     eService=eservices.dni;//kargatu pausua froga egiteko
   if (window.location.href.indexOf("w6.seg-social.es") > -1)
     eService=eservices.segSocial;
-
-  createPanel();
-  //Egoera Step Kargatu
-  currentStep=sessionStorage.getItem("currentStepSession");
-
-  if (currentStep===null)
+  if (eService!=null)
     {
-    currentStep=eService.steps[0];
+    createPanel();
+    //Egoera Step Kargatu
+    currentStep=sessionStorage.getItem("currentStepSession");
+
+    if (currentStep===null) currentStep=eService.steps[0];
+    currentPage=searchCurrentPage();
+    if (window.location.href.indexOf("ObtenerFechaCita") > -1)
+      {
+      currentPage = eService.pages[1];
+      currentStep="Seleccion de fecha";
+      }
+    show();
     }
-
-  //stepOfPage=loadPageStep();
-  //for (var current=0;current<eService.step.length;current++)
-  //  {
-  //  currentStep=stepOfPage[current];
-  //  elementsOfStep.push(loadElements(currentStep));
-  //  elementsOfStep.concat(loadElements(currentStep));
-
-  //  }
-  currentPage=searchCurrentPage();
-  if (window.location.href.indexOf("ObtenerFechaCita") > -1) {
-    currentPage = eService.pages[1];
-  currentStep="Seleccion de fecha";
-  }
-alert(currentStep);
-  show();
-
   });
 
 $(document).ready(function()
@@ -329,13 +326,13 @@ function hide()
   }
 function sendForm()
   {
-  $('input[save="yes"]').css({'background':'red'});
   $('input[save="yes"]').each(function(index)
     {
-    alert($(this).attr('id'));
+    localStorage.setItem($(this).attr("id"), $(this).val());
     });
-  sessionStorage.setItem("currentStep",currentStep);
-  $('form[name=\"'+formName+'\"]').submit();
+  sessionStorage.setItem("currentStepSession",currentStep);
+  alert("bidali");
+  //$('form['+currentPage[0].class+'=\"'+currentPage[0].name+'\"]').submit();
   }
 
 function showCalendar()
@@ -586,8 +583,8 @@ function show()
           if (componentList[kont].type==="calendar")
 
             {
-              //alert("select");
-              createCalendar();
+              alert("select");
+              createCalendar2();
             }
         else {
             //alert(componentList[kont].name);
@@ -721,16 +718,34 @@ function createListAOfSelect() {
 
 
 }
+function createCalendar2()
+  {
+  //<a href="solicitudCitaPreviaCalendarioNo.do">NO</a>
+  $("#p1").append("<h2>Meses disponibles</h2>");
+  $("#p2").append("<h2>Días disponibles</h2>");
+  $("#p3").append("<h2>Horas disponibles</h2>");
+
+  $('#encabezadoMeses a').each(function ()
+    {
+    var newElementA = document.createElement('a');
+    newElementA.className="calendarAPP";
+    newElementA.innerText=$(this).text();
+    $("#p1").append(newElementA);
+
+  });
+
+  $('#displayCalendar a').each(function (){
+    $(this).appendTo("#p2");
+  });
+  }
 function createCalendar()
-{
-  //  if (window.location.href.indexOf("ObtenerFechaCita") > -1) {
-          $("#p1").append("<h2>Meses disponibles</h2>");
-        $("#p2").append("<h2>Días disponibles</h2>");
-        $("#p3").append("<h2>Horas disponibles</h2>");
+  {
+  $("#p1").append("<h2>Meses disponibles</h2>");
+  $("#p2").append("<h2>Días disponibles</h2>");
+  $("#p3").append("<h2>Horas disponibles</h2>");
 
-  $('a').each(function (){
-
-   // alert($(this));
+  $('a').each(function ()
+    {
     if ($(this).attr("href").indexOf("numMes")>-1)
     $(this).appendTo("#p1");
         if ($(this).attr("href").indexOf("numDia")>-1)
