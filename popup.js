@@ -277,16 +277,15 @@ var newElementH3 = document.createElement('h3');
   var newElementNext = document.createElement('a');
   newElementNext.id="next";
   newElementNext.className="button";
-  //newElementNext.innerHTML="Siguente";
+  //newElementNext.innerText="Siguinte";
   panel.append(newElementNext);
-  var newElementH2Button = document.createElement('h2');
-  newElementH2Button.id="buttonTitle";
+    var newElementH2Button = document.createElement('h2');
+    newElementH2Button.id="buttonTitle";
     newElementH2Button.innerText="Siguiente";
   next.append(newElementH2Button);
   $('#next').on("click",changePanel);
-   $("#buttonTitle").css({
-       'color':'black'});
-     panel.append("<br>");
+  $("#buttonTitle").css({'color':'black'});
+  panel.append("<br>");
 
 
 
@@ -583,7 +582,7 @@ function show()
           if (componentList[kont].type==="calendar")
 
             {
-              alert("select");
+              //alert("calendar");
               createCalendar2();
             }
         else {
@@ -688,7 +687,7 @@ function createListA()
 
         newElementh3.innerHTML=listRadioSepe[index];//$(this).val()+
         
-        //newElementh3.css({'color':'black'});
+        //newElementA.className="radio";
 
         newElementA.id="A"+index;
 
@@ -696,7 +695,7 @@ function createListA()
         $("#p1").css({'font-size':'18px'});
         $("#"+"A"+index).append(newElementh3);
         $("#p1").append("<br>");
-                $('#A'+index).addClass="radio";
+                //$('#A'+index).addClass="radio";
 
 
 
@@ -720,23 +719,43 @@ function createListAOfSelect() {
 }
 function createCalendar2()
   {
+  var year,month,monthName,day;
+  year="2021";
   //<a href="solicitudCitaPreviaCalendarioNo.do">NO</a>
   $("#p1").append("<h2>Meses disponibles</h2>");
-  $("#p2").append("<h2>Días disponibles</h2>");
-  $("#p3").append("<h2>Horas disponibles</h2>");
-
-  $('#encabezadoMeses a').each(function ()
+month="02";
+monthName="febrero";
+  $('#encabezadoMeses a').each(function (index)
     {
+    //month="";
     var newElementA = document.createElement('a');
     newElementA.className="calendarAPP";
     newElementA.innerText=$(this).text();
     $("#p1").append(newElementA);
-
-  });
-
-  $('#displayCalendar a').each(function (){
-    $(this).appendTo("#p2");
-  });
+    });
+  day="01";
+  $("#p2").append("<h2>Días disponibles de "+monthName+":</h2>");
+  $('#displayCalendar a').each(function (index)
+    {
+    var newElementA = document.createElement('a');
+    newElementA.className="calendarAPP";
+    newElementA.innerText=$(this).text();
+    $("#p2").append(newElementA);  });
+  alert('#h'+year+'-'+month+'-'+day+' a');
+    $("#p3").append("<h2>Horas disponibles del "+day+" de "+monthName+":</h2>");
+  $('#h'+year+'-'+month+'-'+day+' a').each(function (index)
+    {
+    alert($(this).text());
+    alert(clearString($(this).text()));
+    if (true)
+      {
+        var newElementA = document.createElement('a');
+        newElementA.className = "calendarAPP";
+        newElementA.innerText = $(this).text();
+        $("#p3").append(newElementA);
+      }
+    });
+  $("#next").hide();
   }
 function createCalendar()
   {
@@ -756,4 +775,26 @@ function createCalendar()
   //$('div[class="listaSin"]').appendTo("#p1");
 
 }
+
+function clearString(texto){
+var texto = texto.toLowerCase();
+texto = texto.replace(/[!]/, "");
+texto = texto.replace(/[#]/, "");
+texto = texto.replace(/[$]/, "");
+texto = texto.replace(/[%]/, "");
+texto = texto.replace(/[&]/, "");
+texto = texto.replace(/[/]/, "");
+texto = texto.replace(/[(]/g, "");
+texto = texto.replace(/[)]/g, "");
+texto = texto.replace(/[;]/g, "");
+texto = texto.replace(/[:]/g, "");
+texto = texto.replace(/[<]/, "");
+texto = texto.replace(/[>]/, "");
+texto = texto.replace(/[']/, "");
+texto = texto.replace(/['"]+/g, "");
+texto = texto.replace(/”/g, '');
+texto = texto.replace(/“/g, '')
+return texto;
+}
+
 // End
