@@ -674,7 +674,6 @@ function createTable()
 
 function createListA()
   {
-
   $('input[name=\"'+componentList[kont].name+'\"]').each(function (index)
         {  
         
@@ -719,20 +718,36 @@ function createListAOfSelect() {
 }
 function createCalendar2()
   {
+  var monthNum =[{"enero":"01"},{"febrero":"02"}];
   var year,month,monthName,day;
   year="2021";
   //<a href="solicitudCitaPreviaCalendarioNo.do">NO</a>
   $("#p1").append("<h2>Meses disponibles</h2>");
 month="02";
-monthName="febrero";
-  $('#encabezadoMeses a').each(function (index)
+    monthName=$("#displayCalendar th").text();
+
+  if ($('#encabezadoMeses a').length>-1)
     {
-    //month="";
+    $('#encabezadoMeses a').each(function (index)
+      {
+      //month="";
+      var newElementA = document.createElement('a');
+      newElementA.className="calendarAPP";
+      newElementA.innerText=$(this).text();
+      $("#p1").append(newElementA);
+
+      });
+    }
+  else
+    {
     var newElementA = document.createElement('a');
-    newElementA.className="calendarAPP";
-    newElementA.innerText=$(this).text();
-    $("#p1").append(newElementA);
-    });
+      newElementA.className="calendarAPP";
+      newElementA.innerText=monthName.replaceAll(" 2021","");
+      month=monthNum.monthName.replaceAll(" 2021","");
+      alert(month);
+      $("#p1").append(newElementA);
+    }
+
   day="01";
   $("#p2").append("<h2>Días disponibles de "+monthName+":</h2>");
   $('#displayCalendar a').each(function (index)
@@ -779,6 +794,7 @@ function createCalendar()
 function clearString(texto){
 var texto = texto.toLowerCase();
 texto = texto.replace(/[!]/, "");
+texto = texto.replace( " ", "");
 texto = texto.replace(/[#]/, "");
 texto = texto.replace(/[$]/, "");
 texto = texto.replace(/[%]/, "");
