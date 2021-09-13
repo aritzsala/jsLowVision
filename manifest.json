@@ -13,7 +13,7 @@
 
 	"content_scripts": [
 	  {
-	    "js":      ["jquery-2.1.4.min.js", "jquery.visible.min.js", "popup.js"],
+	    "js":      ["jquery-2.1.4.min.js", "jquery.visible.min.js", "adaptationSystem.js"],
       "matches": ["<all_urls>"],
 	    "run_at":  "document_start",
          "css": [ "style.css" ]
