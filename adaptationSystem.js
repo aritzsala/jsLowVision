@@ -101,8 +101,10 @@ var numberOfSteps;
 var pages;
 var CurrentPage;
 var componentList;
+
 function searchCurrentPage()
   {
+  // search the current page that user browse in the annotations and return the annotations of current page
   var page=[];
   for (var index=0;index<eService.pages.length;index++)
     {
@@ -121,8 +123,10 @@ function searchCurrentPage()
   else
     return(page);
   }
+
 function navigationMenu()
   {
+  //Progress menu
   currentIndexOfSteps=eService.steps.indexOf(currentStep)+1;
   numberOfSteps=eService.steps.length;
   $("#navigationStepProgress").remove();
