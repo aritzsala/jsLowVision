@@ -218,22 +218,22 @@ $(window).one('load', function()
 $(document).ready(function()
   {
 
-  $('input[type="submit"]').click(function() 
+  $('input[type="submit"]').click(function()
     {
-    sessionStorage.setItem("nombre", $('#nombre').val()); 
+    sessionStorage.setItem("nombre", $('#nombre').val());
     sessionStorage.setItem("primerapellido",$('#primerapellido').val());
     sessionStorage.setItem("segundoapellido",$('#segundoapellido').val());
-    });       
+    });
   });
 
 function hideShowPanel()
   {
-  if (panelVisible) 
+  if (panelVisible)
     {
     $('#panel').hide();
     panelVisible=0;
     }
-  else 
+  else
     {
     $('#panel').show();
     panelVisible=1;
@@ -260,7 +260,7 @@ var newElementH3 = document.createElement('h3');
   var newElementH1 = document.createElement('h1');
   newElementH1.id="navigationMenu"; // lehen titlePanel
   panel.append(newElementH1);
-    
+
   var newElementP1 = document.createElement('p');
   var newElementP2 = document.createElement('p');
   var newElementP3 = document.createElement('p');
@@ -296,7 +296,7 @@ var newElementH3 = document.createElement('h3');
 
   }
 function hide()
-  {  
+  {
   if (componentList[kont].type==="captcha") {
         $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').appendTo('form[name=\"' + currentPage[0].name + '\"]');
 
@@ -346,7 +346,7 @@ function showCalendar()
   //$("#displayCalendar").find("a").css({'background-color': 'red',});
   //$('table[class=\"tablaLeyenda\"]').find("a").css({'background-color': 'red',});
 
-  
+
   $("#p1").remove();
   $("#p2").remove();
 
@@ -362,8 +362,8 @@ function showCalendar()
   var newElementh1 = document.createElement('h2');
   newElementh1.innerHTML="Dias disponibles del mes azaroa";
   $("#p1").append(newElementh1);
-  
-  $("#displayCalendar").find("a").each(function (index) 
+
+  $("#displayCalendar").find("a").each(function (index)
     {
     var newElementA = document.createElement('a');
     var day = $(this).parent().text();
@@ -378,7 +378,7 @@ function showCalendar()
     });
 
   viewHours("h2020-11-"+firstDay);
-  
+
   $("p").css({'color':'white','font-size':'2em','text-align':'left'});
   $("h2").css({'color':'white','font-size':'2em'});
 
@@ -394,7 +394,7 @@ function showCalendar()
   'margin-top': '1em',
   'margin-bottom': '1em',
   });
-  
+
   }
 
 function viewHours(date)
@@ -408,10 +408,10 @@ function viewHours(date)
   $("#panel").append(newElementp);
   $("#p2").append(newElementh1hours);
 
-  $('#'+date).find("a").each(function (index) 
+  $('#'+date).find("a").each(function (index)
     {
     var hour=$(this).parent().text().trim();
-    if (!(hour===""))       
+    if (!(hour===""))
       {
       $(this).attr('id').replace(":","");
       var newElementA = document.createElement('a');
@@ -598,7 +598,7 @@ function show()
 
 
       }
-  
+
     }
   }
 function alertNotification()
@@ -646,15 +646,15 @@ function createTable()
   {
    var newElementTable = document.createElement('table');
       newElementTable.id="table1";
-      
+
       $('#p1').append(newElementTable);
       var k=0;
-      $('input[name=\"'+sepe.data[kont].name+'\"]').each(function (index) 
-        {  
+      $('input[name=\"'+sepe.data[kont].name+'\"]').each(function (index)
+        {
         var newElementTr = document.createElement('tr');
         newElementTr.id="tr"+k;
         $('#table1').append(newElementTr);
-        
+
         var listRadioSepe = $(this).parent().text().split("  ");
 
         var newElementTd = document.createElement('td');
@@ -668,7 +668,7 @@ function createTable()
 
         k++;
         });
-      
+
       $("p").css({'color':'white','font-size':'2em'});
       $("td").css({'background':'grey','padding': '20px','text-align':'center','color':'white','border':'5px solid orange'});
       $("table").css({'width':'60%','border': '0px','margin-left':'20%','margin-right':'20%','border-spacing': '20px 20px','border-collapse': 'separate'});
@@ -679,9 +679,9 @@ function createTable()
 function createListA()
   {
   $('input[name=\"'+componentList[kont].name+'\"]').each(function (index)
-        {  
-        
-        
+        {
+
+
         var listRadioSepe = $(this).parent().text().split("  ");
 
         var newElementA = document.createElement('a');
@@ -689,7 +689,7 @@ function createListA()
         //newElementh3.id="h3Radio";
 
         newElementh3.innerHTML=listRadioSepe[index];//$(this).val()+
-        
+
         //newElementA.className="radio";
 
         newElementA.id="A"+index;
