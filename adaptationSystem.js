@@ -102,6 +102,7 @@ var pages;
 var CurrentPage;
 var componentList;
 var currentComponent;
+var previousStep;
 
 function searchCurrentPage()
   {
@@ -206,6 +207,8 @@ $(window).one('load', function()
     createPanel();
     //Egoera Step Kargatu
     currentStep=sessionStorage.getItem("currentStepSession");
+    previousStep=sessionStorage.getItem("previousStepSession");
+
 
     if (currentStep===null) currentStep=eService.steps[0];
     currentPage=searchCurrentPage();
@@ -214,6 +217,8 @@ $(window).one('load', function()
       currentPage = eService.pages[1];
       currentStep="Seleccion de fecha";
       }
+    alertNotification();
+    previousStep=currentStep;
     show();
     }
   });
@@ -337,8 +342,10 @@ function sendForm()
     localStorage.setItem($(this).attr("id"), $(this).val());
     });
   sessionStorage.setItem("currentStepSession",currentStep);
+  sessionStorage.setItem("previousStepSession",previousStep);
+
   alert("bidali");
-  //$('form['+currentPage[0].class+'=\"'+currentPage[0].name+'\"]').submit();
+  $('form['+currentPage[0].class+'=\"'+currentPage[0].name+'\"]').submit();
   }
 
 function showCalendar()
@@ -607,19 +614,12 @@ function show()
   }
 function alertNotification()
   {// erroreak erakusteko
-  var elenmentAlert =document.createElement('p');
-  elementAlert.id="alert";
-
-  if (oharrak)
-  {
-    oharrak=0;
-  if ($('p[class="aviso"]').length)
+  if($('p.aviso').text()!="")
     {
-    elementAlert.innerHTML=$("p[class='aviso']").parent().text();
+    currentStep=previousStep;
+    alert($('p.aviso').text());
     }
-  }
-  else
-    $("#elementAlert").remove();
+
   }
 function changePanel()
   {
