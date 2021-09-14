@@ -101,6 +101,7 @@ var numberOfSteps;
 var pages;
 var CurrentPage;
 var componentList;
+var currentComponent;
 
 function searchCurrentPage()
   {
@@ -186,11 +187,13 @@ function loadStorage()
     $('#'+localStorage.key(x)).val(localStorage.getItem(localStorage.key(x)));
     }
   }
+
+
 // Everything has loaded!
 $(window).one('load', function()
   {
   //cabecera sepen agertzen den menua gure panelan gainean, berez ez litzake kendu behar, baizkit eta gainean egon beharko luke
-  $("#cabecera").remove();
+  //$("#cabecera").remove();
   loadStorage();
   if (window.location.href.indexOf("sede.sepe.gob.es/citaprevia") > -1)
     eService=eservices.sepe;
@@ -248,16 +251,16 @@ function createPanel()
   $('body').append(newElementDiv);
 
 
-var newElementH3 = document.createElement('h3');
-var newElementH3 = document.createElement('h3');
-  newElementH3.id="navigationMenu2"; // lehen titlePanel
-  panel.append(newElementH3);
-var newElementH3 = document.createElement('h3');
-  newElementH3.id="navigationMenu1"; // lehen titlePanel
-  panel.append(newElementH3);
+   var newElementH3 = document.createElement('h3');
+   var newElementH3 = document.createElement('h3');
+   newElementH3.id="navigationMenu2"; // lehen titlePanel
+   panel.append(newElementH3);
+   var newElementH3 = document.createElement('h3');
+   newElementH3.id="navigationMenu1"; // lehen titlePanel
+   panel.append(newElementH3);
 
 
-  var newElementH1 = document.createElement('h1');
+   var newElementH1 = document.createElement('h1');
   newElementH1.id="navigationMenu"; // lehen titlePanel
   panel.append(newElementH1);
 
@@ -530,6 +533,7 @@ function show()
   }
   //#alert("show "+componentList[kont].type);
   //$('#next').show();
+  currentComponent=componentList[kont].name;
   if (componentList[kont].type==="captcha")
     {
     if (window.location.href.indexOf("w6.seg-social.es") > -1)
@@ -542,9 +546,9 @@ function show()
         $("#p1").css({'font-size':'1em','color':'white'});
         $("#p2").css({'font-size':'2em','color':'white'});
 
-    $('#ARQ\\.CAPTCHA').appendTo('#p3');
+        $('#ARQ\\.CAPTCHA').appendTo('#p3');
 
-      }
+        }
     else
       {
       $('img[src=\"'+componentList[kont].img+'\"]').appendTo('#p1');
@@ -619,21 +623,30 @@ function alertNotification()
   }
 function changePanel()
   {
-  hide();
-  //alertNotification();
-  kont++;
-
-  if (componentList.length<=kont)
+  if ($('#'+currentComponent).val()=="")
     {
-    kont=0;
-    //alert(eService.steps.length);
-    //alert(eService.steps.indexOf(currentStep));
-    //if (eService.steps.length > (eService.steps.indexOf(currentStep)+1))
-      currentStep=eService.steps[eService.steps.indexOf(currentStep)+1];
-    //  alert("Click "+currentStep);
+    alert("The box wich named "+currentComponent+" is empty!")
     }
-//alert("click"+kont);
-  show();
+   else
+    {
+    hide();
+    //alertNotification();
+    kont++;
+
+
+
+    if (componentList.length<=kont)
+        {
+        kont=0;
+        //alert(eService.steps.length);
+        //alert(eService.steps.indexOf(currentStep));
+        //if (eService.steps.length > (eService.steps.indexOf(currentStep)+1))
+        currentStep=eService.steps[eService.steps.indexOf(currentStep)+1];
+        //  alert("Click "+currentStep);
+        }
+    //alert("click"+kont);
+    show();
+  }
   }
 
 window.addEventListener('unload', myScript);
