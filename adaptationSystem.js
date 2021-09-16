@@ -103,6 +103,7 @@ var CurrentPage;
 var componentList;
 var currentComponent;
 var previousStep;
+var errorsShow;
 
 function searchCurrentPage()
   {
@@ -209,19 +210,37 @@ $(window).one('load', function()
     currentStep=sessionStorage.getItem("currentStepSession");
     previousStep=sessionStorage.getItem("previousStepSession");
 
-
     if (currentStep===null) currentStep=eService.steps[0];
+    if (previousStep===null) previousStep=currentStep;
+
     currentPage=searchCurrentPage();
     if (window.location.href.indexOf("ObtenerFechaCita") > -1)
       {
       currentPage = eService.pages[1];
       currentStep="Seleccion de fecha";
       }
-    alertNotification();
-    previousStep=currentStep;
-    show();
+
+    if (alertNotification())
+        {
+        currentStep=previousStep;
+        errorsShow=true;
+        preShow();
+        showErrors()
+        }
+    else
+        {
+
+        show();
+        }
     }
   });
+
+function showErrors()
+    {
+componentList=createListOfStep();
+    $("#navigationMenu").text("Errors");
+    $('#subtitle').text($('p.aviso').text());
+    }
 
 $(document).ready(function()
   {
@@ -305,6 +324,7 @@ function createPanel()
   }
 function hide()
   {
+
   if (componentList[kont].type==="captcha") {
         $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').appendTo('form[name=\"' + currentPage[0].name + '\"]');
 
@@ -334,6 +354,7 @@ function hide()
       $('#'+componentList[kont].name).appendTo('form[name=\"'+currentPage[0].name+'\"]');
       }
     }
+
   }
 function sendForm()
   {
@@ -344,7 +365,7 @@ function sendForm()
   sessionStorage.setItem("currentStepSession",currentStep);
   sessionStorage.setItem("previousStepSession",previousStep);
 
-  alert("bidali");
+  alert("Now, it sends the form.");
   $('form['+currentPage[0].class+'=\"'+currentPage[0].name+'\"]').submit();
   }
 
@@ -529,15 +550,21 @@ function createListOfStep()
   if (send) sendForm();
   return(listOfStep);
   }
+function preShow()
+    {
+    //hideShowPanel();
+    navigationMenu();
+    //alert("show"+kont)
+    if (kont ===0)
+        {
+        componentList=createListOfStep();
+        }
+    }
 function show()
   {
-  //hideShowPanel();
-  navigationMenu();
-  //alert("show"+kont)
-  if (kont ===0)
-  {
-  componentList=createListOfStep();
-  }
+  preShow();
+              $('#subtitle').text("");
+
   //#alert("show "+componentList[kont].type);
   //$('#next').show();
   currentComponent=componentList[kont].name;
@@ -604,6 +631,7 @@ function show()
             //alert(componentList[kont].name);
             $('label[for=\"' + componentList[kont].name + '\"]').appendTo('#subtitle');
             $('#' + componentList[kont].name).appendTo('#p2');
+            $('#' + componentList[kont].name).focus()
           }
         }
 
@@ -617,11 +645,20 @@ function alertNotification()
   if($('p.aviso').text()!="")
     {
     currentStep=previousStep;
-    alert($('p.aviso').text());
+    //alert($('p.aviso').text());
+    return(true);
     }
+   else return(false);
 
   }
 function changePanel()
+  {
+  if (errorsShow==true)
+  {
+  errorsShow=false;
+  show();
+  }
+  else
   {
   if ($('#'+currentComponent).val()=="")
     {
@@ -629,11 +666,10 @@ function changePanel()
     }
    else
     {
+
     hide();
     //alertNotification();
     kont++;
-
-
 
     if (componentList.length<=kont)
         {
@@ -646,6 +682,7 @@ function changePanel()
         }
     //alert("click"+kont);
     show();
+  }
   }
   }
 
