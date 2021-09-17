@@ -407,8 +407,8 @@ function showCalendar()
     $("#"+day).on("click",{id:$(this).attr('id'),day:$(this).parent().text()},clickDay);
 
     });
-
-  viewHours("h2020-11-"+firstDay);
+alert("h2021-11-"+firstDay+"EGUNA");
+  viewHours("h2021-11-"+firstDay);
 
   $("p").css({'color':'white','font-size':'2em','text-align':'left'});
   $("h2").css({'color':'white','font-size':'2em'});
@@ -479,7 +479,7 @@ function viewHours(date)
 document.onkeydown=function(e)
   {
   if(e.keyCode === 27) hideShowPanel();
-  if(e.keyCode === 17) createCalendar();
+  //if(e.keyCode === 17) createCalendar();
   }
 
 function clickHour(event)
@@ -686,12 +686,6 @@ function changePanel()
   }
   }
 
-window.addEventListener('unload', myScript);
-
-function myScript()
-  {
-  console.log('%c bye–bye... ' + sessionStorage.getItem("nombre"), 'background: red; color: black; display: block;');
-  }
 function createTable()
   {
    var newElementTable = document.createElement('table');
@@ -762,7 +756,8 @@ function createListA()
 
   }
 
-function createListAOfSelect() {
+function createListAOfSelect()
+{
 //'#'+componentList[kont].name
   $('#tipo option').each(function () {
     alert($('option[value=\"' + $(this).val() + '\"]').parent().text());
@@ -772,12 +767,12 @@ function createListAOfSelect() {
 }
 function createCalendar2()
   {
-  var monthNum =[{"enero":"01"},{"febrero":"02"}];
+  var monthNum =[{"enero":"01"},{"febrero":"02"},{"marzo":"03"},{"abril":"04"},{"mayo":"05"},{"junio":"06"},{"julio":"07"},{"agosto":"08"},{"septiembre":"09"},{"octubre":"10"},{"noviembre":"11"},{"diciembre":"12"}];
   var year,month,monthName,day;
   year="2021";
   //<a href="solicitudCitaPreviaCalendarioNo.do">NO</a>
   $("#p1").append("<h2>Meses disponibles</h2>");
-month="02";
+month="09";
     monthName=$("#displayCalendar th").text();
 
   if ($('#encabezadoMeses a').length>-1)
@@ -802,7 +797,7 @@ month="02";
       $("#p1").append(newElementA);
     }
 
-  day="01";
+  day="23";
   $("#p2").append("<h2>Días disponibles de "+monthName+":</h2>");
   $('#displayCalendar a').each(function (index)
     {
@@ -814,8 +809,9 @@ month="02";
     $("#p3").append("<h2>Horas disponibles del "+day+" de "+monthName+":</h2>");
   $('#h'+year+'-'+month+'-'+day+' a').each(function (index)
     {
-    alert($(this).text());
-    alert(clearString($(this).text()));
+    //alert(index);
+    //alert($(this).text());
+    //alert(clearString($(this).text()));
     if (true)
       {
         var newElementA = document.createElement('a');
@@ -834,18 +830,20 @@ function createCalendar()
 
   $('a').each(function ()
     {
+    //alert($(this));
     if ($(this).attr("href").indexOf("numMes")>-1)
-    $(this).appendTo("#p1");
-        if ($(this).attr("href").indexOf("numDia")>-1)
-    $(this).appendTo("#p2");
-             if ($(this).attr("href").indexOf("ConfigurarCita")>-1)
-    $(this).appendTo("#p3");
+        $(this).appendTo("#p1");
+    if ($(this).attr("href").indexOf("numDia")>-1)
+        $(this).appendTo("#p2");
+    if ($(this).attr("href").indexOf("ConfigurarCita")>-1)
+        $(this).appendTo("#p3");
   });
   //$('div[class="listaSin"]').appendTo("#p1");
 
 }
 
-function clearString(texto){
+function clearString(texto)
+{
 var texto = texto.toLowerCase();
 texto = texto.replace(/[!]/, "");
 texto = texto.replace( " ", "");
