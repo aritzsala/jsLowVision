@@ -805,7 +805,7 @@ month="09";
     newElementA.className="calendarAPP";
     newElementA.innerText=$(this).text();
     $("#p2").append(newElementA);  });
-  alert('#h'+year+'-'+month+'-'+day+' a');
+  //alert('#h'+year+'-'+month+'-'+day+' a');
     $("#p3").append("<h2>Horas disponibles del "+day+" de "+monthName+":</h2>");
   $('#h'+year+'-'+month+'-'+day+' a').each(function (index)
     {
