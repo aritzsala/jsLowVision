@@ -33,60 +33,6 @@ var eservices =
                     ]
                   ]
 
-            },
-    "dni":{
-              "name": "dni",
-              "description": "",
-              "steps": ["Pregunta de seguridad","Identificacion de usuario","Seleccion de servicio","Seleccion de localidad","Seleccion de fecha"],
-
-              "pages":
-                  [
-                    [
-                      {"name": "formulario","type":"form","class":"name"},
-                      {"name": "codSeguridad","type":"captcha","class":"id","captchaType":"img","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
-                      {"name": "numDocumento","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
-                      {"name": "letraDocumento","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
-                      {"name":"codEquipo","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
-                      {"name": "fechaValidez","type":"input","class":"name","label":"Identificacion","step":"Identificacion de usuario"}
-                    ],
-                                 [
-                      {"name": "ObtenerFechaCita","type":"page","class":"name"},
-                      {"name": "listaSin","type":"calendar","class":"class","label":"","step":"Seleccion de fecha"}
-                      ]
-                  ]
-
-            },
-    "segSocial":{
-              "name": "seguridadSocial",
-              "description": "",
-              "steps": ["Pregunta de seguridad","Identificacion de usuario","Seleccion de servicio","Seleccion de localidad","Seleccion de fecha"],
-
-              "pages":
-                  [
-                    [
-                      {"name": "formulario","type":"form","class":"name"},
-                      {"name": "ARQ.CAPTCHA","type":"captcha","class":"class","captchaType":"class","img":"p1","lag":"p0","label":"","step":"Pregunta de seguridad"},
-                      {"name": "nombre","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
-                      {"name": "tipo","type":"select","class":"id","label":"","step":"Identificacion de usuario"},
-                      {"name":"ipfnumero","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
-                      {"name":"telefono","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
-                      {"name":"email","type":"input","class":"id","label":"","step":"Identificacion de usuario"},
-                      {"name": "fechaValidez","type":"input","class":"name","label":"Identificacion","step":"Identificacion de usuario"}
-                    ],
-                       [
-                      {"name": "formDatos","type":"form","class":"id"},
-                      {"name": "servicioSeleccionado","type":"radio","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
-                      ],
-                       [
-                      {"name": "formulario","type":"form","class":"name"},
-                      {"name": "ARQ.CAPTCHA","type":"captcha","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
-                      ],
-                       [
-                      {"name": "formulario","type":"form","class":"name"},
-                      {"name": "ARQ.CAPTCHA","type":"captcha","class":"id","img":"jcaptcha.jpg","lag":"divVisualCaptchaDer","label":"","step":"Pregunta de seguridad"},
-                      ]
-                  ]
-
             }
   };
 
@@ -140,7 +86,7 @@ function navigationMenu()
   $("#navigationStepProgress").append("<h3><u>Pasos del servicio</u></h3>");
   $("#navigationStepProgress").css(   {'background-color': 'black','text-align': 'center'});
 
-  $("#navigationMenu").text(currentStep);
+  $("#title").text(currentStep);
   var nav="";
   var paso=0;
   for(var index=0;index<eService.steps.indexOf(currentStep);index++)
@@ -194,8 +140,6 @@ function loadStorage()
 // Everything has loaded!
 $(window).one('load', function()
   {
-  //cabecera sepen agertzen den menua gure panelan gainean, berez ez litzake kendu behar, baizkit eta gainean egon beharko luke
-  //$("#cabecera").remove();
   loadStorage();
   if (window.location.href.indexOf("sede.sepe.gob.es/citaprevia") > -1)
     eService=eservices.sepe;
@@ -214,11 +158,6 @@ $(window).one('load', function()
     if (previousStep===null) previousStep=currentStep;
 
     currentPage=searchCurrentPage();
-    if (window.location.href.indexOf("ObtenerFechaCita") > -1)
-      {
-      currentPage = eService.pages[1];
-      currentStep="Seleccion de fecha";
-      }
 
     if (alertNotification())
         {
@@ -237,196 +176,138 @@ $(window).one('load', function()
 
 function showErrors()
     {
-componentList=createListOfStep();
-    $("#navigationMenu").text("Errors");
-    $('#subtitle').text($('p.aviso').text());
+    componentList=createListOfStep();
+    $("#title").text("Errors");
+    $('#subtitle').text($('p.aviso').text().replaceAll(".",".<br>"));
     }
-
-$(document).ready(function()
-  {
-
-  $('input[type="submit"]').click(function()
-    {
-    sessionStorage.setItem("nombre", $('#nombre').val());
-    sessionStorage.setItem("primerapellido",$('#primerapellido').val());
-    sessionStorage.setItem("segundoapellido",$('#segundoapellido').val());
-    });
-  });
 
 function hideShowPanel()
-  {
-  if (panelVisible)
     {
-    $('#panel').hide();
-    panelVisible=0;
+    if (panelVisible)
+        {
+        $('#panel').hide();
+        panelVisible=0;
+        }
+    else
+        {
+        $('#panel').show();
+        panelVisible=1;
+        }
     }
-  else
-    {
-    $('#panel').show();
-    panelVisible=1;
-    }
-  }
 
 function createPanel()
-  {
-  panelVisible=0;
-  var newElementDiv = document.createElement('div');
-  newElementDiv.id = 'panel';
-  $('body').append(newElementDiv);
-
-
-   var newElementH3 = document.createElement('h3');
-   var newElementH3 = document.createElement('h3');
-   newElementH3.id="navigationMenu2"; // lehen titlePanel
-   panel.append(newElementH3);
-   var newElementH3 = document.createElement('h3');
-   newElementH3.id="navigationMenu1"; // lehen titlePanel
-   panel.append(newElementH3);
-
-
-   var newElementH1 = document.createElement('h1');
-  newElementH1.id="navigationMenu"; // lehen titlePanel
-  panel.append(newElementH1);
-
-  var newElementP1 = document.createElement('p');
-  var newElementP2 = document.createElement('p');
-  var newElementP3 = document.createElement('p');
-
-
-  newElementP1.id="p1";
-  newElementP2.id="p2";
-  newElementP3.id="p3";
-
-  $('#panel').append(newElementP1);
-  $('#panel').append(newElementP2);
-  $('#panel').append(newElementP3);
-
-  var newElementH2 = document.createElement('h2');
-  newElementH2.id="subtitle";
-  p1.append(newElementH2);
-
-  var newElementNext = document.createElement('a');
-  newElementNext.id="next";
-  newElementNext.className="button";
-  //newElementNext.innerText="Siguinte";
-  panel.append(newElementNext);
-    var newElementH2Button = document.createElement('h2');
-    newElementH2Button.id="buttonTitle";
-    newElementH2Button.innerText="Siguiente";
-  next.append(newElementH2Button);
-  $('#next').on("click",changePanel);
-  $("#buttonTitle").css({'color':'black'});
-  panel.append("<br>");
-
-
-
-
-  }
-function hide()
-  {
-
-  if (componentList[kont].type==="captcha") {
-        $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').appendTo('form[name=\"' + currentPage[0].name + '\"]');
-
-    $('img[src=\"'+componentList[kont].img+'\"]').appendTo('form[name=\"' + currentPage[0].name + '\"]');
-    $('#' + componentList[kont].name).appendTo('form[name=\"' + currentPage[0].name + '\"]');
-    $('#captchaHelp').appendTo('form[name=\"' + currentPage[0].name + '\"]');
-    if (window.location.href.indexOf("w6.seg-social.es") > -1)
-      {
-      $('p[class="p2"').appendTo('form[name=\"' + currentPage[0].name + '\"]');
-      $('p[class="p0"').appendTo('form[name=\"' + currentPage[0].name + '\"]');
-
-
-    $('#ARQ\\.CAPTCHA').appendTo('#p3');
-
-      }
-  }
-  else
     {
-    if (componentList[kont].type==="radio")
-      {
-      //$('#'+sepe.data[kont].name).appendTo('form[name=\"'+currentPage[0].name+'\"]');
-      $("#panel").hide();
-      }
-    else
-      {
-      $('label[for=\"'+componentList[kont].name+'\"]').appendTo('form[name=\"'+currentPage[0].name+'\"]');
-      $('#'+componentList[kont].name).appendTo('form[name=\"'+currentPage[0].name+'\"]');
-      }
+    panelVisible=0;
+
+    var newElementDiv = document.createElement('div');
+    newElementDiv.id = 'panel';
+    $('body').append(newElementDiv);
+
+    var newElementH1 = document.createElement('h1');
+    newElementH1.id="title";
+    panel.append(newElementH1);
+
+    var newElementH2 = document.createElement('h2');
+    newElementH2.id="subtitle";
+    panel.append(newElementH2);
+
+    var newElementP1 = document.createElement('p');
+    var newElementP2 = document.createElement('p');
+    var newElementP3 = document.createElement('p');
+
+    newElementP1.id="p1";
+    newElementP2.id="p2";
+    newElementP3.id="p3";
+
+    $('#panel').append(newElementP1);
+    $('#panel').append(newElementP2);
+    $('#panel').append(newElementP3);
+
+    var newElementNext = document.createElement('a');
+    newElementNext.id="next";
+    newElementNext.innerText=">";
+    newElementNext.className="buttonMenu";
+    panel.append(newElementNext);
+
+    $('#next').on("click",changePanel);
     }
 
-  }
-function sendForm()
-  {
-  $('input[save="yes"]').each(function(index)
+function hide()
     {
-    localStorage.setItem($(this).attr("id"), $(this).val());
-    });
-  sessionStorage.setItem("currentStepSession",currentStep);
-  sessionStorage.setItem("previousStepSession",previousStep);
+    $('#subtitle').empty();
+    $("#p1").empty();
+    $("#p2").empty();
+    $("#p3").empty();
+    }
 
-  alert("Now, it sends the form.");
-  $('form['+currentPage[0].class+'=\"'+currentPage[0].name+'\"]').submit();
-  }
+function sendForm()
+    {
+    $('input[save="yes"]').each(function(index)
+        {
+        localStorage.setItem($(this).attr("id"), $(this).val());
+        });
+    sessionStorage.setItem("currentStepSession",currentStep);
+    sessionStorage.setItem("previousStepSession",previousStep);
+    alert("Now, it sends the form.");
+    $('form['+currentPage[0].class+'=\"'+currentPage[0].name+'\"]').submit();
+    }
 
 function showCalendar()
-  {
-  $("#next").hide();
-  $("#titlePanel").text("Cita Previa");
-
-  //$("#displayCalendar").find("a").css({'background-color': 'red',});
-  //$('table[class=\"tablaLeyenda\"]').find("a").css({'background-color': 'red',});
-
-
-  $("#p1").remove();
-  $("#p2").remove();
-
-  var newElementp = document.createElement('p');
-  newElementp.id="p1";
-  $("#panel").append(newElementp);
-  var newElementp2 = document.createElement('p');
-  newElementp2.id="p2";
-  $("#panel").append(newElementp2);
-
-  var firstDay
-
-  var newElementh1 = document.createElement('h2');
-  newElementh1.innerHTML="Dias disponibles del mes azaroa";
-  $("#p1").append(newElementh1);
-
-  $("#displayCalendar").find("a").each(function (index)
     {
-    var newElementA = document.createElement('a');
-    var day = $(this).parent().text();
-    if (index===0) firstDay=day;
+    $("#next").hide();
+    $("#titlePanel").text("Cita Previa");
 
-    newElementA.innerHTML=day;
-    newElementA.id=day;
-    $("#p1").append(newElementA);
-    $(this).attr("id",index+"-Day_"+day);
-    $("#"+day).on("click",{id:$(this).attr('id'),day:$(this).parent().text()},clickDay);
+    //$("#displayCalendar").find("a").css({'background-color': 'red',});
+    //$('table[class=\"tablaLeyenda\"]').find("a").css({'background-color': 'red',});
 
-    });
-alert("h2021-11-"+firstDay+"EGUNA");
-  viewHours("h2021-11-"+firstDay);
 
-  $("p").css({'color':'white','font-size':'2em','text-align':'left'});
-  $("h2").css({'color':'white','font-size':'2em'});
+    $("#p1").remove();
+    $("#p2").remove();
 
-  $("a").css({
-  'background-color': '#f44336',
-  'color': 'white',
-  'padding': '14px 25px',
-  'text-align': 'center',
-  'text-decoration': 'none',
-  'display': 'inline-block',
-  'margin-left': '1em',
-  'margin-right': '1em',
-  'margin-top': '1em',
-  'margin-bottom': '1em',
-  });
+    var newElementp = document.createElement('p');
+    newElementp.id="p1";
+    $("#panel").append(newElementp);
+    var newElementp2 = document.createElement('p');
+    newElementp2.id="p2";
+    $("#panel").append(newElementp2);
 
-  }
+    var firstDay
+
+    var newElementh1 = document.createElement('h2');
+    newElementh1.innerHTML="Dias disponibles del mes azaroa";
+    $("#p1").append(newElementh1);
+
+    $("#displayCalendar").find("a").each(function (index)
+        {
+        var newElementA = document.createElement('a');
+        var day = $(this).parent().text();
+        if (index===0) firstDay=day;
+        newElementA.innerHTML=day;
+        newElementA.id=day;
+        $("#p1").append(newElementA);
+        $(this).attr("id",index+"-Day_"+day);
+        $("#"+day).on("click",{id:$(this).attr('id'),day:$(this).parent().text()},clickDay);
+        });
+    alert("h2021-11-"+firstDay+"EGUNA");
+    viewHours("h2021-11-"+firstDay);
+
+    $("p").css({'color':'white','font-size':'2em','text-align':'left'});
+    $("h2").css({'color':'white','font-size':'2em'});
+
+    $("a").css({
+        'background-color': '#f44336',
+        'color': 'white',
+        'padding': '14px 25px',
+        'text-align': 'center',
+        'text-decoration': 'none',
+        'display': 'inline-block',
+        'margin-left': '1em',
+          'margin-right': '1em',
+          'margin-top': '1em',
+          'margin-bottom': '1em',
+        });
+
+    }
 
 function viewHours(date)
   {
@@ -479,7 +360,6 @@ function viewHours(date)
 document.onkeydown=function(e)
   {
   if(e.keyCode === 27) hideShowPanel();
-  //if(e.keyCode === 17) createCalendar();
   }
 
 function clickHour(event)
@@ -570,35 +450,22 @@ function show()
   currentComponent=componentList[kont].name;
   if (componentList[kont].type==="captcha")
     {
-    if (window.location.href.indexOf("w6.seg-social.es") > -1)
-      {
-      $('p[class="p2"').appendTo('#p1');
-      $('p[class="p0"').appendTo('#p2');
 
-      $('p[class="p2"').removeClass("p2");
-      $('p[class="p0"').removeClass("p0");
-        $("#p1").css({'font-size':'1em','color':'white'});
-        $("#p2").css({'font-size':'2em','color':'white'});
+      $('img[src=\"'+componentList[kont].img+'\"]').clone()                 .appendTo('#p1');
+      //$('img[src=\"'+componentList[kont].img+'\"]').css({'width':'70%','align':'center','margin-left':'15%','margin-right'.css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
+      $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').clone().removeClass("ayudaCaptcha0").appendTo('#p2');
+      //$('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').attr("id","captchaHelp");
 
-        $('#ARQ\\.CAPTCHA').appendTo('#p3');
-
-        }
-    else
-      {
-      $('img[src=\"'+componentList[kont].img+'\"]').appendTo('#p1');
-      $('img[src=\"'+componentList[kont].img+'\"]').css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
-      $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').appendTo('#p2');
-      $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').attr("id","captchaHelp");
-      $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').removeClass("ayudaCaptcha0");
-      $('#'+componentList[kont].name).appendTo('#p3');
+      $clone=$('#'+componentList[kont].name).clone();
+      $clone.appendTo('#p3').focus();
       //$('#captchaHelp').css({'width':'5%','align':'center','margin-left':'15%','margin-right':'15%'});
 
-      }
+
 
 
 
     //$('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').addClass("captchaHelp");
-    $('#'+componentList[kont].name).appendTo('#p3');
+    //$('#'+componentList[kont].name).appendTo('#p2');
 //
     //$("img").css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
     //$("#captchaUsuarios").css({ 'width': '85%'});
@@ -629,9 +496,10 @@ function show()
             }
         else {
             //alert(componentList[kont].name);
-            $('label[for=\"' + componentList[kont].name + '\"]').appendTo('#subtitle');
-            $('#' + componentList[kont].name).appendTo('#p2');
-            $('#' + componentList[kont].name).focus()
+            $('label[for=\"' + componentList[kont].name + '\"]').clone(true).appendTo('#subtitle');
+            $clone=$('#' + componentList[kont].name).clone(true);
+            $clone.appendTo('#p2').focus();
+            //$('#' + componentList[kont].name).focus()
           }
         }
 
@@ -660,13 +528,13 @@ function changePanel()
   }
   else
   {
-  if ($('#'+currentComponent).val()=="")
+  if ($clone.val()=="")
     {
     alert("The box wich named "+currentComponent+" is empty!")
     }
    else
     {
-
+    $("#"+currentComponent).val($clone.val());
     hide();
     //alertNotification();
     kont++;
@@ -684,40 +552,6 @@ function changePanel()
     show();
   }
   }
-  }
-
-function createTable()
-  {
-   var newElementTable = document.createElement('table');
-      newElementTable.id="table1";
-
-      $('#p1').append(newElementTable);
-      var k=0;
-      $('input[name=\"'+sepe.data[kont].name+'\"]').each(function (index)
-        {
-        var newElementTr = document.createElement('tr');
-        newElementTr.id="tr"+k;
-        $('#table1').append(newElementTr);
-
-        var listRadioSepe = $(this).parent().text().split("  ");
-
-        var newElementTd = document.createElement('td');
-        newElementTd.innerHTML=$(this).val()+listRadioSepe[k];
-        newElementTd.id="td"+k;
-        $('#tr'+k).append(newElementTd);
-        $('#table1').append(newElementTr);
-        $( "#td"+k ).on("click",{value:$(this).val()},checkEgin);
-        $('#next').hide();
-
-
-        k++;
-        });
-
-      $("p").css({'color':'white','font-size':'2em'});
-      $("td").css({'background':'grey','padding': '20px','text-align':'center','color':'white','border':'5px solid orange'});
-      $("table").css({'width':'60%','border': '0px','margin-left':'20%','margin-right':'20%','border-spacing': '20px 20px','border-collapse': 'separate'});
-
-
   }
 
 function createListA()
@@ -823,46 +657,45 @@ month="09";
   $("#next").hide();
   }
 function createCalendar()
-  {
-  $("#p1").append("<h2>Meses disponibles</h2>");
-  $("#p2").append("<h2>Días disponibles</h2>");
-  $("#p3").append("<h2>Horas disponibles</h2>");
-
-  $('a').each(function ()
     {
-    //alert($(this));
-    if ($(this).attr("href").indexOf("numMes")>-1)
-        $(this).appendTo("#p1");
-    if ($(this).attr("href").indexOf("numDia")>-1)
-        $(this).appendTo("#p2");
-    if ($(this).attr("href").indexOf("ConfigurarCita")>-1)
-        $(this).appendTo("#p3");
-  });
-  //$('div[class="listaSin"]').appendTo("#p1");
+    $("#p1").append("<h2>Meses disponibles</h2>");
+    $("#p2").append("<h2>Días disponibles</h2>");
+    $("#p3").append("<h2>Horas disponibles</h2>");
 
-}
+    $('a').each(function ()
+        {
+        //alert($(this));
+        if ($(this).attr("href").indexOf("numMes")>-1)
+            $(this).appendTo("#p1");
+        if ($(this).attr("href").indexOf("numDia")>-1)
+            $(this).appendTo("#p2");
+        if ($(this).attr("href").indexOf("ConfigurarCita")>-1)
+            $(this).appendTo("#p3");
+        });
+    //$('div[class="listaSin"]').appendTo("#p1");
+    }
 
 function clearString(texto)
-{
-var texto = texto.toLowerCase();
-texto = texto.replace(/[!]/, "");
-texto = texto.replace( " ", "");
-texto = texto.replace(/[#]/, "");
-texto = texto.replace(/[$]/, "");
-texto = texto.replace(/[%]/, "");
-texto = texto.replace(/[&]/, "");
-texto = texto.replace(/[/]/, "");
-texto = texto.replace(/[(]/g, "");
-texto = texto.replace(/[)]/g, "");
-texto = texto.replace(/[;]/g, "");
-texto = texto.replace(/[:]/g, "");
-texto = texto.replace(/[<]/, "");
-texto = texto.replace(/[>]/, "");
-texto = texto.replace(/[']/, "");
-texto = texto.replace(/['"]+/g, "");
-texto = texto.replace(/”/g, '');
-texto = texto.replace(/“/g, '')
-return texto;
-}
+    {
+    var texto = texto.toLowerCase();
+    texto = texto.replace(/[!]/, "");
+    texto = texto.replace( " ", "");
+    texto = texto.replace(/[#]/, "");
+    texto = texto.replace(/[$]/, "");
+    texto = texto.replace(/[%]/, "");
+    texto = texto.replace(/[&]/, "");
+    texto = texto.replace(/[/]/, "");
+    texto = texto.replace(/[(]/g, "");
+    texto = texto.replace(/[)]/g, "");
+    texto = texto.replace(/[;]/g, "");
+    texto = texto.replace(/[:]/g, "");
+    texto = texto.replace(/[<]/, "");
+    texto = texto.replace(/[>]/, "");
+    texto = texto.replace(/[']/, "");
+    texto = texto.replace(/['"]+/g, "");
+    texto = texto.replace(/”/g, '');
+    texto = texto.replace(/“/g, '')
+    return texto;
+    }
 
 // End

@@ -90,13 +90,28 @@
     margin-bottom: 0.5em;
     }
 #panel a.button
-{
+    {
     font-size:20em;
     background-color: silver;
     width:60%;
     color: black;
     padding: 14px 25px;
     text-align: right;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    }
+#panel a.buttonMenu
+    {
+    font-size:50em;
+    background-color: gold;
+    width:15%;
+    color: black;
+    padding: 15px 15px;
+    text-align: center;
     text-decoration: none;
     display: inline-block;
     margin-left: 1em;
