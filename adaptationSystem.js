@@ -456,6 +456,22 @@ function show()
       $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').clone().removeClass("ayudaCaptcha0").appendTo('#p2');
       //$('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').attr("id","captchaHelp");
 
+        var newElementA = document.createElement('a');
+        newElementA.id="audioLink";
+        newElementA.innerText="Listen";
+        $("#p2").append(newElementA);
+
+        var newElementAudio = document.createElement('audio');
+        newElementAudio.id="audioTag";
+        $("#audioLink").append(newElementAudio);
+
+        var newElementSource = document.createElement('source');
+        newElementSource.src="https://sede.sepe.gob.es/citaprevia/AudioCaptcha.wav";
+        $("#audioTag").append(newElementSource);
+
+
+
+
       $clone=$('#'+componentList[kont].name).clone();
       $clone.appendTo('#p3').focus();
       //$('#captchaHelp').css({'width':'5%','align':'center','margin-left':'15%','margin-right':'15%'});
