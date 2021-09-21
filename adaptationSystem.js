@@ -434,7 +434,7 @@ function preShow()
     {
     //hideShowPanel();
     navigationMenu();
-    //alert("show"+kont)
+    //alert("show"+kont)type
     if (kont ===0)
         {
         componentList=createListOfStep();
@@ -451,24 +451,25 @@ function show()
   if (componentList[kont].type==="captcha")
     {
 
-      $('img[src=\"'+componentList[kont].img+'\"]').clone()                 .appendTo('#p1');
+      $('img[src=\"'+componentList[kont].img+'\"]').clone().appendTo('#p1');
       //$('img[src=\"'+componentList[kont].img+'\"]').css({'width':'70%','align':'center','margin-left':'15%','margin-right'.css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
-      $('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').clone().removeClass("ayudaCaptcha0").appendTo('#p2');
+      //$('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').clone().removeClass("ayudaCaptcha0").appendTo('#p2');
       //$('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').attr("id","captchaHelp");
 
-        var newElementA = document.createElement('a');
-        newElementA.id="audioLink";
-        newElementA.innerText="Listen";
-        $("#p2").append(newElementA);
+
+
+
 
         var newElementAudio = document.createElement('audio');
-        newElementAudio.id="audioTag";
-        $("#audioLink").append(newElementAudio);
+        newElementAudio.setAttribute("controls","");
+        //newElementAudio.setAttribute("preload","auto");
+        //newElementAudio.setAttribute("style","display:none;");
+        var source_element = document.createElement('source');
+        source_element.setAttribute("src","https://sede.sepe.gob.es/citaprevia/AudioCaptcha.wav");
+        source_element.setAttribute("type","audio/wav");
 
-        var newElementSource = document.createElement('source');
-        newElementSource.src="https://sede.sepe.gob.es/citaprevia/AudioCaptcha.wav";
-        $("#audioTag").append(newElementSource);
-
+        newElementAudio.appendChild(source_element)
+        $("#p2").append(newElementAudio);
 
 
 
