@@ -10,22 +10,22 @@ var eservices =
               "name": "sepe",
               "description": "",
               "url":"https://sede.sepe.gob.es/citaprevia/solicitudCitaPrevia.do",
-              "steps": ["Pregunta de seguridad","Identificación de usuario","Selección de servicio","Selección de fecha"],
+              "steps": ["Pregunta de seguridad","Porporcionar datos personales","Selección de servicio","Selección de fecha"],
 
               "pages":
                   [
                     [
                       {"name": "solicitudCitaPreviaForm","type":"form","class":"name"},
-                      {"name":"captcha" ,"type":"captcha","class":"class","captchaType":"img","img":"ImageCaptcha.png","lag":"ayudaCaptcha0","label":"","step":"Pregunta de seguridad"},
-                      {"name": "nif","type":"input","class":"id","label":"","step":"Identificación de usuario"},
-                      {"name":"cp","type":"input","class":"id","label":"","step":"Identificación de usuario"},
+                      {"name": "captcha", "type": "captcha", "captchaType":"img","img":"ImageCaptcha.png","audio":"https://sede.sepe.gob.es/citaprevia/AudioCaptcha.wav","audioType":"audio/wav","step":"Pregunta de seguridad"},
+                      {"name": "nif","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
+                      {"name":"cp","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
                       {"name": "SbtCodigo","type":"radio","class":"name","label":"Selección servicio","step":"Selección de servicio"}
                     ],
                     [
                       {"name": "solicitudCitaPreviaDatosPersonalesForm","type":"form","class":"name"},
-                      {"name":"nombre","type":"input","class":"id","label":"","step":"Identificación de usuario"},
-                      {"name":"apellido1","type":"input","class":"id","label":"","step":"Identificación de usuario"},
-                      {"name":"apellido2","type":"input","class":"id","label":"","step":"Identificación de usuario"}
+                      {"name":"nombre","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
+                      {"name":"apellido1","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
+                      {"name":"apellido2","type":"input","class":"id","label":"","step":"Porporcionar datos personales"}
                     ],
                     [
                       {"name": "solicitudCitaPreviaCalendarioForm","type":"form","class":"name"},
@@ -78,11 +78,11 @@ function navigationMenu()
   //Progress menu
   currentIndexOfSteps=eService.steps.indexOf(currentStep)+1;
   numberOfSteps=eService.steps.length;
-  $("#navigationStepProgress").remove();
-  var newElementMenu = document.createElement('div');
-  newElementMenu.id="navigationStepProgress";
+  $("#navigationStepProgress").empty();
+  //var newElementMenu = document.createElement('div');
+  //newElementMenu.id="navigationStepProgress";
 
-  $("#panel").append(newElementMenu);
+  //$("#panel").append(newElementMenu);
   $("#navigationStepProgress").append("<h3><u>Pasos del servicio</u></h3>");
   $("#navigationStepProgress").css(   {'background-color': 'black','text-align': 'center'});
 
@@ -254,15 +254,9 @@ function sendForm()
 
 function showCalendar()
     {
+    hide();
     $("#next").hide();
     $("#titlePanel").text("Cita Previa");
-
-    //$("#displayCalendar").find("a").css({'background-color': 'red',});
-    //$('table[class=\"tablaLeyenda\"]').find("a").css({'background-color': 'red',});
-
-
-    $("#p1").remove();
-    $("#p2").remove();
 
     var newElementp = document.createElement('p');
     newElementp.id="p1";
@@ -443,88 +437,51 @@ function preShow()
 function show()
   {
   preShow();
-              $('#subtitle').text("");
+  $('#subtitle').text("");
 
   //#alert("show "+componentList[kont].type);
   //$('#next').show();
   currentComponent=componentList[kont].name;
   if (componentList[kont].type==="captcha")
-    {
+        {
 
-      $('img[src=\"'+componentList[kont].img+'\"]').clone().appendTo('#p1');
-      //$('img[src=\"'+componentList[kont].img+'\"]').css({'width':'70%','align':'center','margin-left':'15%','margin-right'.css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
-      //$('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').clone().removeClass("ayudaCaptcha0").appendTo('#p2');
-      //$('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').attr("id","captchaHelp");
-
-
-
-
+        $('img[src=\"'+componentList[kont].img+'\"]').clone().appendTo('#p1');
 
         var newElementAudio = document.createElement('audio');
         newElementAudio.setAttribute("controls","");
         //newElementAudio.setAttribute("preload","auto");
         //newElementAudio.setAttribute("style","display:none;");
         var source_element = document.createElement('source');
-        source_element.setAttribute("src","https://sede.sepe.gob.es/citaprevia/AudioCaptcha.wav");
-        source_element.setAttribute("type","audio/wav");
+        source_element.setAttribute("src",componentList[kont].audio);
+        source_element.setAttribute("type",componentList[kont].audioType);
 
         newElementAudio.appendChild(source_element)
         $("#p2").append(newElementAudio);
 
-
-
-      $clone=$('#'+componentList[kont].name).clone();
-      $clone.appendTo('#p3').focus();
-      //$('#captchaHelp').css({'width':'5%','align':'center','margin-left':'15%','margin-right':'15%'});
-
-
-
-
-
-    //$('div['+componentList[kont].class+'=\"'+componentList[kont].lag+'\"]').addClass("captchaHelp");
-    //$('#'+componentList[kont].name).appendTo('#p2');
-//
-    //$("img").css({'width':'70%','align':'center','margin-left':'15%','margin-right':'15%'});
-    //$("#captchaUsuarios").css({ 'width': '85%'});
-
-    }
-  else
-    {
-    if (componentList[kont].type==="radio")
-      {
-      createListA();
-      //createTable();
-      }
-    else
-      {
-            if (componentList[kont].type==="select")
-
-            {
-              //alert("select");
-              createListAOfSelect();
-            }
-        else
-        {
-          if (componentList[kont].type==="calendar")
-
-            {
-              //alert("calendar");
-              createCalendar2();
-            }
-        else {
-            //alert(componentList[kont].name);
-            $('label[for=\"' + componentList[kont].name + '\"]').clone(true).appendTo('#subtitle');
-            $clone=$('#' + componentList[kont].name).clone(true);
-            $clone.appendTo('#p2').focus();
-            //$('#' + componentList[kont].name).focus()
-          }
         }
-
-
-      }
-
+    if (componentList[kont].type==="radio")
+        {
+        createListA();
+        //createTable();
+        }
+    if (componentList[kont].type==="select")
+        {
+        //alert("select");
+        createListAOfSelect();
+        }
+     if (componentList[kont].type==="calendar")
+        {
+        //alert("calendar");
+        createCalendar2();
+        }
+    if (componentList[kont].type==="captcha" || componentList[kont].type==="input")
+        {
+        $('label[for=\"' + componentList[kont].name + '\"]').clone(true).appendTo('#subtitle');
+        $clone=$('#' + componentList[kont].name).clone(true);
+        $clone.appendTo('#p3').focus();
+        //$('#' + componentList[kont].name).focus()
+        }
     }
-  }
 function alertNotification()
   {// erroreak erakusteko
   if($('p.aviso').text()!="")
@@ -598,7 +555,7 @@ function createListA()
 
 
         $( "#A"+index ).on("click",{value:$(this).val()},checkEgin);
-        $('#next').remove();
+        $('#next').hide();
 
         });
 
