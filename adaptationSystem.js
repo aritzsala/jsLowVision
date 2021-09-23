@@ -570,12 +570,43 @@ function createCalendar2()
         {
         var newElementA = document.createElement('a');
         newElementA.className="calendarAPP";
+                newElementA.id="dayId"+index;
+
         newElementA.innerText=$(this).text();
         $("#p2").append(newElementA);
+        $("#dayId"+index).on("click",{year:year,month:month,monthName,monthName,day:$(this).text()},createHours);
+
         });
 
     //Show hours
     day=$('#displayCalendar a').first().text();
+    //alert(year,month,monthName,day);
+    createHours2(year,month,monthName,day);
+    $("#next").hide();
+    }
+function createDays(month)
+    {
+
+    }
+function createHours(event)
+    {
+    $("#p3").empty();
+    $("#p3").append("<h2>Horas disponibles del "+event.data.day+" de "+event.data.monthName+":</h2>");
+    $('#h'+event.data.year+'-'+event.data.month+'-'+event.data.day+' a').each(function (index)
+        {
+
+        if (($(this).text()).indexOf(":")>-1)
+            {
+            var newElementA = document.createElement('a');
+            newElementA.className = "calendarAPP";
+            newElementA.innerText = $(this).text();
+            $("#p3").append(newElementA);
+            }
+        });
+    }
+function createHours2(year,month,monthName,day)
+    {
+    $("#p3").empty();
     $("#p3").append("<h2>Horas disponibles del "+day+" de "+monthName+":</h2>");
     $('#h'+year+'-'+month+'-'+day+' a').each(function (index)
         {
@@ -588,7 +619,6 @@ function createCalendar2()
             $("#p3").append(newElementA);
             }
         });
-    $("#next").hide();
     }
 function createCalendar()
     {
