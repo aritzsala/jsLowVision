@@ -1,3 +1,94 @@
+#title
+    {
+    top:0;
+    left:0;
+    width:100%;
+    height:20%;
+    color:white;
+    font-size:8em;
+    border: 5px outset white;
+    position:absolute;
+    }
+#subtitle
+    {
+    top:20%;
+    left:0;
+    width:100%;
+    height:10%;
+    color:white;
+    font-size: 2em;
+    border: 5px outset white;
+    position:absolute;
+    }
+#controlLeft
+    {
+    top:30%;
+    left:0;
+    width:15%;
+    height:70%;
+    border: 5px outset white;
+    position:absolute;
+    }
+#controlRight
+    {
+    top:30%;
+    left:85%;
+    width:15%;
+    height:70%;
+    border: 5px outset white;
+    position:absolute;
+                font-size:8em;
+
+    }
+#p1
+    {
+    top:30%;
+    left:15%;
+    width:70%;
+    height:20%;
+    color:white;
+    font-size: 2em;
+    border: 5px outset white;
+    position:absolute;
+    }
+#p2
+    {
+    top:50%;
+    left:15%;
+    width:70%;
+    height:15%;
+    color:white;
+    position:absolute;
+    font-size: 2em;
+    border: 5px outset white;
+
+    }
+#p3
+    {
+    top:65%;
+    left:15%;
+    width:70%;
+    height:20%;
+    color:white;
+    font-size: 2em;
+    border: 5px outset white;
+    position:absolute;
+
+    }
+#navigationStepProgress
+    {
+    top:85%;
+    left:15%;
+    width:70%;
+    height:15%;
+    border: 5px outset white;
+    background-color: black;
+    text-align: center;
+    z-index:1;
+    padding:10px;
+    border: 5px outset white;
+    position:absolute;
+    }
 #panel
     {
     border: 5px outset red;
@@ -34,7 +125,7 @@
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     }
-#navigationStepProgress
+#navigationStepProgress2
     {
     border: 5px outset white;
     background-color: black;
@@ -115,7 +206,7 @@
     {
     font-size: 40px;
     background-color: silver;
-    width:10%;
+    width:40%;
     height:20%;
     color: black;
     padding: 15px 15px;

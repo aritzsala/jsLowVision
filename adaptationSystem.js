@@ -79,10 +79,7 @@ function navigationMenu()
   currentIndexOfSteps=eService.steps.indexOf(currentStep)+1;
   numberOfSteps=eService.steps.length;
   $("#navigationStepProgress").empty();
-  //var newElementMenu = document.createElement('div');
-  //newElementMenu.id="navigationStepProgress";
 
-  //$("#panel").append(newElementMenu);
   $("#navigationStepProgress").append("<h3><u>Pasos del servicio</u></h3>");
   $("#navigationStepProgress").css(   {'background-color': 'black','text-align': 'center'});
 
@@ -195,7 +192,7 @@ function hideShowPanel()
         }
     }
 
-function createPanel()
+function createPanel3()
     {
     panelVisible=0;
 
@@ -231,6 +228,56 @@ function createPanel()
 
     $('#next').on("click",changePanel);
     }
+
+function createPanel()
+    {
+    panelVisible=0;
+
+    var newElementDiv = document.createElement('div');
+    newElementDiv.id = 'panel';
+    $('body').append(newElementDiv);
+
+    var newElementH1 = document.createElement('div');
+    newElementH1.id="title";
+    panel.append(newElementH1);
+
+  var newElementMenu = document.createElement('div');
+  newElementMenu.id="navigationStepProgress";
+    $("#panel").append(newElementMenu);
+
+    var newElementH2 = document.createElement('div');
+    newElementH2.id="subtitle";
+    panel.append(newElementH2);
+
+    var newElementH1 = document.createElement('div');
+    newElementH1.id="controlRight";
+    panel.append(newElementH1);
+
+    var newElementH1 = document.createElement('div');
+    newElementH1.id="controlLeft";
+    panel.append(newElementH1);
+
+    var newElementP1 = document.createElement('div');
+    var newElementP2 = document.createElement('div');
+    var newElementP3 = document.createElement('div');
+
+    newElementP1.id="p1";
+    newElementP2.id="p2";
+    newElementP3.id="p3";
+
+    $('#panel').append(newElementP1);
+    $('#panel').append(newElementP2);
+    $('#panel').append(newElementP3);
+
+    var newElementNext = document.createElement('a');
+    newElementNext.id="next";
+    newElementNext.innerText=">";
+    newElementNext.className="buttonMenu";
+    $("#controlRight").append(newElementNext);
+
+    $('#next').on("click",changePanel);
+    }
+
 
 function hide()
     {
