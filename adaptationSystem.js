@@ -617,75 +617,119 @@ function createCalendar2()
         document.getElementById("calendarNO").click();
         }
     $("#p1").append("<h2>Meses disponibles</h2>");
-    monthYear=$("#displayCalendar th").text().split(" ");
-    monthName=monthYear[0];
-    year=monthYear[1];
-    month=monthNum[monthName];
-    //var newElementA = document.createElement('a');
-    //newElementA.className="calendarAPP";
-    //newElementA.innerText=monthName;
+       monthYear=$("#displayCalendar th").text().split(" ");
+        monthName=monthYear[0];
+        year=monthYear[1];
+        month=monthNum[monthName];
     $("#p1").append(newElementA);
     if ($('#encabezadoMeses a').length>-1)
         {
         $('#encabezadoMeses a').each(function (index)
             {
-            //month="";
-            alert("if1"+$(this).text());
+            //aldatu ID ta gero onclick egin
+            $(this).attr("id",$(this).text());
+            monthName=$(this).text();
+            month=monthNum[monthName];
             var newElementA = document.createElement('a');
             newElementA.className="calendarAPP";
+            newElementA.id="month"+$(this).text();
             newElementA.innerText=$(this).text();
             $("#p1").append(newElementA);
+            $("#month"+$(this).text()).on("click",{year:year,month:month,monthName:monthName},createDays);
             });
         }
     else
         {
+        //var newElementA = document.createElement('a');
+        //newElementA.className="calendarAPP";
+        //newElementA.innerText=monthName.replaceAll(" 2021","");
+        //month=monthNum.monthName.replaceAll(" 2021","");
+        //alert("if2 "+month);
+        //  $("#p1").append(newElementA);
+
+
         var newElementA = document.createElement('a');
         newElementA.className="calendarAPP";
-        newElementA.innerText=monthName.replaceAll(" 2021","");
-        month=monthNum.monthName.replaceAll(" 2021","");
-        alert("if2 "+month);
+        newElementA.innerText=monthName;
+        newElementA.id="month"+monthName;
         $("#p1").append(newElementA);
+        alert(monthName);
+        $("#month"+monthName).on("click",{year:year,month:month,monthName:monthName},createDays);
+
         }
 
     //Show days
-    $("#p2").append("<h2>Días disponibles de "+monthName+":</h2>");
-    $('#displayCalendar a').each(function (index)
-        {
-        var newElementA = document.createElement('a');
-        newElementA.className="calendarAPP";
-                newElementA.id="dayId"+index;
 
-        newElementA.innerText=$(this).text();
-        $("#p2").append(newElementA);
-        $("#dayId"+index).on("click",{year:year,month:month,monthName,monthName,day:$(this).text()},createHours);
-
-        });
+    createDays2(year,month,monthName);
 
     //Show hours
+   // document.getElementById(monthName).click();
     day=$('#displayCalendar a').first().text();
     //alert(year,month,monthName,day);
     createHours2(year,month,monthName,day);
     $("#next").hide();
     }
-function createDays(month)
-    {
 
+function createDays(event)
+    {
+    document.getElementById(event.data.monthName).click();
+    alert(event.data.year+event.data.month+event.data.monthName);
+    $("#p2").empty();
+    $("#p2").append("<h2>Días disponibles de "+event.data.monthName+":</h2>");
+    $('#displayCalendar a').each(function (index)
+        {
+        var newElementA = document.createElement('a');
+        newElementA.className="calendarAPP";
+        newElementA.id="dayId"+index;
+
+        newElementA.innerText=$(this).text();
+        $("#p2").append(newElementA);
+        $("#dayId"+index).on("click",{year:event.data.year,month:event.data.month,monthName:event.data.monthName,day:$(this).text()},createHours);
+
+        });
+    }
+
+function createDays2(year,month,monthName)
+    {
+    $("#p2").empty();
+    $("#p2").append("<h2>Días disponibles de "+monthName+":</h2>");
+    $('#displayCalendar a').each(function (index)
+        {
+        var newElementA = document.createElement('a');
+        newElementA.className="calendarAPP";
+        newElementA.id="dayId"+index;
+
+        newElementA.innerText=$(this).text();
+        $("#p2").append(newElementA);
+        $("#dayId"+index).on("click",{year:year,month:month,monthName:monthName,day:$(this).text()},createHours);
+
+        });
     }
 function createHours(event)
     {
     $("#p3").empty();
+    alert(event.data.year+event.data.month+event.data.monthName+event.data.day);
+
     $("#p3").append("<h2>Horas disponibles del "+event.data.day+" de "+event.data.monthName+":</h2>");
     $('#h'+event.data.year+'-'+event.data.month+'-'+event.data.day+' a').each(function (index)
         {
 
         if (($(this).text()).indexOf(":")>-1)
             {
+            $(this).attr("id","day"+event.data.day+"month"+event.data.month+index);
             var newElementA = document.createElement('a');
             newElementA.className = "calendarAPP";
+            newElementA.id = "day"+index;
             newElementA.innerText = $(this).text();
             $("#p3").append(newElementA);
+            $("#day"+index).on("click",{day:event.data.day,month:event.data.month,index:index},selHour);
             }
         });
+    }
+function selHour(event)
+    {
+    document.getElementById("day"+event.data.day+"month"+event.data.month+event.data.index).click();
+    //send the form
     }
 function createHours2(year,month,monthName,day)
     {
