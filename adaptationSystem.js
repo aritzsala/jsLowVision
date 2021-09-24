@@ -73,7 +73,7 @@ function searchCurrentPage()
     return(page);
   }
 
-function navigationMenu()
+function navigationMenu2()
   {
   //Progress menu
   currentIndexOfSteps=eService.steps.indexOf(currentStep)+1;
@@ -104,6 +104,42 @@ function navigationMenu()
     {paso++;
     var newElementh3 = document.createElement('h3');
     newElementh3.id="nav2h3";
+    newElementh3.innerText=paso+" "+eService.steps[index];
+    $("#navigationStepProgress").append(newElementh3);
+    }
+  }
+
+
+function navigationMenu()
+  {
+  //Progress menu
+  currentIndexOfSteps=eService.steps.indexOf(currentStep)+1;
+  numberOfSteps=eService.steps.length;
+  $("#navigationStepProgress").empty();
+
+
+
+  $("#title").text(currentStep);
+  var nav="";
+  var paso=0;
+  for(var index=0;index<eService.steps.indexOf(currentStep);index++)
+    {
+    paso=index+1;
+    var newElementh3 = document.createElement('h3');
+    newElementh3.id="progress";
+    newElementh3.innerText=paso+" "+eService.steps[index];
+    $("#navigationStepProgress").append(newElementh3);
+    }
+  paso++;
+  var newElementh2 = document.createElement('div');
+  newElementh2.id="selProgress";
+  newElementh2.innerText=paso+" "+currentStep;
+  $("#navigationStepProgress").append(newElementh2);
+
+  for(var index=(eService.steps.indexOf(currentStep)+1);index<eService.steps.length;index++)
+    {paso++;
+    var newElementh3 = document.createElement('div');
+    newElementh3.id="progress";
     newElementh3.innerText=paso+" "+eService.steps[index];
     $("#navigationStepProgress").append(newElementh3);
     }
@@ -585,16 +621,16 @@ function createCalendar2()
     monthName=monthYear[0];
     year=monthYear[1];
     month=monthNum[monthName];
-    var newElementA = document.createElement('a');
-    newElementA.className="calendarAPP";
-    newElementA.innerText=monthName;
+    //var newElementA = document.createElement('a');
+    //newElementA.className="calendarAPP";
+    //newElementA.innerText=monthName;
     $("#p1").append(newElementA);
     if ($('#encabezadoMeses a').length>-1)
         {
         $('#encabezadoMeses a').each(function (index)
             {
             //month="";
-            alert($(this).text());
+            alert("if1"+$(this).text());
             var newElementA = document.createElement('a');
             newElementA.className="calendarAPP";
             newElementA.innerText=$(this).text();
@@ -607,7 +643,7 @@ function createCalendar2()
         newElementA.className="calendarAPP";
         newElementA.innerText=monthName.replaceAll(" 2021","");
         month=monthNum.monthName.replaceAll(" 2021","");
-        alert(month);
+        alert("if2 "+month);
         $("#p1").append(newElementA);
         }
 

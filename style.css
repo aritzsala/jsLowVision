@@ -1,9 +1,23 @@
-#title
+#navigationStepProgress
     {
     top:0;
     left:0;
     width:100%;
-    height:20%;
+    height:6%;
+    border: 5px outset white;
+    background-color: black;
+    text-align: center;
+    z-index:1;
+    padding:10px;
+    border: 5px outset white;
+    position:absolute;
+    }
+#title
+    {
+    top:6%;
+    left:0;
+    width:100%;
+    height:14%;
     color:white;
     font-size:8em;
     border: 5px outset white;
@@ -14,27 +28,47 @@
     top:20%;
     left:0;
     width:100%;
-    height:10%;
+    height:5%;
     color:white;
-    font-size: 2em;
+    font-size: 3em;
     border: 5px outset white;
     position:absolute;
     }
+#selProgress
+    {
+    color:white;
+    font-size:1.5em;
+    width: 20%;
+    float: left;
+    padding: 10px;
+    border: 2px solid red;
+
+    }
+#progress
+    {
+    color:white;
+    font-size:1em;
+    width: 13.3%;
+    float: left;
+    padding: 10px;
+    border: 2px solid blue;
+    }
+
 #controlLeft
     {
-    top:30%;
+    top:25%;
     left:0;
     width:15%;
-    height:70%;
+    height:75%;
     border: 5px outset white;
     position:absolute;
     }
 #controlRight
     {
-    top:30%;
+    top:25%;
     left:85%;
     width:15%;
-    height:70%;
+    height:75%;
     border: 5px outset white;
     position:absolute;
                 font-size:8em;
@@ -42,10 +76,10 @@
     }
 #p1
     {
-    top:30%;
+    top:25%;
     left:15%;
     width:70%;
-    height:20%;
+    height:25%;
     color:white;
     font-size: 2em;
     border: 5px outset white;
@@ -68,26 +102,12 @@
     top:65%;
     left:15%;
     width:70%;
-    height:20%;
+    height:60%;
     color:white;
     font-size: 2em;
     border: 5px outset white;
     position:absolute;
 
-    }
-#navigationStepProgress
-    {
-    top:85%;
-    left:15%;
-    width:70%;
-    height:15%;
-    border: 5px outset white;
-    background-color: black;
-    text-align: center;
-    z-index:1;
-    padding:10px;
-    border: 5px outset white;
-    position:absolute;
     }
 #panel
     {
@@ -125,52 +145,13 @@
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     }
-#navigationStepProgress2
-    {
-    border: 5px outset white;
-    background-color: black;
-    text-align: center;
-    width: 40%;
-    left: 30%;
-    margin-left: 570px;
-    z-index:1;
-    padding:10px
-    }
+
 #panel input
     {
     color:black;
     font-size:6em;
     background:white;
     width:70%
-    }
-#panel h1
-    {
-    color:white;
-    font-size:8em
-    }
-
-#panel h2
-    {
-    color:white;
-    font-size:2em;
-    text-align: center
-    }
-#panel h3
-    {
-    color:white;
-    font-size:1em;
-    text-align: center
-    }
-
-#panel > p
-    {
-    color:white;
-    font-size: 2em
-    }
-#panel label
-    {
-    color:white;
-    font-size: 2em
     }
 #panel a
     {
@@ -219,19 +200,7 @@
     margin-bottom: 0.5em;
     border-radius:50%;
     }
-#panel font
-    {
-    font-size:28px;
-    color:red;
-    }
-#panel p
-    {
-    display: block;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 0;
-    margin-right: 0;
-    }
+
 #panel a:link
     {
     background-color: silver;
