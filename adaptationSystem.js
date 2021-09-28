@@ -34,8 +34,8 @@ var eservices =
                     [
                       {"name": "solicitudCitaPreviaConfirmacionForm","type":"form","class":"name"},
                       {"name":"appoitment","type":"text","day":"dia","hour":"hora","step":"Confirmación"},
-                      {"name":"telefono","type":"input","class":"id","label":"telefono","step":"Confirmación"},
-                      {"name":"confirmarTelefono","type":"input","class":"id","label":"telefono","step":"Confirmación"},
+                      {"name":"telefono","type":"input","class":"id","label":"telefono","notification":"telefono","step":"Confirmación"},
+                      {"name":"confirmarTelefono","type":"input","class":"id","label":"telefono","notification":"mail","step":"Confirmación"},
                       {"name":"email","type":"input","class":"id","label":"email","step":"Confirmación"},
                       {"name":"confirmaremail","type":"input","class":"id","label":"email","step":"Confirmación"}
 
@@ -244,11 +244,15 @@ function createPanel()
     $('#panel').append(newElementP2);
     $('#panel').append(newElementP3);
 
-    var newElementNext = document.createElement('a');
-    newElementNext.id="next";
-    newElementNext.innerText=">";
-    newElementNext.className="buttonMenu";
-    $("#controlRight").append(newElementNext);
+    var newElementButton = document.createElement('div');
+    newElementButton.id="buttonRight";
+        var newElementA = document.createElement('a');
+        newElementA.id="next";
+        newElementA.innerText="Seguir";
+    //newElementNext.className="buttonMenu";
+    $("#controlRight").append(newElementButton);
+        $("#buttonRight").append(newElementA);
+
 
     $('#next').on("click",changePanel);
     }
@@ -384,15 +388,24 @@ function show()
         }
     if (componentList[kont].type==="text")
         {
-        alert(componentList[kont].hour);
-        alert($('#'+componentList[kont].hour).text());
+        //alert(componentList[kont].hour);
+        //alert($('#'+componentList[kont].hour).text());
         $('#p1').append($('#'+componentList[kont].day).text());
         $('#p1').append($('#'+componentList[kont].hour).text());
         //for (var index=currentPage;index<currentPage.length;index++)
+        $(currentPage).each(function(index, element)
+            {
+            if(typeof element.notification  !== 'undefined')//element.notification != 'undefined')
+                {
+                $('#p2').append("¿Quieres que la cita sea notificada por "+element.notification +" ?<br>");
+                $('#p2').append("<a>Si</a><a>No</a><br>");
+                }
+
+            });
+          }
 
 
 
-        }
     }
 function alertNotification()
   {// erroreak erakusteko
@@ -598,7 +611,6 @@ function createHours(event)
     $("#p3").append("Horas disponibles del "+event.data.day+" de "+event.data.monthName);
     $('#h'+event.data.year+'-'+event.data.month+'-'+event.data.day+' a').each(function (index)
         {
-
         if (($(this).text()).indexOf(":")>-1)
             {
             $(this).attr("id","day"+event.data.day+"month"+event.data.month+index);
