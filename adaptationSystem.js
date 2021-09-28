@@ -246,11 +246,15 @@ function createPanel()
 
     var newElementButton = document.createElement('div');
     newElementButton.id="buttonRight";
-        var newElementA = document.createElement('a');
+        var newElementDiv = document.createElement('div');
+        newElementDiv.id="bRight";
+
+        var newElementA = document.createElement('p');
         newElementA.id="next";
         newElementA.innerText="Seguir";
     //newElementNext.className="buttonMenu";
     $("#controlRight").append(newElementButton);
+        $("#buttonRight").append(newElementDiv);
         $("#buttonRight").append(newElementA);
 
 
@@ -397,8 +401,8 @@ function show()
             {
             if(typeof element.notification  !== 'undefined')//element.notification != 'undefined')
                 {
-                $('#p2').append("¿Quieres que la cita sea notificada por "+element.notification +" ?<br>");
-                $('#p2').append("<a>Si</a><a>No</a><br>");
+                $('#p3').append("¿Quieres que la cita sea notificada por "+element.notification +" ?<br>");
+                $('#p3').append("<a>Si</a><a>No</a><br>");
                 }
 
             });

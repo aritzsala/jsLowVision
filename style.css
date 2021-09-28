@@ -84,6 +84,7 @@
     font-size: 2em;
     border: 5px outset white;
     position:absolute;
+    vertical-align: middle;
     }
 #p2
     {
@@ -95,6 +96,7 @@
     position:absolute;
     font-size: 2em;
     border: 5px outset white;
+    vertical-align: middle;
 
     }
 #p3
@@ -107,7 +109,7 @@
     font-size: 2em;
     border: 5px outset white;
     position:absolute;
-
+    vertical-align: middle;
     }
 #panel
     {
@@ -225,7 +227,30 @@
     background-color: silver;
     color:black
     }
-
+#panel p:link
+    {
+    background-color: silver;
+    color:black
+    }
+/* visited link */
+#panel p:visited
+    {
+    background-color: silver;
+    color:black
+    }
+/* mouse over link */
+#panel p:hover
+    {
+    background-color: gold;
+    color:black;
+    cursor:pointer;
+    }
+/* selected link */
+#panel p:active
+    {
+    background-color: silver;
+    color:black
+    }
 #panel img
     {
     display: block;
