@@ -234,3 +234,46 @@
     width: 80%;
     border;3px;
     }
+
+#buttonRight {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  /* display: flex;
+  align-items: center; */
+  border: 2px solid white;
+  border-radius: 82px;
+  /* position: absolute; */
+  /* top: 8px; */
+  margin-top: 40px;
+  padding-right: 20px;
+}
+
+#bRight {
+  width: 120px;
+  height: 120px;
+  filter: url();
+  text-align: center;
+  border-radius: 60%;
+  background: white;
+  border-width: 2px;
+  border-style: solid;
+  border-color: white;
+  border-image: initial;
+  font: 32px Arial, sans-serif;
+
+  margin-right: 20px;
+}
+
+#bRight::before{
+  content: '\21E8';
+  position: absolute;
+  right: 15px;
+  font-size: 83px;
+  color: black;
+}
+
+#next {
+  color: white;
+  font-size: xxx-large;
+}
