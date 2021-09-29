@@ -4,13 +4,15 @@
     left:0;
     width:100%;
     height:6%;
-    border: 5px outset white;
     background-color: black;
     text-align: center;
     z-index:1;
     padding:10px;
-    border: 5px outset white;
     position:absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     }
 #title
     {
@@ -20,7 +22,6 @@
     height:14%;
     color:white;
     font-size:8em;
-    border: 5px outset white;
     position:absolute;
     }
 #subtitle
@@ -31,7 +32,6 @@
     height:5%;
     color:white;
     font-size: 3em;
-    border: 5px outset white;
     position:absolute;
     }
 #selProgress
@@ -41,7 +41,7 @@
     width: 20%;
     float: left;
     padding: 10px;
-    border: 2px solid red;
+    border: 4px solid red;
 
     }
 #progress
@@ -51,7 +51,7 @@
     width: 13.3%;
     float: left;
     padding: 10px;
-    border: 2px solid blue;
+    border: 2.5px solid blue;
     }
 
 #controlLeft
@@ -60,7 +60,6 @@
     left:0;
     width:15%;
     height:75%;
-    border: 5px outset white;
     position:absolute;
     }
 #controlRight
@@ -69,7 +68,6 @@
     left:85%;
     width:15%;
     height:75%;
-    border: 5px outset white;
     position:absolute;
                 font-size:8em;
 
@@ -82,9 +80,9 @@
     height:25%;
     color:white;
     font-size: 2em;
-    border: 5px outset white;
     position:absolute;
     vertical-align: middle;
+    z-index:10003;
     }
 #p2
     {
@@ -95,8 +93,9 @@
     color:white;
     position:absolute;
     font-size: 2em;
-    border: 5px outset white;
     vertical-align: middle;
+        z-index:10002;
+
 
     }
 #p3
@@ -107,9 +106,10 @@
     height:60%;
     color:white;
     font-size: 2em;
-    border: 5px outset white;
     position:absolute;
     vertical-align: middle;
+        z-index:10001;
+
     }
 #panel
     {
@@ -124,13 +124,54 @@
     left:5%;
     padding:10px
     }
-#panel a.calendarMonth
-    {}
-#panel a.calendarDay
-    {}
-#panel a.calendarHour
-    {}
+.calendarMonth:hover, .calendarDay:hover, .calendarHour:hover, .linkButton:hover
+    {
+    background:gold;
+    cursor:pointer;
+    border: 2px solid white;
+    }
+.calendarMonth, .calendarDay, .calendarHour, .linkButton
+    {
+    background:white;
+    color: black;
+    font-size: xxx-large;
+    font-weight: bold;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    border: 2px solid gold;
+    border-radius: 82px;
+    }
+.calendarMonth
+    {
+    width:20%;
+    }
+.calendarDay
+    {
+    width:10%;
+    }
+.calendarHour
+    {
+    width:10%;
+    font-size: xx-large;
 
+    }
+.linkButton
+    {
+    width:100%;
+    font-size: xx-large;
+    }
+#panel h2
+    {
+            font-size: xxx-large;
+            margin-top: 0.5em;
+
+    }
 #panel a.calendarAPP
     {
     font-weight: bold;
@@ -221,36 +262,14 @@
     color:black;
     cursor:pointer;
     }
-/* selected link */
-#panel a:active
-    {
-    background-color: silver;
-    color:black
-    }
-#panel p:link
-    {
-    background-color: silver;
-    color:black
-    }
-/* visited link */
-#panel p:visited
-    {
-    background-color: silver;
-    color:black
-    }
+
 /* mouse over link */
-#panel p:hover
+#buttonRight:hover
     {
-    background-color: gold;
-    color:black;
+    background: gold;
     cursor:pointer;
     }
-/* selected link */
-#panel p:active
-    {
-    background-color: silver;
-    color:black
-    }
+
 #panel img
     {
     display: block;
@@ -261,6 +280,7 @@
     }
 
 #buttonRight {
+  background:black;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -286,7 +306,6 @@
   border-color: white;
   border-image: initial;
   font: 32px Arial, sans-serif;
-
   margin-right: 20px;
 }
 
@@ -298,7 +317,10 @@
   color: black;
 }
 
-#next {
-  color: white;
-  font-size: xxx-large;
-}
+#buttonTitle
+    {
+    color: white;
+    font-size: xxx-large;
+    font-weight: bold;
+
+    }

@@ -187,7 +187,7 @@ function showErrors()
     {
     componentList=createListOfStep();
     $("#title").text("Errors");
-    $('#subtitle').text($('p.aviso').text().replaceAll(".",".<br>"));
+    $('#p1').append($('p.aviso').html());
     }
 
 function hideShowPanel()
@@ -249,16 +249,16 @@ function createPanel()
         var newElementDiv = document.createElement('div');
         newElementDiv.id="bRight";
 
-        var newElementA = document.createElement('p');
-        newElementA.id="next";
+        var newElementA = document.createElement('div');
+        newElementA.id="buttonTitle";
         newElementA.innerText="Seguir";
-    //newElementNext.className="buttonMenu";
+        //newElementA.className="buttonMenu";
     $("#controlRight").append(newElementButton);
         $("#buttonRight").append(newElementDiv);
         $("#buttonRight").append(newElementA);
 
 
-    $('#next').on("click",changePanel);
+    $('#buttonRight').on("click",changePanel);
     }
 
 
@@ -335,6 +335,7 @@ function createListOfStep()
 function preShow()
     {
     //hideShowPanel();
+    hide()
     navigationMenu();
     //alert("show"+kont)type
     if (kont ===0)
@@ -347,8 +348,6 @@ function show()
   preShow();
   $('#subtitle').empty();
 
-  //#alert("show "+componentList[kont].type);
-  //$('#next').show();
   currentComponent=componentList[kont].name;
   if (componentList[kont].type==="captcha")
         {
@@ -489,26 +488,28 @@ function createListA()
 
         var listRadioSepe = $(this).parent().text().split("  ");
 
-        var newElementA = document.createElement('a');
-        var newElementh3 = document.createElement('font');
+        var newElementA = document.createElement('div');
+        newElementA.className="linkButton";
+
+        //var newElementh3 = document.createElement('font');
         //newElementh3.id="h3Radio";
 
-        newElementh3.innerHTML=listRadioSepe[index];//$(this).val()+
+        newElementA.innerHTML=listRadioSepe[index];//$(this).val()+
 
         //newElementA.className="radio";
 
         newElementA.id="A"+index;
 
         $("#p1").append(newElementA);
-        $("#p1").css({'font-size':'18px'});
-        $("#"+"A"+index).append(newElementh3);
-        $("#p1").append("<br>");
+        //$("#p1").css({'font-size':'18px'});
+        //$("#"+"A"+index).append(newElementh3);
+        //$("#p1").append("<br>");
                 //$('#A'+index).addClass="radio";
 
 
 
         $( "#A"+index ).on("click",{value:$(this).val()},checkEgin);
-        $('#next').hide();
+        $('#buttonRight').hide();
 
         });
 
@@ -539,7 +540,7 @@ function createCalendar2()
         document.getElementById("calendarNO").click();
         }
 
-    $("#p1").append("Meses disponibles");
+    $("#p1").append("<h2>Meses disponibles:</h2>");
     monthYear=$("#displayCalendar th").text().split(" ");
     monthName=monthYear[0];
     month=monthNum[monthName];
@@ -555,8 +556,8 @@ function createCalendar2()
             $(this).attr("id",$(this).text());
             monthName=$(this).text();
             month=monthNum[monthName];
-            var newElementA = document.createElement('a');
-            newElementA.className="calendarAPP";
+            var newElementA = document.createElement('div');
+            newElementA.className="calendarMonth";
             newElementA.id="month"+$(this).text();
             newElementA.innerText=$(this).text();
             $("#p1").append(newElementA);
@@ -566,7 +567,7 @@ function createCalendar2()
     else
         {
         var newElementA = document.createElement('a');
-        newElementA.className="calendarAPP";
+        newElementA.className="calendarMonth";
         newElementA.innerText=monthName;
         newElementA.id="month"+monthName;
         $("#p1").append(newElementA);
@@ -586,7 +587,7 @@ function createCalendar2()
     day=$('#displayCalendar a').first().text();
     $("#dayId0").trigger( "click",{year:year,month:month,monthName:monthName,day:day});
     //createHours2(year,month,monthName,day);
-    $("#next").hide();
+    $("#buttonRight").hide();
     }
 
 function createDays(event)
@@ -594,11 +595,11 @@ function createDays(event)
     document.getElementById(event.data.monthName).click();
     //alert(event.data.year+event.data.month+event.data.monthName);
     $("#p2").empty();
-    $("#p2").append("Días disponibles de "+event.data.monthName);
+    $("#p2").append("<h2>Días disponibles de "+event.data.monthName+":</h2>");
     $('#displayCalendar a').each(function (index)
         {
-        var newElementA = document.createElement('a');
-        newElementA.className="calendarAPP";
+        var newElementA = document.createElement('div');
+        newElementA.className="calendarDay";
         newElementA.id="dayId"+index;
 
         newElementA.innerText=$(this).text();
@@ -612,16 +613,17 @@ function createDays(event)
 function createHours(event)
     {
     $("#p3").empty();
-    $("#p3").append("Horas disponibles del "+event.data.day+" de "+event.data.monthName);
+    $("#p3").append("<h2>Horas disponibles del "+event.data.day+" de "+event.data.monthName+":</h2>");
     $('#h'+event.data.year+'-'+event.data.month+'-'+event.data.day+' a').each(function (index)
         {
         if (($(this).text()).indexOf(":")>-1)
             {
             $(this).attr("id","day"+event.data.day+"month"+event.data.month+index);
-            var newElementA = document.createElement('a');
-            newElementA.className = "calendarAPP";
+            var newElementA = document.createElement('div');
+            newElementA.className = "calendarHour";
             newElementA.id = "day"+index;
-            newElementA.innerText = $(this).text();
+            newElementA.innerText = $(this).text().substr($(this).text().length - 5); ;
+            //alert($(this).text());
             $("#p3").append(newElementA);
             $("#day"+index).on("click",{day:event.data.day,month:event.data.month,index:index},selHour);
             }
