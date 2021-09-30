@@ -400,8 +400,8 @@ function show()
             {
             if(typeof element.notification  !== 'undefined')//element.notification != 'undefined')
                 {
-                $('#p3').append("¿Quieres que la cita sea notificada por "+element.notification +" ?<br>");
-                $('#p3').append("<a>Si</a><a>No</a><br>");
+                $('#p2').append("¿Quieres que la cita sea notificada por "+element.notification +" ?<br>");
+                $('#p2').append("<div class='calendarDay'>Si</div><div class='calendarDay'>No</div><br>");
                 }
 
             });
@@ -433,7 +433,7 @@ function changePanel()
     if (typeof $clone === 'undefined')
         {
         //hurrengora joan
-        alert("undefined");
+        //alert("undefined");
 
 
             hide();
@@ -547,9 +547,9 @@ function createCalendar2()
     year=monthYear[1];
 
 
-    $("#p1").append(newElementA);
-    if ($('#encabezadoMeses a').length>-1)
+    if ($('#encabezadoMeses a').length)
         {
+        //alert(monthName);
         $('#encabezadoMeses a').each(function (index)
             {
             //aldatu ID ta gero onclick egin
@@ -565,8 +565,8 @@ function createCalendar2()
             });
         }
     else
-        {
-        var newElementA = document.createElement('a');
+        {//alert("k"+monthName);
+        var newElementA = document.createElement('div');
         newElementA.className="calendarMonth";
         newElementA.innerText=monthName;
         newElementA.id="month"+monthName;
@@ -592,8 +592,10 @@ function createCalendar2()
 
 function createDays(event)
     {
-    document.getElementById(event.data.monthName).click();
-    //alert(event.data.year+event.data.month+event.data.monthName);
+    alert(event.data.year+event.data.month+event.data.monthName);
+    if ($('#encabezadoMeses a').length)
+        document.getElementById(event.data.monthName).click();
+
     $("#p2").empty();
     $("#p2").append("<h2>Días disponibles de "+event.data.monthName+":</h2>");
     $('#displayCalendar a').each(function (index)
