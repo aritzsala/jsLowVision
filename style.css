@@ -198,18 +198,22 @@
     }
 
 #buttonRight {
-  background:black;
+  width: fit-content;
+  border-radius: 30px;
+  border: 2px solid white;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /*background:black;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  /* display: flex;
-  align-items: center; */
   border: 2px solid white;
   border-radius: 82px;
-  /* position: absolute; */
-  /* top: 8px; */
   margin-top: 40px;
-  padding-right: 20px;
+  padding-right: 20px;*/
 }
 
 #bRight {
@@ -224,7 +228,18 @@
   border-color: white;
   border-image: initial;
   font: 32px Arial, sans-serif;
-  margin-right: 20px;
+  /*width: 120px;
+  height: 120px;
+  filter: url();
+  text-align: center;
+  border-radius: 60%;
+  background: white;
+  border-width: 2px;
+  border-style: solid;
+  border-color: white;
+  border-image: initial;
+  font: 32px Arial, sans-serif;
+  margin-right: 20px;*/
 }
 
 #bRight::before{
@@ -235,10 +250,11 @@
   color: black;
 }
 
-#buttonTitle
-    {
-    color: white;
-    font-size: xxx-large;
-    font-weight: bold;
-
-    }
+#buttonTitle {
+  color: white;
+  font-size: xxx-large;
+  text-decoration: underline;
+  /*color: white;
+  font-size: xxx-large;
+  font-weight: bold;*/
+}
