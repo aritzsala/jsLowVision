@@ -33,9 +33,11 @@ var eservices =
                     ],
                     [
                       {"name": "solicitudCitaPreviaConfirmacionForm","type":"form","class":"name"},
-                      {"name":"appoitment","type":"text","day":"dia","hour":"hora","step":"Confirmación"},
+                      {"name":"appoitment","type":"text","day":"dia","hour":"hora.azul","step":"Confirmación"},
+                      {"name":"telefono","type":"confirmation","label":"telefono","step":"Confirmación"},
                       {"name":"telefono","type":"input","class":"id","label":"telefono","notification":"telefono","step":"Confirmación"},
                       {"name":"confirmarTelefono","type":"input","class":"id","label":"telefono","notification":"mail","step":"Confirmación"},
+                      {"name":"email","type":"confirmation","label":"email","step":"Confirmación"},
                       {"name":"email","type":"input","class":"id","label":"email","step":"Confirmación"},
                       {"name":"confirmaremail","type":"input","class":"id","label":"email","step":"Confirmación"}
 
@@ -347,7 +349,7 @@ function show()
   {
   preShow();
   $('#subtitle').empty();
-
+    $("#buttonRight").show();
   currentComponent=componentList[kont].name;
   if (componentList[kont].type==="captcha")
         {
@@ -391,24 +393,32 @@ function show()
         }
     if (componentList[kont].type==="text")
         {
-        //alert(componentList[kont].hour);
-        //alert($('#'+componentList[kont].hour).text());
-        $('#p1').append($('#'+componentList[kont].day).text());
+        $('#p1').append($('#'+componentList[kont].day).text()+"<br>");
         $('#p1').append($('#'+componentList[kont].hour).text());
-        //for (var index=currentPage;index<currentPage.length;index++)
-        $(currentPage).each(function(index, element)
-            {
-            if(typeof element.notification  !== 'undefined')//element.notification != 'undefined')
-                {
-                $('#p2').append("¿Quieres que la cita sea notificada por "+element.notification +" ?<br>");
-                $('#p2').append("<div class='calendarDay'>Si</div><div class='calendarDay'>No</div><br>");
-                }
-
-            });
-          }
+        }
+    if (componentList[kont].type==="confirmation")
+        {
+        $('#p1').append("¿Quieres que la cita sea notificada por "+componentList[kont].name +" ?<br>");
+        $('#p1').append("<div class='calendarDay' id='yes'>Si</div><div class='calendarDay' id='no'>No</div><br>");
+        $("#yes").on("click",{value:true},yesNo);
+        $("#no").on("click",{value:false},yesNo);
+        $("#buttonRight").hide()
 
 
+        }
+    }
 
+function yesNo(event)
+    {
+    if (event.data.value)
+        {
+        changePanel();
+        }
+    else
+        {
+        kont=kont+2;
+        changePanel();
+        }
     }
 function alertNotification()
   {// erroreak erakusteko
