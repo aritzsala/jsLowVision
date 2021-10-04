@@ -279,7 +279,7 @@ function sendForm()
         });
     sessionStorage.setItem("currentStepSession",currentStep);
     sessionStorage.setItem("previousStepSession",previousStep);
-    alert("Now, it sends the form.");
+    //alert("Now, it sends the form.");
     $('form['+currentPage[0].class+'=\"'+currentPage[0].name+'\"]').submit();
     }
 
@@ -592,7 +592,7 @@ function createCalendar2()
 
 function createDays(event)
     {
-    alert(event.data.year+event.data.month+event.data.monthName);
+    //alert(event.data.year+event.data.month+event.data.monthName);
     if ($('#encabezadoMeses a').length)
         document.getElementById(event.data.monthName).click();
 
