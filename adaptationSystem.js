@@ -291,12 +291,27 @@ function createPanel()
         newElementDiv.id="bRight";
 
         var newElementA = document.createElement('div');
-        newElementA.id="buttonTitle";
+        newElementA.id="buttonTitleR";
         newElementA.innerText="Seguir";
         //newElementA.className="buttonMenu";
     $("#controlRight").append(newElementButton);
         $("#buttonRight").append(newElementDiv);
         $("#buttonRight").append(newElementA);
+
+
+    var newElementButton = document.createElement('div');
+    newElementButton.id="buttonLeft";
+        var newElementDiv = document.createElement('div');
+        newElementDiv.id="bLeft";
+
+        var newElementA = document.createElement('div');
+        newElementA.id="buttonTitleL";
+        newElementA.innerText="Volver";
+        //newElementA.className="buttonMenu";
+    $("#controlLeft").append(newElementButton);
+        $("#buttonLeft").append(newElementDiv);
+        $("#buttonLeft").append(newElementA);
+
 
 
     $('#buttonRight').on("click",changePanel);
@@ -390,6 +405,7 @@ function show()
   preShow();
   $('#subtitle').empty();
     $("#buttonRight").show();
+    $("#buttonLeft").show();
   currentComponent=componentList[kont].name;
   if (componentList[kont].type==="captcha")
         {
@@ -439,6 +455,7 @@ function show()
         $("#yes").on("click",{value:true,numberFields:componentList[kont].value},yesNo);
         $("#no").on("click",{value:false,numberFields:componentList[kont].value},yesNo);
         $("#buttonRight").hide()
+        $("#buttonLeft").hide();
 
 
         }
@@ -556,6 +573,7 @@ function createListA()
 
         $( "#A"+index ).on("click",{value:$(this).val()},checkEgin);
         $('#buttonRight').hide();
+        $('#buttonLeft').hide();
 
         });
 
@@ -633,6 +651,7 @@ function createCalendar2()
     $("#dayId0").trigger( "click",{year:year,month:month,monthName:monthName,day:day});
     //createHours2(year,month,monthName,day);
     $("#buttonRight").hide();
+    $("#buttonLeft").hide();
     }
 
 function createDays(event)
