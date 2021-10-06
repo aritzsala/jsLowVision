@@ -183,29 +183,32 @@
     }
 
 
-#panel input[type=text] {
-  font-size: 165px;
-  padding-left: 45px;
-  height: 200px;
-  width: 1090px;
+#panel input[type=text]
+    {
+    font-size: 165px;
+    padding-left: 45px;
+    height: 200px;
+    width: 1090px;
 
-  /*color:black;*/
-  background:white;
+    /*color:black;*/
+    background:white;
 
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  border: 12px solid silver;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: 12px solid silver;
 
-  /*color: #a0d18c;*/
+    /*color: #a0d18c;*/
 
-  /*width: 250px;
-  height: 30px;
-  padding-left: 10px;*/
-}
-#panel input[type=text]:hover {
-  border: 12px solid dimgrey;
-}
+    /*width: 250px;
+    height: 30px;
+    padding-left: 10px;*/
+    }
+
+#panel input[type=text]:hover
+    {
+    border: 12px solid dimgrey;
+    }
 #panel input[type=text]:focus {
   /*background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
   margin: 0em;
@@ -222,8 +225,13 @@
   outline: none;
   border: 12px solid lime;
   /*color: #2d9fd9;*/
-}
 
+}
+#panel input
+    {
+          width: 90%;
+
+    }
 /* mouse over link */
 #buttonRight:hover {
   background-color: #FFD700;
@@ -248,12 +256,12 @@
   color: #FFD700;
 }
 
-#panel img
+#panel  img
     {
     display: block;
     margin-left: 10%;
     margin-right: 10%;
-    width: 80%;
+    width: 90%;
     border;3px;
     }
 

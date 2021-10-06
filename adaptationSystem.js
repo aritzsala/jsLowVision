@@ -17,7 +17,7 @@ var eservices =
                   [
                     [
                       {"name": "solicitudCitaPreviaForm","type":"form","class":"name"},
-                      {"name": "captcha", "type": "captcha", "captchaType":"img","img":"ImageCaptcha.png","audio":"https://sede.sepe.gob.es/citaprevia/AudioCaptcha.wav","audioType":"audio/wav","step":"Pregunta de seguridad"},
+                      {"name": "captcha","class":"id", "type": "captcha", "captchaType":"img","img":"ImageCaptcha.png","audio":"https://sede.sepe.gob.es/citaprevia/AudioCaptcha.wav","audioType":"audio/wav","step":"Pregunta de seguridad"},
                       {"name": "nif","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
                       {"name":"cp","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
                       {"name": "SbtCodigo","type":"radio","class":"name","label":"Selección servicio","step":"Selección de servicio"}
@@ -64,7 +64,7 @@ var eservices =
             ],
             [
                 {"name": "formulario","type":"form","class":"name"},
-                {"name": "codSeguridad", "type": "captcha", "captchaType":"img","img":"jcaptcha.jpg","audio":"https://www.citapreviadnie.es/citaPreviaDniExp/scaptcha.mp3","audioType":"audio/mp3","step":"Pregunta de seguridad"},
+                {"name": "codSeguridad","class":"name", "type": "captcha", "captchaType":"img","img":"jcaptcha.jpg","audio":"https://www.citapreviadnie.es/citaPreviaDniExp/scaptcha.mp3","audioType":"audio/mp3","step":"Pregunta de seguridad"},
                 {"name": "numDocumento","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
                 {"name": "letraDocumento","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
                 {"name":"codEquipo","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
@@ -442,7 +442,9 @@ function show()
     if (componentList[kont].type==="captcha" || componentList[kont].type==="input")
         {
         $('label[for=\"' + componentList[kont].name + '\"]').clone(true).appendTo('#subtitle');
-        $clone=$('#' + componentList[kont].name).clone(true);
+        alert('input['+componentList[kont].class+'=\"'+ componentList[kont].name+'\"]');
+        $clone=$('input['+componentList[kont].class+'=\"'+ componentList[kont].name+'\"]').clone(true);
+        $clone=$('input['+componentList[kont].class+'=\"'+ componentList[kont].name+'\"]').clone(true);
         $clone.appendTo('#p1').focus();
         }
     if (componentList[kont].type==="text")
