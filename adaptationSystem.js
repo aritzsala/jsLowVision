@@ -55,31 +55,29 @@ var eservices =
       "pages":
          [
             [
-                {"name": "page","type":"page","class":"name"},
+                {"name": "https://www.citapreviadnie.es/citaPreviaDniExp/","type":"page","class":"name"},
                 {"name": "informacionGeneral","type":"link","class":"class","main":"div","step":"Intro"}
             ],
             [
-                {"name": "page2","type":"page","class":"name"},
+                {"name": "Inicio.action","type":"page","class":"name"},
                 {"name": "informacionGeneral","type":"link","class":"class","main":"div","step":"Intro"}
             ],
             [
                 {"name": "formulario","type":"form","class":"name"},
                 {"name": "codSeguridad", "type": "captcha", "captchaType":"id","img":"jcaptcha.jpg","audio":"https://www.citapreviadnie.es/citaPreviaDniExp/scaptcha.mp3","audioType":"audio/mp3","step":"Pregunta de seguridad"},
-                {"name": "numDocumento","type":"input","class":"id","label":"","step":"Pregunta de seguridad"},
-                {"name": "letraDocumento","type":"input","class":"id","label":"","step":"Pregunta de seguridad"},
-                {"name":"codEquipo","type":"input","class":"id","label":"","step":"Pregunta de seguridad"},
-                {"name": "fechaValidez","type":"input","class":"name","label":"Identificacion","step":"Pregunta de seguridad"}
+                {"name": "numDocumento","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
+                {"name": "letraDocumento","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
+                {"name":"codEquipo","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
+                {"name": "fechaValidez","type":"input","class":"name","label":"Identificacion","step":"Porporcionar datos personales"}
             ],
-            [],
-            [],
-            [],
+
             [
                   {"name": "ObtenerFechaCita","type":"page","class":"name"},
                   {"name": "listaSin","type":"calendar","class":"class","label":"","step":"Seleccion de fecha"}
             ]
         ]
     },
-               "osa":{
+              "osa":{
               "name": "osa",
               "description": "",
               "steps": ["Porporcionar datos personales","Seleccion de servicio","Seleccion de fecha"],
@@ -114,12 +112,16 @@ function searchCurrentPage()
       if ($('form['+eService.pages[index][0].class+'=\"'+eService.pages[index][0].name+'\"]').length)
             {
             page=eService.pages[index];
-            //alert(index);
             }
       }
     if (eService.pages[index][0].type==="page")
       {
-      alert("page");
+      if (eService.pages[index][0].name.indexOf("https") >-1)
+          if (window.location.href==eService.pages[index][0].name)
+            page=eService.pages[index];
+      else
+          if (window.location.href.indexOf(eService.pages[index][0].name) > -1)
+            page=eService.pages[index];
       }
     }
   if(page.length===0)
@@ -200,15 +202,19 @@ $(window).one('load', function()
     eService=eservices.segSocial;
   if (eService!=null)
     {
+
     createPanel();
     //Egoera Step Kargatu
+
     currentStep=sessionStorage.getItem("currentStepSession");
     previousStep=sessionStorage.getItem("previousStepSession");
-
     if (currentStep===null) currentStep=eService.steps[0];
     if (previousStep===null) previousStep=currentStep;
-
     currentPage=searchCurrentPage();
+
+    if (eService.steps.indexOf(currentStep) < eService.steps.indexOf(currentPage[1].step))
+        currentStep=currentPage[1].step;
+
 
     if (alertNotification())
         {
@@ -221,6 +227,7 @@ $(window).one('load', function()
         {
         show();
         }
+    alert(currentStep);
     }
   });
 
@@ -291,27 +298,12 @@ function createPanel()
         newElementDiv.id="bRight";
 
         var newElementA = document.createElement('div');
-        newElementA.id="buttonTitleR";
+        newElementA.id="buttonTitle";
         newElementA.innerText="Seguir";
         //newElementA.className="buttonMenu";
     $("#controlRight").append(newElementButton);
         $("#buttonRight").append(newElementDiv);
         $("#buttonRight").append(newElementA);
-
-
-    var newElementButton = document.createElement('div');
-    newElementButton.id="buttonLeft";
-        var newElementDiv = document.createElement('div');
-        newElementDiv.id="bLeft";
-
-        var newElementA = document.createElement('div');
-        newElementA.id="buttonTitleL";
-        newElementA.innerText="Volver";
-        //newElementA.className="buttonMenu";
-    $("#controlLeft").append(newElementButton);
-        $("#buttonLeft").append(newElementDiv);
-        $("#buttonLeft").append(newElementA);
-
 
 
     $('#buttonRight').on("click",changePanel);
@@ -328,7 +320,6 @@ function hide()
 
 function sendForm()
     {
-    //alert(currentStep);
     $('input[save="yes"]').each(function(index)
         {
         localStorage.setItem($(this).attr("id"), $(this).val());
@@ -337,6 +328,18 @@ function sendForm()
     sessionStorage.setItem("previousStepSession",previousStep);
     //alert("Now, it sends the form.");
     $('form['+currentPage[0].class+'=\"'+currentPage[0].name+'\"]').submit();
+    }
+function sendPage(event)
+    {
+    //$('input[save="yes"]').each(function(index)
+      //  {
+        //localStorage.setItem($(this).attr("id"), $(this).val());
+        //});
+    //sessionStorage.setItem("currentStepSession",currentStep);
+    //sessionStorage.setItem("previousStepSession",previousStep);
+    //alert("Now, it sends the form.");
+    //$('form['+currentPage[0].class+'=\"'+currentPage[0].name+'\"]').submit();
+    document.getElementById(event.data.urlId).click();
     }
 
 document.onkeydown=function(e)
@@ -405,7 +408,7 @@ function show()
   preShow();
   $('#subtitle').empty();
     $("#buttonRight").show();
-    $("#buttonLeft").show();
+  //alert(componentList[kont].name);
   currentComponent=componentList[kont].name;
   if (componentList[kont].type==="captcha")
         {
@@ -455,10 +458,26 @@ function show()
         $("#yes").on("click",{value:true,numberFields:componentList[kont].value},yesNo);
         $("#no").on("click",{value:false,numberFields:componentList[kont].value},yesNo);
         $("#buttonRight").hide()
-        $("#buttonLeft").hide();
-
-
         }
+    if (componentList[kont].type==="link")
+        {
+        //  $('#displayCalendar a').each(function (index)
+        $('div[class=\"'+componentList[kont].name+'\"] a').each(function (index)
+            {
+            $(this).attr("id","Aid"+index);
+            var newElementA = document.createElement('div');
+            newElementA.className="linkButton";
+            newElementA.innerHTML=$(this).text();
+            newElementA.id="A"+index;
+
+            $("#p1").append(newElementA);
+            $( "#A"+index ).on("click",{urlId:"Aid"+index},sendPage);
+            $('#buttonRight').hide();
+
+            });
+        $("#buttonRight").hide()
+        }
+
     }
 
 function yesNo(event)
@@ -477,8 +496,9 @@ function alertNotification()
   {// erroreak erakusteko
   if($('p.aviso').text()!="")
     {
+    alert("errors");
     currentStep=previousStep;
-    //alert($('p.aviso').text());
+    alert("Errors: "+$('p.aviso').text());
     return(true);
     }
    else return(false);
@@ -547,39 +567,17 @@ function createListA()
   {
   $('input[name=\"'+componentList[kont].name+'\"]').each(function (index)
         {
-
-
         var listRadioSepe = $(this).parent().text().split("  ");
-
         var newElementA = document.createElement('div');
         newElementA.className="linkButton";
-
-        //var newElementh3 = document.createElement('font');
-        //newElementh3.id="h3Radio";
-
         newElementA.innerHTML=listRadioSepe[index];//$(this).val()+
-
-        //newElementA.className="radio";
-
         newElementA.id="A"+index;
 
         $("#p1").append(newElementA);
-        //$("#p1").css({'font-size':'18px'});
-        //$("#"+"A"+index).append(newElementh3);
-        //$("#p1").append("<br>");
-                //$('#A'+index).addClass="radio";
-
-
-
         $( "#A"+index ).on("click",{value:$(this).val()},checkEgin);
         $('#buttonRight').hide();
-        $('#buttonLeft').hide();
 
         });
-
-
-     $("p").css({'font-size':'2em','color':'black'}) ;
-
   }
 
 function createListAOfSelect()
@@ -651,7 +649,6 @@ function createCalendar2()
     $("#dayId0").trigger( "click",{year:year,month:month,monthName:monthName,day:day});
     //createHours2(year,month,monthName,day);
     $("#buttonRight").hide();
-    $("#buttonLeft").hide();
     }
 
 function createDays(event)
