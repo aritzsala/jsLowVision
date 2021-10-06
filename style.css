@@ -125,12 +125,12 @@
     border: 5px outset red;
     background-color: black;
     text-align: center;
-    height: 96%;
-    width: 90%;
+    height: 100%;
+    width: 100%;
     position:absolute;
     z-index:999;
-    top:3%;
-    left:5%;
+    top:0%;
+    left:0%;
     padding:10px
     }
 .calendarMonth:hover, .calendarDay:hover, .calendarHour:hover, .linkButton:hover
@@ -256,12 +256,16 @@
   color: #FFD700;
 }
 
-#panel  img
+#panel img
     {
     display: block;
-    margin-left: 10%;
-    margin-right: 10%;
-    width: 90%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    height: 90%;
+        width: 90%;
+
     border;3px;
     }
 

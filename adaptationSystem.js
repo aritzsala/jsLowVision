@@ -16,7 +16,7 @@ var eservices =
               "pages":
                   [
                     [
-                      {"name": "solicitudCitaPreviaForm","type":"form","class":"name"},
+                      {"name": "solicitudCitaPreviaForm","type":"form","class":"name","errorClass":"class","errorName":"aviso","errorComponent":"p"},
                       {"name": "captcha","class":"id", "type": "captcha", "captchaType":"img","img":"ImageCaptcha.png","audio":"https://sede.sepe.gob.es/citaprevia/AudioCaptcha.wav","audioType":"audio/wav","step":"Pregunta de seguridad"},
                       {"name": "nif","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
                       {"name":"cp","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
@@ -63,14 +63,18 @@ var eservices =
                 {"name": "informacionGeneral","type":"link","class":"class","main":"div","step":"Intro"}
             ],
             [
-                {"name": "formulario","type":"form","class":"name"},
+                {"name": "formulario","type":"form","class":"name","errorClass":"class","errorName":"pError","errorComponent":"ul"},
                 {"name": "codSeguridad","class":"name", "type": "captcha", "captchaType":"img","img":"jcaptcha.jpg","audio":"https://www.citapreviadnie.es/citaPreviaDniExp/scaptcha.mp3","audioType":"audio/mp3","step":"Pregunta de seguridad"},
                 {"name": "numDocumento","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
-                {"name": "letraDocumento","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
-                {"name":"codEquipo","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
+                {"name": "letraDocumento","type":"input","class":"name","label":"","step":"Porporcionar datos personales"},
+                {"name":"codEquipo","type":"input","class":"name","label":"","step":"Porporcionar datos personales"},
                 {"name": "fechaValidez","type":"input","class":"name","label":"Identificacion","step":"Porporcionar datos personales"}
             ],
 
+            [
+                {"name": "Autentificar.action","type":"page","class":"name"},
+                {"name": "informacionGeneral","type":"link","class":"class","main":"div","step":"Seleccion de servicio"}
+            ],
             [
                   {"name": "ObtenerFechaCita","type":"page","class":"name"},
                   {"name": "listaSin","type":"calendar","class":"class","label":"","step":"Seleccion de fecha"}
@@ -235,7 +239,8 @@ function showErrors()
     {
     componentList=createListOfStep();
     $("#title").text("Errors");
-    $('#p1').append($('p.aviso').html());
+    errorComponent=currentPage[0].errorComponent+"."+currentPage[0].errorName;
+    $('#p1').append($(errorComponent).html());
     }
 
 function hideShowPanel()
@@ -407,7 +412,8 @@ function show()
   {
   preShow();
   $('#subtitle').empty();
-    $("#buttonRight").show();
+  hide();
+  $("#buttonRight").show();
   //alert(componentList[kont].name);
   currentComponent=componentList[kont].name;
   if (componentList[kont].type==="captcha")
@@ -441,9 +447,12 @@ function show()
         }
     if (componentList[kont].type==="captcha" || componentList[kont].type==="input")
         {
-        $('label[for=\"' + componentList[kont].name + '\"]').clone(true).appendTo('#subtitle');
-        alert('input['+componentList[kont].class+'=\"'+ componentList[kont].name+'\"]');
-        $clone=$('input['+componentList[kont].class+'=\"'+ componentList[kont].name+'\"]').clone(true);
+        //alert($('label[for=\"' + componentList[kont].name + '\"]').html());
+        //alert($('label[for=\"' + componentList[kont].name + '\"]').text());
+
+        //$('label[for=\"' + componentList[kont].name + '\"]')text().appendTo('#subtitle');
+        $("#subtitle").append($('label[for=\"' + componentList[kont].name + '\"]').text());
+        //alert('input['+componentList[kont].class+'=\"'+ componentList[kont].name+'\"]');
         $clone=$('input['+componentList[kont].class+'=\"'+ componentList[kont].name+'\"]').clone(true);
         $clone.appendTo('#p1').focus();
         }
@@ -495,11 +504,13 @@ function yesNo(event)
     }
 function alertNotification()
   {// erroreak erakusteko
-  if($('p.aviso').text()!="")
+  errorComponent=currentPage[0].errorComponent+"."+currentPage[0].errorName;
+
+  if($(errorComponent).text()!="")
     {
-    alert("errors");
+    //alert("errors");
     currentStep=previousStep;
-    alert("Errors: "+$('p.aviso').text());
+    //alert("Errors: "+$('p.aviso').text());
     return(true);
     }
    else return(false);
