@@ -64,7 +64,7 @@ var eservices =
             ],
             [
                 {"name": "formulario","type":"form","class":"name"},
-                {"name": "codSeguridad", "type": "captcha", "captchaType":"id","img":"jcaptcha.jpg","audio":"https://www.citapreviadnie.es/citaPreviaDniExp/scaptcha.mp3","audioType":"audio/mp3","step":"Pregunta de seguridad"},
+                {"name": "codSeguridad", "type": "captcha", "captchaType":"img","img":"jcaptcha.jpg","audio":"https://www.citapreviadnie.es/citaPreviaDniExp/scaptcha.mp3","audioType":"audio/mp3","step":"Pregunta de seguridad"},
                 {"name": "numDocumento","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
                 {"name": "letraDocumento","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
                 {"name":"codEquipo","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
@@ -227,7 +227,7 @@ $(window).one('load', function()
         {
         show();
         }
-    alert(currentStep);
+
     }
   });
 
@@ -444,7 +444,6 @@ function show()
         $('label[for=\"' + componentList[kont].name + '\"]').clone(true).appendTo('#subtitle');
         $clone=$('#' + componentList[kont].name).clone(true);
         $clone.appendTo('#p1').focus();
-        //$('#' + componentList[kont].name).focus()
         }
     if (componentList[kont].type==="text")
         {
