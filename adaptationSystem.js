@@ -6,7 +6,8 @@ var oharrak=1;
 
 var unekoStep="";
 var eservices =
-  { "sepe":{
+  {
+  "sepe":{
               "name": "sepe",
               "description": "",
               "url":"https://sede.sepe.gob.es/citaprevia/solicitudCitaPrevia.do",
@@ -29,15 +30,15 @@ var eservices =
                     ],
                     [
                       {"name": "solicitudCitaPreviaCalendarioForm","type":"form","class":"name"},
-                      {"name": "eguna","type":"calendar","class":"name","step":"Selección de fecha"}
+                      {"name": "eguna","type":"calendar","class":"name","month":"encabezadoMeses","step":"Selección de fecha"}
                     ],
                     [
                       {"name": "solicitudCitaPreviaConfirmacionForm","type":"form","class":"name"},
                       {"name":"appoitment","type":"text","day":"dia","hour":"hora.azul","step":"Confirmación"},
-                      {"name":"telefono","type":"confirmation","label":"telefono","step":"Confirmación"},
+                      {"name":"telefono","type":"confirmation","label":"telefono","step":"Confirmación","value":"2"},
                       {"name":"telefono","type":"input","class":"id","label":"telefono","notification":"telefono","step":"Confirmación"},
                       {"name":"confirmarTelefono","type":"input","class":"id","label":"telefono","notification":"mail","step":"Confirmación"},
-                      {"name":"email","type":"confirmation","label":"email","step":"Confirmación"},
+                      {"name":"email","type":"confirmation","label":"email","step":"Confirmación","value":"2"},
                       {"name":"email","type":"input","class":"id","label":"email","step":"Confirmación"},
                       {"name":"confirmaremail","type":"input","class":"id","label":"email","step":"Confirmación"}
 
@@ -45,7 +46,46 @@ var eservices =
 
                   ]
 
-            }
+            },
+  "dni":{
+      "name": "dni",
+      "description": "",
+      "steps": ["Intro","Pregunta de seguridad","Porporcionar datos personales","Seleccion de servicio","Seleccion de localidad","Seleccion de fecha"],
+
+      "pages":
+         [
+            [
+                {"name": "page","type":"page","class":"name"},
+                {"name": "informacionGeneral","type":"link","class":"class","main":"div","step":"Intro"}
+            ],
+            [
+                {"name": "page2","type":"page","class":"name"},
+                {"name": "informacionGeneral","type":"link","class":"class","main":"div","step":"Intro"}
+            ],
+            [
+                {"name": "formulario","type":"form","class":"name"},
+                {"name": "codSeguridad", "type": "captcha", "captchaType":"id","img":"jcaptcha.jpg","audio":"https://www.citapreviadnie.es/citaPreviaDniExp/scaptcha.mp3","audioType":"audio/mp3","step":"Pregunta de seguridad"},
+                {"name": "numDocumento","type":"input","class":"id","label":"","step":"Pregunta de seguridad"},
+                {"name": "letraDocumento","type":"input","class":"id","label":"","step":"Pregunta de seguridad"},
+                {"name":"codEquipo","type":"input","class":"id","label":"","step":"Pregunta de seguridad"},
+                {"name": "fechaValidez","type":"input","class":"name","label":"Identificacion","step":"Pregunta de seguridad"}
+            ],
+            [],
+            [],
+            [],
+            [
+                  {"name": "ObtenerFechaCita","type":"page","class":"name"},
+                  {"name": "listaSin","type":"calendar","class":"class","label":"","step":"Seleccion de fecha"}
+            ]
+        ]
+    },
+               "osa":{
+              "name": "osa",
+              "description": "",
+              "steps": ["Porporcionar datos personales","Seleccion de servicio","Seleccion de fecha"],
+
+              "pages":
+                  []}
   };
 
 
@@ -179,7 +219,6 @@ $(window).one('load', function()
         }
     else
         {
-
         show();
         }
     }
@@ -288,6 +327,7 @@ function sendForm()
 document.onkeydown=function(e)
     {
     if(e.keyCode === 27) hideShowPanel();
+    //key press enter for going to next element
     }
 
 function checkEgin(event)
@@ -358,8 +398,6 @@ function show()
 
         var newElementAudio = document.createElement('audio');
         newElementAudio.setAttribute("controls","");
-        //newElementAudio.setAttribute("preload","auto");
-        //newElementAudio.setAttribute("style","display:none;");
         var source_element = document.createElement('source');
         source_element.setAttribute("src",componentList[kont].audio);
         source_element.setAttribute("type",componentList[kont].audioType);
@@ -372,16 +410,14 @@ function show()
     if (componentList[kont].type==="radio")
         {
         createListA();
-        //createTable();
         }
     if (componentList[kont].type==="select")
         {
-        //alert("select");
+        //Ex dabil ondo
         createListAOfSelect();
         }
      if (componentList[kont].type==="calendar")
         {
-        //alert("calendar");
         createCalendar2();
         }
     if (componentList[kont].type==="captcha" || componentList[kont].type==="input")
@@ -400,8 +436,8 @@ function show()
         {
         $('#p1').append("¿Quieres que la cita sea notificada por "+componentList[kont].name +" ?<br>");
         $('#p1').append("<div class='calendarDay' id='yes'>Si</div><div class='calendarDay' id='no'>No</div><br>");
-        $("#yes").on("click",{value:true},yesNo);
-        $("#no").on("click",{value:false},yesNo);
+        $("#yes").on("click",{value:true,numberFields:componentList[kont].value},yesNo);
+        $("#no").on("click",{value:false,numberFields:componentList[kont].value},yesNo);
         $("#buttonRight").hide()
 
 
@@ -416,7 +452,7 @@ function yesNo(event)
         }
     else
         {
-        kont=kont+2;
+        kont=kont+parseInt(event.data.numberFields);
         changePanel();
         }
     }
@@ -543,7 +579,6 @@ function createCalendar2()
     var monthNum ={"Enero":"01","Febrero":"02","Marzo":"03","Abril":"04","Mayo":"05","Junio":"06","Julio":"07","Agosto":"08","Septiembre":"09","Octubre":"10","Noviembre":"11","Diciembre":"12"};
     var year,month,monthName,day;
     //<a href="solicitudCitaPreviaCalendarioNo.do">NO</a> male click for showing more days
-
     if ($("a[href='solicitudCitaPreviaCalendarioNo.do']").length)
         {
         $("a[href='solicitudCitaPreviaCalendarioNo.do']").attr("id","calendarNO");
