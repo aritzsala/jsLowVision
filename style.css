@@ -112,15 +112,15 @@
     top:60%;
     left:15%;
     width:70%;
-    height:65%;
+    height:40%;
     color:white;
     font-size: 2em;
     position:absolute;
     vertical-align: middle;
-        z-index:10001;
+    z-index:10001;
 
     }
-#panel
+#panel, #loading
     {
     border: 5px outset red;
     background-color: black;
@@ -133,6 +133,7 @@
     left:0%;
     padding:10px
     }
+
 .calendarMonth:hover, .calendarDay:hover, .calendarHour:hover, .linkButton:hover
     {
     background:gold;
@@ -259,14 +260,13 @@
 #panel img
     {
     display: block;
-    margin-top: 5%;
+    margin-top: 1%;
     margin-bottom: 5%;
     margin-left: 5%;
     margin-right: 5%;
     height: 90%;
-        width: 90%;
-
-    border;3px;
+    width: 90%;
+    /*border;3px;*/
     }
 
 #buttonRight {
@@ -364,3 +364,56 @@
   font-size: xxx-large;
   text-decoration: underline;
 }
+
+
+
+
+/*loading css*/
+.lds-ring
+    {
+        align-items: center;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    }
+
+.lds-ring div
+    {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 640px;
+    height: 640px;
+    margin: 8px;
+    border: 28px solid #fff;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #fff transparent transparent transparent;
+    }
+
+.lds-ring div:nth-child(1)
+    {
+    animation-delay: -0.45s;
+    }
+.lds-ring div:nth-child(2)
+    {
+    animation-delay: -0.3s;
+    }
+
+.lds-ring div:nth-child(3)
+    {
+    animation-delay: -0.15s;
+    }
+@keyframes lds-ring
+    {
+    0%
+        {
+        transform: rotate(0deg);
+        }
+    100%
+        {
+        transform: rotate(360deg);
+        }
+    }

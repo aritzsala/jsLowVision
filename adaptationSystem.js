@@ -67,8 +67,8 @@ var eservices =
                 {"name": "codSeguridad","class":"name", "type": "captcha", "captchaType":"img","img":"jcaptcha.jpg","audio":"https://www.citapreviadnie.es/citaPreviaDniExp/scaptcha.mp3","audioType":"audio/mp3","step":"Pregunta de seguridad"},
                 {"name": "numDocumento","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
                 {"name": "letraDocumento","type":"input","class":"name","label":"","step":"Porporcionar datos personales"},
-                {"name":"codEquipo","type":"input","class":"name","label":"","step":"Porporcionar datos personales"},
-                {"name": "fechaValidez","type":"input","class":"name","label":"Identificacion","step":"Porporcionar datos personales"}
+                {"name":"codEquipo","type":"input","class":"name","label":"","helpComponent":"images/ReversoDni3s.jpg","step":"Porporcionar datos personales"},
+                {"name": "fechaValidez","type":"input","class":"name","label":"","helpComponent":"images/AnversoDni3s.jpg","step":"Porporcionar datos personales"}
             ],
 
             [
@@ -193,10 +193,21 @@ function loadStorage()
     }
   }
 
+$(document).ready(function()
+    {
+    alert("ready");
+    var newElementDiv = document.createElement('div');
+    newElementDiv.id = 'loading';
+    newElementDiv.className = 'lds-ring';
+    $('body').append(newElementDiv);
+    $('#loading').append("<div></div><div></div><div></div>");
+    });
 
 // Everything has loaded!
-$(window).one('load', function()
+$(window).load(function()
   {
+  alert("load");
+  //$("#loading").hide();
   loadStorage();
   if (window.location.href.indexOf("sede.sepe.gob.es/citaprevia") > -1)
     eService=eservices.sepe;
@@ -259,6 +270,7 @@ function hideShowPanel()
 
 function createPanel()
     {
+    alert("create panel");
     panelVisible=0;
 
     var newElementDiv = document.createElement('div');
@@ -447,12 +459,9 @@ function show()
         }
     if (componentList[kont].type==="captcha" || componentList[kont].type==="input")
         {
-        //alert($('label[for=\"' + componentList[kont].name + '\"]').html());
-        //alert($('label[for=\"' + componentList[kont].name + '\"]').text());
 
-        //$('label[for=\"' + componentList[kont].name + '\"]')text().appendTo('#subtitle');
+        if (typeof componentList[kont].helpComponent !== 'undefined') $('img[src=\"' + componentList[kont].helpComponent + '\"]').clone(true).appendTo('#p3');
         $("#subtitle").append($('label[for=\"' + componentList[kont].name + '\"]').text());
-        //alert('input['+componentList[kont].class+'=\"'+ componentList[kont].name+'\"]');
         $clone=$('input['+componentList[kont].class+'=\"'+ componentList[kont].name+'\"]').clone(true);
         $clone.appendTo('#p1').focus();
         }
