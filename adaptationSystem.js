@@ -75,8 +75,20 @@ var eservices =
                 {"name": "Autentificar.action","type":"page","class":"name"},
                 {"name": "informacionGeneral","type":"link","class":"class","main":"div","step":"Seleccion de servicio"}
             ],
+                        [
+                {"name": "InicioTramite.action","type":"page","class":"name"},
+                {"name": "comunidad","type":"link","class":"class","main":"div","step":"Seleccion de localidad"}
+            ],
+                                   [
+                {"name": "seleccion=comunidad&comunidad.action","type":"page","class":"name"},
+                {"name": "titulo","type":"link","class":"class","main":"div","step":"Seleccion de localidad"}
+            ],
+                                               [
+                {"name": "seleccion=comunidad&comunidad.action","type":"page","class":"name"},
+                {"name": "informacionGeneral","type":"link","class":"class","main":"li","step":"Seleccion de localidad"}
+            ],
             [
-                  {"name": "ObtenerFechaCita","type":"page","class":"name"},
+                  {"name": "ObtenerFechaCitaEspera.action","type":"page","class":"name"},
                   {"name": "listaSin","type":"calendar","class":"class","label":"","step":"Seleccion de fecha"}
             ]
         ]
@@ -193,9 +205,9 @@ function loadStorage()
     }
   }
 
-$(document).ready(function()
+$(window).ready(function()
     {
-    alert("ready");
+    //alert("ready");
     var newElementDiv = document.createElement('div');
     newElementDiv.id = 'loading';
     newElementDiv.className = 'lds-ring';
@@ -206,8 +218,8 @@ $(document).ready(function()
 // Everything has loaded!
 $(window).load(function()
   {
-  alert("load");
-  //$("#loading").hide();
+  //alert("load");
+  $("#loading").hide();
   loadStorage();
   if (window.location.href.indexOf("sede.sepe.gob.es/citaprevia") > -1)
     eService=eservices.sepe;
@@ -270,7 +282,7 @@ function hideShowPanel()
 
 function createPanel()
     {
-    alert("create panel");
+    //alert("create panel");
     panelVisible=0;
 
     var newElementDiv = document.createElement('div');
