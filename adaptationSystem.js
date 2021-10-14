@@ -20,7 +20,7 @@ var eservices =
                       {"name": "captcha","class":"id", "type": "captcha", "captchaType":"img","img":"ImageCaptcha.png","audio":"https://sede.sepe.gob.es/citaprevia/AudioCaptcha.wav","audioType":"audio/wav","step":"Pregunta de seguridad"},
                       {"name": "nif","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
                       {"name":"cp","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
-                      {"name": "SbtCodigo","type":"radio","class":"name","label":"Selección servicio","step":"Selección de servicio"}
+                      {"name": "SbtCodigo","type":"radio","class":"name","view":"line","label":"Selección servicio","step":"Selección de servicio"}
                     ],
                     [
                       {"name": "solicitudCitaPreviaDatosPersonalesForm","type":"form","class":"name"},
@@ -50,17 +50,17 @@ var eservices =
   "dni":{
       "name": "dni",
       "description": "",
-      "steps": ["Intro","Pregunta de seguridad","Porporcionar datos personales","Seleccion de servicio","Seleccion de localidad","Seleccion de fecha"],
+      "steps": ["Intro","Pregunta de seguridad","Porporcionar datos personales","Seleccion de servicio","Seleccion de localidad","Selección de fecha"],
 
       "pages":
          [
             [
                 {"name": "https://www.citapreviadnie.es/citaPreviaDniExp/","type":"page","class":"name"},
-                {"name": "informacionGeneral","type":"link","class":"class","main":"div","step":"Intro"}
+                {"name": "informacionGeneral","type":"link","view":"line","link":"a","class":"class","main":"div","step":"Intro"}
             ],
             [
                 {"name": "Inicio.action","type":"page","class":"name"},
-                {"name": "informacionGeneral","type":"link","class":"class","main":"div","step":"Intro"}
+                {"name": "informacionGeneral","type":"link","view":"row","link":"a","class":"class","main":"div","step":"Intro"}
             ],
             [
                 {"name": "formulario","type":"form","class":"name","errorClass":"class","errorName":"pError","errorComponent":"ul"},
@@ -73,23 +73,23 @@ var eservices =
 
             [
                 {"name": "Autentificar.action","type":"page","class":"name"},
-                {"name": "informacionGeneral","type":"link","class":"class","main":"div","step":"Seleccion de servicio"}
+                {"name": "informacionGeneral","type":"link","view":"line","link":"a","class":"class","main":"div","step":"Seleccion de servicio"}
             ],
                         [
                 {"name": "InicioTramite.action","type":"page","class":"name"},
-                {"name": "comunidad","type":"link","class":"class","main":"div","step":"Seleccion de localidad"}
-            ],
-                                   [
-                {"name": "seleccion=comunidad&comunidad.action","type":"page","class":"name"},
-                {"name": "titulo","type":"link","class":"class","main":"div","step":"Seleccion de localidad"}
-            ],
-                                               [
-                {"name": "seleccion=comunidad&comunidad.action","type":"page","class":"name"},
-                {"name": "informacionGeneral","type":"link","class":"class","main":"li","step":"Seleccion de localidad"}
+                {"name": "comunidad","type":"link","link":"a","view":"row","class":"class","main":"div","step":"Seleccion de localidad"}
             ],
             [
-                  {"name": "ObtenerFechaCitaEspera.action","type":"page","class":"name"},
-                  {"name": "listaSin","type":"calendar","class":"class","label":"","step":"Seleccion de fecha"}
+                {"name": "seleccion=comunidad&comunidad","type":"page","class":"name"},
+                {"name": "","type":"link","link":"a","main":"li","view":"row","step":"Seleccion de localidad"}
+            ],
+                                               [
+                {"name": "nombre_provincia","type":"page","class":"name"},
+                {"name": "lista","type":"link","class":"class","view":"line","link":"a","main":"div","step":"Seleccion de localidad"}
+            ],
+            [
+                  {"name": "seleccion=hora","type":"page","class":"name"},
+                  {"name": "eguna","type":"calendar","class":"name","month":"listaSin","day":"vacio","hour":"hora","step":"Selección de fecha"}
             ]
         ]
     },
@@ -128,18 +128,26 @@ function searchCurrentPage()
       if ($('form['+eService.pages[index][0].class+'=\"'+eService.pages[index][0].name+'\"]').length)
             {
             page=eService.pages[index];
+            break;
             }
       }
     if (eService.pages[index][0].type==="page")
       {
-      if (eService.pages[index][0].name.indexOf("https") >-1)
-          if (window.location.href==eService.pages[index][0].name)
-            page=eService.pages[index];
+      if (eService.pages[index][0].name.indexOf("https") > -1)
+        {
+        if (window.location.href==eService.pages[index][0].name)
+            {page=eService.pages[index];break;}
+        }
       else
-          if (window.location.href.indexOf(eService.pages[index][0].name) > -1)
-            page=eService.pages[index];
+        {
+        if (window.location.href.indexOf(eService.pages[index][0].name) > -1)
+            {page=eService.pages[index];break;}
+        }
+
       }
     }
+  //alert(page[0].name);
+  //alert(window.location.href==page[0].name);
   if(page.length===0)
     return(-1);
   else
@@ -219,6 +227,12 @@ $(window).ready(function()
 $(window).load(function()
   {
   //alert("load");
+
+
+
+    $('html, body').css({overflow: 'auto',height: 'auto'});
+
+    $('div[class="area-main"]').hide();
   $("#loading").hide();
   loadStorage();
   if (window.location.href.indexOf("sede.sepe.gob.es/citaprevia") > -1)
@@ -238,6 +252,9 @@ $(window).load(function()
     if (currentStep===null) currentStep=eService.steps[0];
     if (previousStep===null) previousStep=currentStep;
     currentPage=searchCurrentPage();
+
+    //alert(currentStep +":::"+currentPage[1].step);
+    //alert(eService.steps.indexOf(currentStep) +":::"+ eService.steps.indexOf(currentPage[1].step));
 
     if (eService.steps.indexOf(currentStep) < eService.steps.indexOf(currentPage[1].step))
         currentStep=currentPage[1].step;
@@ -467,8 +484,11 @@ function show()
         }
      if (componentList[kont].type==="calendar")
         {
-        createCalendar2();
+        if (window.location.href.indexOf("sede.sepe.gob.es/citaprevia") > -1) createCalendar2();
+        if (window.location.href.indexOf(".citapreviadnie.es") > -1) createCalendar();
         }
+
+
     if (componentList[kont].type==="captcha" || componentList[kont].type==="input")
         {
 
@@ -492,13 +512,17 @@ function show()
         }
     if (componentList[kont].type==="link")
         {
-        //  $('#displayCalendar a').each(function (index)
-        $('div[class=\"'+componentList[kont].name+'\"] a').each(function (index)
+        if (typeof componentList[kont].class !== "undefined") component=componentList[kont].main+'['+componentList[kont].class+'=\"'+componentList[kont].name+'\"]';
+        else component=componentList[kont].main;
+        $(component+' '+componentList[kont].link).each(function (index)
             {
             $(this).attr("id","Aid"+index);
             var newElementA = document.createElement('div');
-            newElementA.className="linkButton";
-            newElementA.innerHTML=$(this).text();
+            if (componentList[kont].view=="row") newElementA.className="calendarMonth";
+            else newElementA.className="linkButton";
+
+
+            newElementA.innerHTML=$(this).attr("title");//text();
             newElementA.id="A"+index;
 
             $("#p1").append(newElementA);
@@ -737,44 +761,77 @@ function selHour(event)
     }
 function createCalendar()
     {
-    $("#p1").append("<h2>Meses disponibles</h2>");
-    $("#p2").append("<h2>Días disponibles</h2>");
-    $("#p3").append("<h2>Horas disponibles</h2>");
-
-    $('a').each(function ()
+   //hilak
+    $("#p1").empty();
+    $("#p1").append("<h2>hilak disponibles :</h2>");
+    $('div[class="listaSin"]:nth-of-type(1) a,div[class="listaSin"]:nth-of-type(1) span[class="gris"]').each(function (index)
         {
-        //alert($(this));
-        if ($(this).attr("href").indexOf("numMes")>-1)
-            $(this).appendTo("#p1");
-        if ($(this).attr("href").indexOf("numDia")>-1)
-            $(this).appendTo("#p2");
-        if ($(this).attr("href").indexOf("ConfigurarCita")>-1)
-            $(this).appendTo("#p3");
+        //alert($(this).text())
+            //$(this).attr("id","day"+event.data.day+"month"+event.data.month+index);
+            var newElementA = document.createElement('div');
+            newElementA.className = "calendarDay";
+            //newElementA.id = "month"+index;
+            newElementA.innerText = $(this).text();//.substr($(this).text().length - 5); ;
+            //alert($(this).text());
+            $("#p1").append(newElementA);
+            //$("#day"+index).on("click",{day:event.data.day,month:event.data.month,index:index},selHour);
+
         });
-    //$('div[class="listaSin"]').appendTo("#p1");
+   //Egunak
+    $("#p2").empty();
+    $("#p2").append("<h2>dias disponibles :</h2>");
+    $('div[class="vacio"] a, div[class="vacio"] span[class="gris"]').each(function (index)
+        {
+        //alert("DAY: "+$(this).text())
+            //$(this).attr("id","day"+event.data.day+"month"+event.data.month+index);
+            var newElementA = document.createElement('div');
+            newElementA.className = "calendarDay";
+            //newElementA.id = "month"+index;
+            newElementA.innerText = $(this).text();//.substr($(this).text().length - 5); ;
+            //alert($(this).text());
+            $("#p2").append(newElementA);
+            //$("#day"+index).on("click",{day:event.data.day,month:event.data.month,index:index},selHour);
+
+        });
+    //orduk
+    $("#p3").empty();
+    $("#p3").append("<h2>Horas disponibles del ****** de ******:</h2>");
+    $('div[class="hora"] a').each(function (index)
+        {
+        //alert($(this).text())
+            //$(this).attr("id","day"+event.data.day+"month"+event.data.month+index);
+            var newElementA = document.createElement('div');
+            newElementA.className = "calendarHour";
+            //newElementA.id = "day"+index;
+            newElementA.innerText = $(this).text();//.substr($(this).text().length - 5); ;
+            //alert($(this).text());
+            $("#p3").append(newElementA);
+            //$("#day"+index).on("click",{day:event.data.day,month:event.data.month,index:index},selHour);
+
+        });
     }
 
-function clearString(texto)
+function clearString(text)
     {
-    var texto = texto.toLowerCase();
-    texto = texto.replace(/[!]/, "");
-    texto = texto.replace( " ", "");
-    texto = texto.replace(/[#]/, "");
-    texto = texto.replace(/[$]/, "");
-    texto = texto.replace(/[%]/, "");
-    texto = texto.replace(/[&]/, "");
-    texto = texto.replace(/[/]/, "");
-    texto = texto.replace(/[(]/g, "");
-    texto = texto.replace(/[)]/g, "");
-    texto = texto.replace(/[;]/g, "");
-    texto = texto.replace(/[:]/g, "");
-    texto = texto.replace(/[<]/, "");
-    texto = texto.replace(/[>]/, "");
-    texto = texto.replace(/[']/, "");
-    texto = texto.replace(/['"]+/g, "");
-    texto = texto.replace(/”/g, '');
-    texto = texto.replace(/“/g, '')
-    return texto;
+    var text = text.toLowerCase();
+    text = text.replace(/[!]/, "");
+    text = text.replace( " ", "");
+    text = text.replace(/[#]/, "");
+    text = text.replace(/[$]/, "");
+    text = text.replace(/[%]/, "");
+    text = text.replace(/[&]/, "");
+    text = text.replace(/[/]/, "");
+    text = text.replace(/[(]/g, "");
+    text = text.replace(/[)]/g, "");
+    text = text.replace(/[;]/g, "");
+    text = text.replace(/[:]/g, "");
+    text = text.replace(/[<]/, "");
+    text = text.replace(/[>]/, "");
+    text = text.replace(/[']/, "");
+    text = text.replace(/['"]+/g, "");
+    text = text.replace(/”/g, '');
+    text = text.replace(/“/g, '')
+    return text;
     }
 
 // End
