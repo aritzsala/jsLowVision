@@ -50,7 +50,7 @@ var eservices =
   "dni":{
       "name": "dni",
       "description": "",
-      "steps": ["Intro","Pregunta de seguridad","Porporcionar datos personales","Seleccion de servicio","Seleccion de localidad","Selección de fecha"],
+      "steps": ["Intro","Pregunta de seguridad","Porporcionar datos personales","Seleccion de servicio","Seleccion de localidad","Selección de fecha","Confirmación"],
 
       "pages":
          [
@@ -63,7 +63,7 @@ var eservices =
                 {"name": "informacionGeneral","type":"link","view":"row","link":"a","class":"class","main":"div","step":"Intro"}
             ],
             [
-                {"name": "formulario","type":"form","class":"name","errorClass":"class","errorName":"pError","errorComponent":"ul"},
+                {"name": "Autentificar","type":"form","class":"id","errorClass":"class","errorName":"pError","errorComponent":"ul"},
                 {"name": "codSeguridad","class":"name", "type": "captcha", "captchaType":"img","img":"jcaptcha.jpg","audio":"https://www.citapreviadnie.es/citaPreviaDniExp/scaptcha.mp3","audioType":"audio/mp3","step":"Pregunta de seguridad"},
                 {"name": "numDocumento","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
                 {"name": "letraDocumento","type":"input","class":"name","label":"","step":"Porporcionar datos personales"},
@@ -90,7 +90,17 @@ var eservices =
             [
                   {"name": "seleccion=hora","type":"page","class":"name"},
                   {"name": "eguna","type":"calendar","class":"name","month":"listaSin","day":"vacio","hour":"hora","step":"Selección de fecha"}
-            ]
+            ],
+             [
+                      {"name": "GestionarCita_solicitar_action","type":"form","class":"id"},
+                      //{"name":"appoitment","type":"text","day":"dia","hour":"hora.azul","place":"","step":"Confirmación"},
+                      {"name":"telefono","type":"confirmation","label":"telefono","step":"Confirmación","value":"1"},
+                      {"name":"telefono","type":"input","class":"id","label":"telefono","notification":"telefono","step":"Confirmación"},
+                      {"name":"email","type":"confirmation","label":"email","step":"Confirmación","value":"2"},
+                      {"name":"email","type":"input","class":"id","label":"email","step":"Confirmación"},
+                      {"name":"repeemail","type":"input","class":"id","label":"email","step":"Confirmación"}
+
+                    ]
         ]
     },
               "osa":{
@@ -128,6 +138,7 @@ function searchCurrentPage()
       if ($('form['+eService.pages[index][0].class+'=\"'+eService.pages[index][0].name+'\"]').length)
             {
             page=eService.pages[index];
+            alert(eService.pages[index][0].name);
             break;
             }
       }
