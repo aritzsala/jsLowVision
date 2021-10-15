@@ -34,7 +34,7 @@ var eservices =
                     ],
                     [
                       {"name": "solicitudCitaPreviaConfirmacionForm","type":"form","class":"name"},
-                      {"name":"appoitment","type":"text","day":"dia","hour":"hora.azul","step":"Confirmación"},
+                      {"name":"#dia,#hora.azul","type":"text","day":"dia","hour":"hora.azul","place":"","step":"Confirmación"},
                       {"name":"telefono","type":"confirmation","label":"telefono","step":"Confirmación","value":"2"},
                       {"name":"telefono","type":"input","class":"id","label":"telefono","notification":"telefono","step":"Confirmación"},
                       {"name":"confirmarTelefono","type":"input","class":"id","label":"telefono","notification":"mail","step":"Confirmación"},
@@ -91,25 +91,32 @@ var eservices =
                   {"name": "seleccion=hora","type":"page","class":"name"},
                   {"name": "eguna","type":"calendar","class":"name","month":"listaSin","day":"vacio","hour":"hora","step":"Selección de fecha"}
             ],
-             [
-                      {"name": "GestionarCita_solicitar_action","type":"form","class":"id"},
-                      //{"name":"appoitment","type":"text","day":"dia","hour":"hora.azul","place":"","step":"Confirmación"},
-                      {"name":"telefono","type":"confirmation","label":"telefono","step":"Confirmación","value":"1"},
-                      {"name":"telefono","type":"input","class":"id","label":"telefono","notification":"telefono","step":"Confirmación"},
-                      {"name":"email","type":"confirmation","label":"email","step":"Confirmación","value":"2"},
-                      {"name":"email","type":"input","class":"id","label":"email","step":"Confirmación"},
-                      {"name":"repeemail","type":"input","class":"id","label":"email","step":"Confirmación"}
-
-                    ]
+            [
+                {"name": "GestionarCita_solicitar_action","type":"form","class":"id"},
+                {"name":"fieldset:nth-of-type(2)","type":"text","day":"dia","hour":"hora.azul","place":"","step":"Confirmación"},
+                {"name":"telefono","type":"confirmation","label":"telefono","step":"Confirmación","value":"1"},
+                {"name":"telefono","type":"input","class":"id","label":"telefono","notification":"telefono","step":"Confirmación"},
+                {"name":"email","type":"confirmation","label":"email","step":"Confirmación","value":"2"},
+                {"name":"email","type":"input","class":"id","label":"email","step":"Confirmación"},
+                {"name":"repeemail","type":"input","class":"id","label":"email","step":"Confirmación"},
+                {"name":"fieldset:nth-of-type(3)","type":"text","day":"dia","hour":"hora.azul","place":"","step":"Confirmación"},
+            ]
         ]
     },
-              "osa":{
-              "name": "osa",
-              "description": "",
-              "steps": ["Porporcionar datos personales","Seleccion de servicio","Seleccion de fecha"],
-
-              "pages":
-                  []}
+  "osa":{
+       "name": "osa",
+       "description": "",
+       "steps": ["Porporcionar datos personales","Seleccion de servicio","Seleccion de fecha"],
+       "pages":
+              [
+                [
+                   {"name": "O22CitaPreviaForm","type":"form","class":"name","errorClass":"id","errorName":"errorLogin","errorComponent":"div"},
+                   {"name": "codnumerico","type":"input","class":"id","label":"","helpComponent":"/c22/appcont/eskura/imgs/imgTISLoginCita.jpg","step":"Porporcionar datos personales"},
+                   {"name": "apellido","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
+                   {"name":"idfecha","type":"input","class":"id","label":"","step":"Porporcionar datos personales"}
+                    ]
+                ]
+             }
   };
 
 
@@ -138,7 +145,7 @@ function searchCurrentPage()
       if ($('form['+eService.pages[index][0].class+'=\"'+eService.pages[index][0].name+'\"]').length)
             {
             page=eService.pages[index];
-            alert(eService.pages[index][0].name);
+            //alert(eService.pages[index][0].name);
             break;
             }
       }
@@ -250,8 +257,8 @@ $(window).load(function()
     eService=eservices.sepe;
   if (window.location.href.indexOf(".citapreviadnie.es") > -1)
     eService=eservices.dni;//kargatu pausua froga egiteko
-  if (window.location.href.indexOf("w6.seg-social.es") > -1)
-    eService=eservices.segSocial;
+  if (window.location.href.indexOf("o22PlamWar") > -1)
+    eService=eservices.osa;
   if (eService!=null)
     {
 
@@ -454,7 +461,7 @@ function preShow()
     //hideShowPanel();
     hide()
     navigationMenu();
-    //alert("show"+kont)type
+    //alert("show");
     if (kont ===0)
         {
         componentList=createListOfStep();
@@ -462,6 +469,7 @@ function preShow()
     }
 function show()
   {
+
   preShow();
   $('#subtitle').empty();
   hide();
@@ -510,8 +518,12 @@ function show()
         }
     if (componentList[kont].type==="text")
         {
-        $('#p1').append($('#'+componentList[kont].day).text()+"<br>");
-        $('#p1').append($('#'+componentList[kont].hour).text());
+        //$('#p1').append($('#'+componentList[kont].day).text()+"<br>");
+        //$('#p1').append($('#'+componentList[kont].hour).text());
+        //alert('#'+componentList[kont].day+',#'+componentList[kont].hour);
+        //alert($('#'+componentList[kont].day+',#'+componentList[kont].hour).text());
+
+        $('#p1').append($(componentList[kont].name).html());
         }
     if (componentList[kont].type==="confirmation")
         {
