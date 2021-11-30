@@ -106,15 +106,24 @@ var eservices =
   "osa":{
        "name": "osa",
        "description": "",
-       "steps": ["Porporcionar datos personales","Seleccion de servicio","Seleccion de fecha"],
+       "steps": ["Porporcionar datos personales","Selección de servicio","Seleccion de fecha"],
        "pages":
               [
                 [
-                   {"name": "O22CitaPreviaForm","type":"form","class":"name","errorClass":"id","errorName":"errorLogin","errorComponent":"div"},
+                   {"name": "/o22PlamWar/login.do","type":"form","class":"action^","errorClass":"id","errorName":"errorLogin","errorComponent":"div"},
                    {"name": "codnumerico","type":"input","class":"id","label":"","helpComponent":"/c22/appcont/eskura/imgs/imgTISLoginCita.jpg","step":"Porporcionar datos personales"},
                    {"name": "apellido","type":"input","class":"id","label":"","step":"Porporcionar datos personales"},
                    {"name":"idfecha","type":"input","class":"id","label":"","step":"Porporcionar datos personales"}
-                    ]
+                    ],
+                                     [
+                   {"name": "/o22PlamWar/seleccionaccion.do","type":"form","class":"action^","errorClass":"id","errorName":"errorLogin","errorComponent":"div"},
+                   {"name": "valorAccion","type":"submit","class":"value","label":"","helpComponent":"/c22/appcont/eskura/imgs/imgTISLoginCita.jpg","step":"Selección de servicio"}
+                 ],
+                       [
+                   {"name": "/o22PlamWar/nuevacita.do","type":"form","class":"action^","errorClass":"id","errorName":"errorLogin","errorComponent":"div"},
+                      {"name": "tipoCita","type":"radio","class":"name","view":"line","label":"Selección servicio","step":"Selección de servicio"}
+                 ]
+
                 ]
              }
   };
@@ -142,12 +151,15 @@ function searchCurrentPage()
     {
     if (eService.pages[index][0].type==="form")
       {
+      //alert($('form').attr("action"));
+
       if ($('form['+eService.pages[index][0].class+'=\"'+eService.pages[index][0].name+'\"]').length)
             {
             page=eService.pages[index];
             //alert(eService.pages[index][0].name);
             break;
             }
+
       }
     if (eService.pages[index][0].type==="page")
       {
@@ -494,6 +506,7 @@ function show()
         }
     if (componentList[kont].type==="radio")
         {
+        //alert("radio");
         createListA();
         }
     if (componentList[kont].type==="select")
@@ -511,9 +524,9 @@ function show()
     if (componentList[kont].type==="captcha" || componentList[kont].type==="input")
         {
 
-        if (typeof componentList[kont].helpComponent !== 'undefined') $('img[src=\"' + componentList[kont].helpComponent + '\"]').clone(true).appendTo('#p3');
+        if (typeof componentList[kont].helpComponent !== 'undefined') $('img[src=\"' + componentList[kont].helpComponent + '\"]').clone(true).removeAttr( 'style' ).removeClass().appendTo('#p3');
         $("#subtitle").append($('label[for=\"' + componentList[kont].name + '\"]').text());
-        $clone=$('input['+componentList[kont].class+'=\"'+ componentList[kont].name+'\"]').clone(true);
+        $clone=$('input['+componentList[kont].class+'=\"'+ componentList[kont].name+'\"]').clone(true).removeAttr( 'style' ).removeClass();
         $clone.appendTo('#p1').focus();
         }
     if (componentList[kont].type==="text")
@@ -524,6 +537,23 @@ function show()
         //alert($('#'+componentList[kont].day+',#'+componentList[kont].hour).text());
 
         $('#p1').append($(componentList[kont].name).html());
+        }
+    if (componentList[kont].type==="submit")
+        {
+        //radio modukoa
+        //$('#p1').append($(componentList[kont].name).html());
+        $("input[name=\'"+componentList[kont].name+"\']").each(function(index){
+            var newElementA = document.createElement('div');
+            newElementA.innerHTML=$(this).attr("value");//text();
+            newElementA.className="linkButton";
+            newElementA.id="A"+index;
+            //onclick benetako botoian click egin
+            $("#p1").append(newElementA);
+        });
+
+
+        //$( "#A"+index ).on("click",{urlId:"Aid"+index},sendPage);
+        $('#buttonRight').hide();
         }
     if (componentList[kont].type==="confirmation")
         {
@@ -645,12 +675,30 @@ function changePanel()
 
 function createListA()
   {
-  $('input[name=\"'+componentList[kont].name+'\"]').each(function (index)
+  $('input[name=\"'+componentList[kont].name+'\"][type="radio"]').each(function (index)
         {
-        var listRadioSepe = $(this).parent().text().split("  ");
+        alert(index+"::"+$(this).next().text());
+
+
+        textNode=$(this.nextSibling);
+
+        alert(textNode.nodeType);
+        if (textNode[0].nodeType == Node.TEXT_NODE)
+            {
+            //text da
+            text=textNode.text();
+
+            }
+        else
+            {
+            //edukiontzia
+            alert("2");
+            text="2";
+            }
+           text=$(this).parent().prev().text();
         var newElementA = document.createElement('div');
         newElementA.className="linkButton";
-        newElementA.innerHTML=listRadioSepe[index];//$(this).val()+
+        newElementA.innerHTML=index+"::"+text;//$(this.nextSibling).text()
         newElementA.id="A"+index;
 
         $("#p1").append(newElementA);
