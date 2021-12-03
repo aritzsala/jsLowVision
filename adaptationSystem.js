@@ -121,7 +121,14 @@ var eservices =
                  ],
                        [
                    {"name": "/o22PlamWar/nuevacita.do","type":"form","class":"action^","errorClass":"id","errorName":"errorLogin","errorComponent":"div"},
-                      {"name": "tipoCita","type":"radio","class":"name","view":"line","label":"Selección servicio","step":"Selección de servicio"}
+                   {"name": "tipoCita","type":"radio","class":"name","view":"line","label":"Selección servicio","step":"Selección de servicio"}
+                 ],
+                      [
+
+
+
+                    {"name": "/o22PlamWar/seleccionTipoContacto.do","type":"form","class":"action^","errorClass":"id","errorName":"errorLogin","errorComponent":"div"},
+                    {"name": "tipoCita","type":"radio","class":"name","view":"line","label":"Selección servicio","step":"Selección de servicio"}
                  ]
 
                 ]
@@ -467,7 +474,11 @@ function createListOfStep()
     if (send) sendForm();
     return(listOfStep);
     }
-
+function submitClick(event)
+    {
+    alert(event.data.id);
+    document.getElementById(event.data.id).click();
+    }
 function preShow()
     {
     //hideShowPanel();
@@ -543,12 +554,18 @@ function show()
         //radio modukoa
         //$('#p1').append($(componentList[kont].name).html());
         $("input[name=\'"+componentList[kont].name+"\']").each(function(index){
+            $(this).attr("id","submit_"+index);
+
             var newElementA = document.createElement('div');
             newElementA.innerHTML=$(this).attr("value");//text();
             newElementA.className="linkButton";
             newElementA.id="A"+index;
+
+
             //onclick benetako botoian click egin
             $("#p1").append(newElementA);
+                                    $("#A"+index).on("click",{id:"submit_"+index},submitClick);
+
         });
 
 
