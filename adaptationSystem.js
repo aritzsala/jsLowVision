@@ -30,6 +30,7 @@ var eservices =
                     ],
                     [
                       {"name": "solicitudCitaPreviaCalendarioForm","type":"form","class":"name"},
+                      // automatic elementua, zuzenean bidaltzeko edo klikatzeko
                       {"name": "eguna","type":"calendar","class":"name","month":"encabezadoMeses","step":"Selección de fecha"}
                     ],
                     [
@@ -124,11 +125,17 @@ var eservices =
                    {"name": "tipoCita","type":"radio","class":"name","view":"line","label":"Selección servicio","step":"Selección de servicio"}
                  ],
                       [
-
-
-
                     {"name": "/o22PlamWar/seleccionTipoContacto.do","type":"form","class":"action^","errorClass":"id","errorName":"errorLogin","errorComponent":"div"},
-                    {"name": "tipoCita","type":"radio","class":"name","view":"line","label":"Selección servicio","step":"Selección de servicio"}
+                    {"name": "tipoContacto","type":"radio","class":"name","view":"line","label":"Selección servicio","step":"Selección de servicio"}
+                 ],
+                                   [
+                    {"name": "/o22PlamWar/seleccionTipoContacto.do","type":"form","class":"action^","errorClass":"id","errorName":"errorLogin","errorComponent":"div"},
+                    {"name": "tipoContacto","type":"automatic","class":"name","view":"line","label":"Selección servicio","step":"Selección de servicio"},
+                    {"name": "tipoContacto","type":"send","class":"name","view":"line","label":"Selección servicio","step":"Selección de servicio"}
+                 ],
+                                   [
+                    {"name": "/o22PlamWar/seleccionTipoContacto.do","type":"form","class":"action^","errorClass":"id","errorName":"errorLogin","errorComponent":"div"},
+                    {"name": "tipoContacto","type":"calendar","class":"name","view":"line","label":"Selección servicio","step":"Selección de servicio"}
                  ]
 
                 ]
@@ -392,7 +399,6 @@ function createPanel()
     $('#buttonRight').on("click",changePanel);
     }
 
-
 function hide()
     {
     $('#subtitle').empty();
@@ -409,7 +415,7 @@ function sendForm()
         });
     sessionStorage.setItem("currentStepSession",currentStep);
     sessionStorage.setItem("previousStepSession",previousStep);
-    //alert("Now, it sends the form.");
+    alert("Now, it sends the form."+currentStep);
     $('form['+currentPage[0].class+'=\"'+currentPage[0].name+'\"]').submit();
     }
 function sendPage(event)
@@ -471,13 +477,23 @@ function createListOfStep()
                 }
             }
         }
+    //alert("len:"+listOfStep.length+"step:"+currentStep);
     if (send) sendForm();
     return(listOfStep);
     }
 function submitClick(event)
     {
-    alert(event.data.id);
+    //alert(event.data.id);
     document.getElementById(event.data.id).click();
+    }
+function dependenciesSolution()
+    {
+    dependencies=True
+    if (dependencies)
+        {
+        alert("dependencies");
+        //show kont - 1 dependencies after clicking the button next with the current kont in show
+        }
     }
 function preShow()
     {
@@ -497,6 +513,7 @@ function show()
   $('#subtitle').empty();
   hide();
   $("#buttonRight").show();
+  //alert(kont);
   //alert(componentList[kont].name);
   currentComponent=componentList[kont].name;
   if (componentList[kont].type==="captcha")
@@ -548,6 +565,19 @@ function show()
         //alert($('#'+componentList[kont].day+',#'+componentList[kont].hour).text());
 
         $('#p1').append($(componentList[kont].name).html());
+        }
+
+    if (componentList[kont].type==="automatic")
+        {
+        //document.getElementById(componentList[kont].name).click();
+        //alert($('#'+componentList[kont].day+',#'+componentList[kont].hour).text());
+
+        }
+    if (componentList[kont].type==="send")
+        {
+        //$().send();
+        //alert($('#'+componentList[kont].day+',#'+componentList[kont].hour).text());
+
         }
     if (componentList[kont].type==="submit")
         {
@@ -694,17 +724,15 @@ function createListA()
   {
   $('input[name=\"'+componentList[kont].name+'\"][type="radio"]').each(function (index)
         {
-        alert(index+"::"+$(this).next().text());
-
-
+        //alert(index+"::"+$(this).next().text());
         textNode=$(this.nextSibling);
-
-        alert(textNode.nodeType);
+        alert($(this).parents().parents().prev().text());
+        //alert(textNode.nodeType);
         if (textNode[0].nodeType == Node.TEXT_NODE)
             {
             //text da
             text=textNode.text();
-
+            alert(text);
             }
         else
             {
@@ -712,7 +740,9 @@ function createListA()
             alert("2");
             text="2";
             }
+
            text=$(this).parent().prev().text();
+           text=$(this).parents().parents().prev().text();
         var newElementA = document.createElement('div');
         newElementA.className="linkButton";
         newElementA.innerHTML=index+"::"+text;//$(this.nextSibling).text()
@@ -817,7 +847,6 @@ function createDays(event)
         });
     }
 
-
 function createHours(event)
     {
     $("#p3").empty();
@@ -837,7 +866,6 @@ function createHours(event)
             }
         });
     }
-
 
 function selHour(event)
     {
